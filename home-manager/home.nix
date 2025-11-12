@@ -15,7 +15,15 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    ./apps
   ];
+
+  myHomeConfig = {
+    apps = {
+      enable = true;
+      browsers.enable = true;
+    };
+  };
 
   nixpkgs = {
     # You can add overlays here
@@ -67,8 +75,14 @@
   ];
 
   # Enable home-manager and git
-  programs.home-manager.enable = true;
-  programs.git.enable = true;
+  programs = {
+    home-manager.enable = true;
+    git.enable = true;
+    nh = {
+      enable = true;
+      flake = "/var/lib/nixconf";
+    };
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
