@@ -78,10 +78,7 @@
   programs = {
     home-manager.enable = true;
     git.enable = true;
-    nh = {
-      enable = true;
-      flake = "/var/lib/nixconf";
-    };
+    nh = { enable = true; };
   };
 
   # Nicely reload system units when changing configs
