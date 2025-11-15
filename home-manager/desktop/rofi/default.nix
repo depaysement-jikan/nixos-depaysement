@@ -1,7 +1,11 @@
-{ pkgs, lib, config, ... }: {
-  options = { rofi.enable = lib.mkEnableOption "Enable rofi"; };
+{ pkgs, lib, config, ... }:
+let cfg = config.myHomeConfig.desktop.rofi;
+in {
+  options = { rofi.enable = lib.mkEnableOption "Enable Rofi"; };
 
-  config = lib.mkIf config.rofi.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [ rofi rofi-emoji ];
+    programs.rofi = { enable = true; };
   };
 }
+

@@ -23,7 +23,7 @@
     system = {
       enable = true;
       fonts.enable = true;
-      theme.enable = true;
+      themes.enable = true;
     };
   };
 
