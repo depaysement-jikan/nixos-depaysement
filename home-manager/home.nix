@@ -27,11 +27,6 @@
     };
   };
 
-  catppuccin = {
-    enable = true;
-    flavor = "frappe";
-  };
-
   nixpkgs = {
     # You can add overlays here
     overlays = [
