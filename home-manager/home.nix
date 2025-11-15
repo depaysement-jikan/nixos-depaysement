@@ -28,6 +28,7 @@
     desktop = {
       enable = true;
       rofi.enable = true;
+      wofi.enable = true;
       hyprland.enable = true;
     };
   };
