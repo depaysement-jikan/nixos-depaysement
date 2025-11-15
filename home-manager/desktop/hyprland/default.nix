@@ -48,8 +48,8 @@ in {
         };
 
         general = {
-          gaps_in = 2;
-          gaps_out = 10;
+          gaps_in = 4;
+          gaps_out = 4;
           border_size = 2;
           layout = "dwindle";
         };
@@ -193,7 +193,6 @@ in {
 
         windowrulev2 = [
           "float,class:^(pavucontrol)$"
-          "fullscreen,class:^(artix-games-launcher)$"
           "float,class:^(file_progress)$"
           "float,class:^(confirm)$"
           "float,class:^(dialog)$"
@@ -206,8 +205,6 @@ in {
           "float,title:^(Confirm to replace files)$"
           "float,title:^(File Operation Progress)$"
           "float,title:^(mpv)$"
-          "workspace 3, class:^(discord)$"
-          "workspace 3, class:^(Discord)$"
           "opacity 1.0 1.0,class:^(wofi)$"
         ];
 
