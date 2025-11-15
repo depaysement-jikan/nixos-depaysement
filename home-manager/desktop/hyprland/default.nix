@@ -186,7 +186,7 @@ in {
           "SUPER,o,exec,obsidian"
           "SUPER,i,exec,idea-ultimate"
           "SUPER,z,exec,waybar"
-          "SUPER,space,exec,rofi -show run"
+          "SUPER,space,exec,rofi -show drun"
           # "SUPER,space,exec,wofi --show drun -I"
         ];
 
