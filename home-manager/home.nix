@@ -16,12 +16,19 @@
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
     ./apps
+    ./desktop
   ];
 
   myHomeConfig = {
     apps = {
       enable = true;
       browsers.enable = true;
+      web.enable = true;
+    };
+    desktop = {
+      enable = true;
+      rofi.enable = true;
+      hyprland.enable = true;
     };
   };
 
@@ -62,7 +69,6 @@
     wget
     neovim
     ghostty
-    wl-clipboard
     gcc
     git
     nodejs
