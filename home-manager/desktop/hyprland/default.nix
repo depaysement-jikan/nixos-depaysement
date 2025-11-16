@@ -35,6 +35,7 @@ in {
 
         xwayland = { force_zero_scaling = true; };
         input = {
+          kb_options = "caps:escape";
           follow_mouse = 1;
           mouse_refocus = false;
           accel_profile = "flat";
@@ -187,7 +188,7 @@ in {
           "SUPER,i,exec,idea-ultimate"
           "SUPER,z,exec,waybar"
           "SUPER,space,exec,rofi -show drun"
-          "SUPER,DELETE,exec,hyprlock"
+          "CTRL&ALT,DELETE,exec,hyprlock"
         ];
 
         bindm = [ "SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow" ];
