@@ -71,7 +71,7 @@ in {
             noise = 1.17e-2;
             contrast = 1.3;
             brightness = 1;
-            xray = true;
+            xray = false;
           };
         };
         animations = {
@@ -187,7 +187,7 @@ in {
           "SUPER,i,exec,idea-ultimate"
           "SUPER,z,exec,waybar"
           "SUPER,space,exec,rofi -show drun"
-          # "SUPER,space,exec,wofi --show drun -I"
+          "SUPER,DELETE,exec,hyprlock"
         ];
 
         bindm = [ "SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow" ];
