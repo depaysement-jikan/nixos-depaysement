@@ -8,8 +8,9 @@ let
     tokyo-night-dark = "tokyo-night-dark";
     tokyo-night-storm = "tokyo-night-storm";
   };
+  cfg = config.myHomeConfig.system.themes;
 in {
-  config = lib.mkIf (true) {
+  config = lib.mkIf cfg.enable {
     stylix = {
       enable = true;
       autoEnable = true;
