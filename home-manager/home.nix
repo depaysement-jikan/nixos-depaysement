@@ -19,6 +19,7 @@
       rofi.enable = true;
       wofi.enable = true;
       hyprland.enable = true;
+      hyprlock.enable = true;
     };
     system = {
       enable = true;
