@@ -23,7 +23,11 @@
     system = {
       enable = true;
       fonts.enable = true;
-      themes.enable = true;
+      themes = {
+        enable = true;
+        catppuccin.enable = false;
+        stylix.enable = true;
+      };
     };
   };
 

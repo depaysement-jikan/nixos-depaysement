@@ -6,7 +6,11 @@ in {
   options.myHomeConfig.system = {
     enable = lib.mkEnableOption "system configuration and utilities";
     fonts.enable = lib.mkEnableOption "fonts configuration";
-    themes.enable = lib.mkEnableOption "themes configuration";
+    themes = {
+      enable = lib.mkEnableOption "themes configuration";
+      catppuccin.enable = lib.mkEnableOption "Catppuccin configuration";
+      stylix.enable = lib.mkEnableOption "Stylix configuration";
+    };
   };
 
   config = lib.mkIf cfg.enable {

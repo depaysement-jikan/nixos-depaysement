@@ -1,20 +1,20 @@
 { inputs, pkgs, lib, config, ... }:
-let cfg = config.myHomeConfig.system.themes;
+let cfg = config.myHomeConfig.system.themes.catppuccin;
 in {
   options = {
     themes.catppuccin.enable = lib.mkEnableOption "Enable theme module";
   };
   imports = [ inputs.catppuccin.homeModules.catppuccin ];
-  config = lib.mkIf cfg.enable {
+  config = {
     catppuccin = {
-      enable = true;
+      enable = cfg.enable;
       flavor = "frappe";
       rofi = {
-        enable = true;
+        enable = cfg.enable;
         flavor = "frappe";
       };
       firefox = {
-        enable = true;
+        enable = cfg.enable;
         flavor = "latte";
       };
     };
