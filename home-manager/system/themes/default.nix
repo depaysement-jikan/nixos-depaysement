@@ -1,7 +1,9 @@
 { lib, config, ... }: {
-  imports = [ ./catppuccin ];
+  imports = [ ./catppuccin ./stylix ];
 
   options = { themes.enable = lib.mkEnableOption "Enable themes module"; };
-  config =
-    lib.mkIf config.browsers.enable { catppuccin.enable = lib.mkDefault true; };
+  config = lib.mkIf config.themes.enable {
+    catppuccin.enable = lib.mkDefault true;
+    stylix.enable = lib.mkDefault true;
+  };
 }

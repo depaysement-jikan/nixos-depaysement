@@ -13,6 +13,10 @@ in {
         enable = true;
         flavor = "frappe";
       };
+      firefox = {
+        enable = true;
+        flavor = "latte";
+      };
     };
   };
 }
