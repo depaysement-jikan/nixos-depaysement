@@ -8,11 +8,11 @@ let
     tokyo-night-dark = "tokyo-night-dark";
     tokyo-night-storm = "tokyo-night-storm";
   };
-  cfg = config.myHomeConfig.system.themes;
+  cfg = config.myHomeConfig.system.themes.stylix;
 in {
-  config = lib.mkIf cfg.enable {
+  config = {
     stylix = {
-      enable = true;
+      enable = cfg.enable;
       autoEnable = true;
       base16Scheme =
         "${pkgs.base16-schemes}/share/themes/${themes.catppuccin-frappe}.yaml";
@@ -42,10 +42,10 @@ in {
         };
       };
       opacity = {
-        applications = 1.0;
-        terminal = 0.95;
-        desktop = 1.0;
-        popups = 1.0;
+        applications = 0.75;
+        terminal = 0.75;
+        desktop = 0.75;
+        popups = 0.75;
       };
       polarity = "dark";
       targets = { nixos-icons.enable = true; };
