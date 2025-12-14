@@ -14,15 +14,10 @@ in {
       (writeShellScriptBin "screenshot-edit" ''
         grim -g "$(slurp)" - | wl-copy
       '')
-      # (writeShellScriptBin "autostart-swww" ''
-      #   swww kill
-      #   swww-daemon &
-      #   swww restore
-      # '')
-      # (writeShellScriptBin "autostart-waybar" ''
-      #   pkill waybar
-      #   waybar -c $HOME/.config/waybar/config -s $HOME/.config/waybar/style.css &
-      # '')
+      (writeShellScriptBin "autostart-waybar" ''
+        pkill waybar
+        waybar -c $HOME/.config/waybar/config -s $HOME/.config/waybar/style.css &
+      '')
     ];
     wayland.windowManager.hyprland = {
       enable = true;
@@ -143,9 +138,9 @@ in {
           "SUPER,k,movefocus,u"
           "SUPER,j,movefocus,d"
           "SUPER,left,movefocus,l"
-          "SUPER,down,movefocus,r"
+          "SUPER,down,movefocus,d"
           "SUPER,up,movefocus,u"
-          "SUPER,right,movefocus,d"
+          "SUPER,right,movefocus,r"
 
           # Workspace switching
           "SUPER,1,workspace,1"
@@ -166,6 +161,7 @@ in {
           "SUPER SHIFT, right, movewindow, r"
           "SUPER SHIFT, up, movewindow, u"
           "SUPER SHIFT, down, movewindow, d"
+          "SUPER, T, togglesplit"
 
           # Workspace movement
           "SUPER $mainMod SHIFT, 1, movetoworkspacesilent, 1"
@@ -187,7 +183,7 @@ in {
           "SUPER,o,exec,obsidian"
           "SUPER,i,exec,idea-ultimate"
           "SUPER,z,exec,waybar"
-          "SUPER,space,exec,rofi -show drun"
+          "SUPER,space,exec,wofi -show drun"
           "CTRL&ALT,DELETE,exec,hyprlock"
         ];
 
