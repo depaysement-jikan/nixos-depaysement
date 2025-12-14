@@ -91,7 +91,10 @@ in {
     unzip
     home-manager
     sddm-theme
+    lazygit
   ];
+
+  users.extraUsers.depaysement.homeMode = "710";
 
   services.displayManager.sddm = {
     # chmod o+x ~
