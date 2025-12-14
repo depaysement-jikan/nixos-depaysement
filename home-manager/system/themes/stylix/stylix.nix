@@ -21,6 +21,7 @@ in {
         package = pkgs.apple-cursor;
         size = 36;
       };
+      image = ./../../../wallpapers/rabbit-squad.jpg;
       fonts = {
         monospace = {
           package = pkgs.nerd-fonts.jetbrains-mono;
@@ -42,10 +43,10 @@ in {
         };
       };
       opacity = {
-        applications = 0.75;
-        terminal = 0.75;
-        desktop = 0.75;
-        popups = 0.75;
+        applications = 0.85;
+        terminal = 0.85;
+        desktop = 0.85;
+        popups = 0.85;
       };
       polarity = "dark";
       targets = { nixos-icons.enable = true; };
