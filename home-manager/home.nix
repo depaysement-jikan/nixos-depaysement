@@ -16,10 +16,11 @@
     };
     desktop = {
       enable = true;
-      rofi.enable = true;
+      rofi.enable = false;
       wofi.enable = true;
       hyprland.enable = true;
       hyprlock.enable = true;
+      waybar.enable = true;
     };
     system = {
       enable = true;
@@ -78,6 +79,10 @@
     cargo
     unzip
     go
+    pavucontrol
+    ffmpeg_6
+    playerctl
+    mpv
   ];
 
   # Enable home-manager and git
