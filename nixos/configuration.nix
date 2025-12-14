@@ -1,6 +1,8 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{ inputs, outputs, lib, config, pkgs, ... }:
+let sddm-theme = inputs.silentSDDM.packages.${pkgs.system}.default;
+in {
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
@@ -88,7 +90,27 @@
     fzf
     unzip
     home-manager
+    sddm-theme
   ];
+
+  services.displayManager.sddm = {
+    # chmod o+x ~
+    enable = true;
+    wayland.enable = true;
+    enableHidpi = true;
+    theme = sddm-theme.pname;
+    package = pkgs.kdePackages.sddm;
+    extraPackages = sddm-theme.propagatedBuildInputs;
+
+    settings = {
+      Wayland = { EnableHiDPI = true; };
+      General = {
+        GreeterEnvironment =
+          "QML2_IMPORT_PATH=${sddm-theme}/share/sddm/themes/${sddm-theme.pname}/components/,QT_IM_MODULE=qtvirtualkeyboard";
+        InputMethod = "qtvirtualkeyboard";
+      };
+    };
+  };
 
   services.openssh = { enable = true; };
 

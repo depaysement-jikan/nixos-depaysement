@@ -92,6 +92,8 @@
     nh = { enable = true; };
   };
 
+  home.file = { ".face.icon" = { source = ./pfp/image.png; }; };
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
