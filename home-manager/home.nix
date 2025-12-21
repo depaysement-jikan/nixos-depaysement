@@ -83,6 +83,7 @@
     ffmpeg_6
     playerctl
     mpv
+    yazi
   ];
 
   # Enable home-manager and git
