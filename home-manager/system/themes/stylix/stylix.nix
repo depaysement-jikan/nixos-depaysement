@@ -21,7 +21,7 @@ in {
         package = pkgs.apple-cursor;
         size = 36;
       };
-      image = ./../../../wallpapers/rabbit-squad.jpg;
+      image = ./../../../wallpapers/preview_5.png;
       fonts = {
         monospace = {
           package = pkgs.nerd-fonts.jetbrains-mono;
