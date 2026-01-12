@@ -5,6 +5,7 @@
   home = {
     stateVersion = "25.05";
     sessionPath = [ "$HOME/.local/bin" ];
+    sessionVariables = { EDITOR = "nvim"; };
   };
   imports = [ ./apps ./desktop ./system ];
 
@@ -13,6 +14,13 @@
       enable = true;
       browsers.enable = true;
       web.enable = true;
+      development = {
+        enable = true;
+        terminal = {
+          enable = true;
+          yazi.enable = true;
+        };
+      };
     };
     desktop = {
       enable = true;
@@ -83,13 +91,13 @@
     ffmpeg_6
     playerctl
     mpv
-    yazi
   ];
 
   # Enable home-manager and git
   programs = {
     home-manager.enable = true;
     git.enable = true;
+    bash.enable = true;
     nh = { enable = true; };
   };
 
