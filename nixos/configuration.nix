@@ -70,13 +70,17 @@ in {
 
   time.timeZone = "America/Chicago";
 
+  environment.shells = with pkgs; [ zsh ];
+
   users.users.depaysement = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [ tree ];
+    shell = pkgs.zsh;
   };
 
   programs.firefox.enable = true;
+  programs.zsh.enable = true;
   programs.hyprland.enable = true;
 
   environment.systemPackages = with pkgs; [

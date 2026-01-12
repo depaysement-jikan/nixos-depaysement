@@ -19,6 +19,8 @@
         terminal = {
           enable = true;
           yazi.enable = true;
+          zsh.enable = true;
+          tmux.enable = true;
         };
       };
     };

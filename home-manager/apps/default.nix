@@ -12,6 +12,8 @@ in {
       terminal = {
         enable = lib.mkEnableOption "terminal configuration";
         yazi.enable = lib.mkEnableOption "yazi configuration";
+        zsh.enable = lib.mkEnableOption "zsh configuration";
+        tmux.enable = lib.mkEnableOption "tmux configuration";
       };
     };
   };
