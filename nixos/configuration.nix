@@ -67,6 +67,10 @@ in {
 
   networking.hostName = "tsukinara";
   networking.networkmanager.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 4200 3000 ];
+  };
 
   time.timeZone = "America/Chicago";
 

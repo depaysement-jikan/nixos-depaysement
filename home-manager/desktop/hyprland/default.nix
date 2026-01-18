@@ -175,8 +175,7 @@ in {
 
           #program shortcurts
           "SUPER,RETURN,exec,ghostty"
-          "SUPER,n,exec,kitty"
-          "SUPER,e,exec,emacsclient -c -a 'emacs'"
+          "SUPER,b,exec,firefox"
           ",Print,exec,screenshot"
           "SUPER,Print,exec,screenshot-edit"
           "CTRL,Print,exec,grim -o DP-1 ~/Pictures/screenshot.png"
