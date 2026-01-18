@@ -93,6 +93,7 @@
     ffmpeg_6
     playerctl
     mpv
+    pnpm
   ];
 
   # Enable home-manager and git
