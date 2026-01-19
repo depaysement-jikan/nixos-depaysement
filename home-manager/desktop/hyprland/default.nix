@@ -176,6 +176,7 @@ in {
           #program shortcurts
           "SUPER,RETURN,exec,ghostty"
           "SUPER,b,exec,firefox"
+          "SUPER,d,exec,discord"
           ",Print,exec,screenshot"
           "SUPER,Print,exec,screenshot-edit"
           "CTRL,Print,exec,grim -o DP-1 ~/Pictures/screenshot.png"
