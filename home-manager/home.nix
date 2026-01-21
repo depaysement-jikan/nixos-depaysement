@@ -94,6 +94,7 @@
     playerctl
     mpv
     pnpm
+    python3
   ];
 
   # Enable home-manager and git
