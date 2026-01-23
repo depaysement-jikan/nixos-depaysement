@@ -1,12 +1,12 @@
 # ~/.nixos-dotfiles
 
-![sachi](home-manager/pfp/sachi.webp)
+<img src="home-manager/pfp/sachi.webp"/>
 
 My personal [NixOS](https://nixos.org/) configuration, managed with [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
 ## ✨ Showcase
 
-*Coming soon...*
+_Coming soon..._
 
 ## 📂 Structure
 
