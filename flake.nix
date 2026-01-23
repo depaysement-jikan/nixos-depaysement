@@ -20,6 +20,7 @@
     };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     catppuccin.url = "github:catppuccin/nix/release-25.05";
+    rnix-lsp.url = "github:nix-community/rnix-lsp";
     stylix = {
       url = "github:danth/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";

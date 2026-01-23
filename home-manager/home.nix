@@ -82,7 +82,7 @@
     ghostty
     gcc
     git
-    nodejs
+    nodejs_20
     ripgrep
     fd
     fzf
@@ -95,6 +95,16 @@
     mpv
     pnpm
     python3
+    yarn
+    stylua
+    lua-language-server
+    marksman
+    typescript-language-server
+    typescript
+    nixfmt
+    nixpkgs-fmt
+    shfmt
+    inputs.rnix-lsp.packages.x86_64-linux.rnix-lsp
   ];
 
   # Enable home-manager and git

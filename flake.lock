@@ -561,6 +561,27 @@
         "type": "github"
       }
     },
+    "naersk": {
+      "inputs": {
+        "nixpkgs": [
+          "rnix-lsp",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1655042882,
+        "narHash": "sha256-9BX8Fuez5YJlN7cdPO63InoyBy7dm3VlJkkmTt6fS1A=",
+        "owner": "nix-community",
+        "repo": "naersk",
+        "rev": "cddffb5aa211f50c4b8750adbec0bbbdfb26bb9f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "naersk",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1763049705,
@@ -625,6 +646,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_4": {
+      "locked": {
+        "lastModified": 1656753965,
+        "narHash": "sha256-BCrB3l0qpJokOnIVc3g2lHiGhnjUi0MoXiw6t1o8H1E=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "0ea7a8f1b939d74e5df8af9a8f7342097cdf69eb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "inputs": {
         "flake-parts": [
@@ -673,6 +710,26 @@
         "type": "github"
       }
     },
+    "rnix-lsp": {
+      "inputs": {
+        "naersk": "naersk",
+        "nixpkgs": "nixpkgs_4",
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1669555118,
+        "narHash": "sha256-F0s0m62S5bHNVWNHLZD6SeHiLrsDx98VQbRjDyIu+qQ=",
+        "owner": "nix-community",
+        "repo": "rnix-lsp",
+        "rev": "95d40673fe43642e2e1144341e86d0036abd95d9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "rnix-lsp",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "catppuccin": "catppuccin",
@@ -680,6 +737,7 @@
         "hyprland": "hyprland",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "rnix-lsp": "rnix-lsp",
         "silentSDDM": "silentSDDM",
         "stylix": "stylix",
         "zen-browser": "zen-browser"
@@ -848,6 +906,21 @@
       "original": {
         "owner": "tinted-theming",
         "repo": "base16-zed",
+        "type": "github"
+      }
+    },
+    "utils": {
+      "locked": {
+        "lastModified": 1656928814,
+        "narHash": "sha256-RIFfgBuKz6Hp89yRr7+NR5tzIAbn52h8vT6vXkYjZoM=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "7e2a3b3dfd9af950a856d66b0a7d01e3c18aa249",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
         "type": "github"
       }
     },
