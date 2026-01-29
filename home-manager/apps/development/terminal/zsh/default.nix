@@ -5,7 +5,7 @@
       shell = { enableZshIntegration = true; };
       sessionPath = [ "$HOME/.local/share/pnpm" ];
       sessionVariables = { PNPM_HOME = "$HOME/.local/share/pnpm"; };
-
+      packages = with pkgs; [ zoxide ];
     };
     programs = {
       eza.enable = true;
@@ -63,6 +63,10 @@
           zstyle ':completion:*' file-sort modification
           # zstyle ':completion:*:eza' sort false
           zstyle ':completion:files' sort false
+
+          # Aliases
+          alias n='nvim'
+          alias lg='lazygit'
         '';
         oh-my-zsh = {
           enable = true;
