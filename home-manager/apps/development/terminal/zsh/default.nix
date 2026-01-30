@@ -64,9 +64,13 @@
           # zstyle ':completion:*:eza' sort false
           zstyle ':completion:files' sort false
 
+          # zoxide
+          eval "$(zoxide init zsh)"
+
           # Aliases
           alias n='nvim'
           alias lg='lazygit'
+          alias cd='z'
         '';
         oh-my-zsh = {
           enable = true;
