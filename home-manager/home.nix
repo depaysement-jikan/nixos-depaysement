@@ -105,6 +105,7 @@
     nixpkgs-fmt
     shfmt
     inputs.rnix-lsp.packages.x86_64-linux.rnix-lsp
+    deno
   ];
 
   # Enable home-manager and git
