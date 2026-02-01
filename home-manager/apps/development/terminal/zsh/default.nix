@@ -66,7 +66,7 @@
 
           # zoxide
           eval "$(zoxide init zsh)"
-          eval "$(ssh-agent -s)"
+          eval "$(ssh-agent -s)" > /dev/null 2>&1
 
           # Aliases
           alias n='nvim'
