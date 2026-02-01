@@ -7,7 +7,7 @@
     sessionPath = [ "$HOME/.local/bin" ];
     sessionVariables = { EDITOR = "nvim"; };
   };
-  imports = [ ./apps ./desktop ./system ];
+  imports = [ ./apps ./desktop ./system ./security ];
 
   myHomeConfig = {
     apps = {
@@ -74,7 +74,6 @@
   };
 
   # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
   home.packages = with pkgs; [
     vim
     wget
@@ -101,7 +100,7 @@
     marksman
     typescript-language-server
     typescript
-    nixfmt
+    nixfmt-classic
     nixpkgs-fmt
     shfmt
     inputs.rnix-lsp.packages.x86_64-linux.rnix-lsp
