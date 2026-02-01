@@ -1,6 +1,6 @@
 # ~/.nixos-dotfiles
 
-<div style="text-align: center;">
+<div style="text-align: center; display: flex; justify-content: center;">
   <img src="home-manager/pfp/sachi.webp" style="display: block; margin: 0 auto; width:300px; height:auto;"/>
 </div>
 
@@ -80,21 +80,21 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
 #### How it Works
 
 1.  **Secret Definition (`home-manager/security/sops.nix`):**
-    *   The `sops` configuration block defines which secrets to manage and how they should be handled.
-    *   Each secret, like `depaysementPassword`, is declared, and `sops-nix` expects to find its encrypted value in the `secrets.yaml` file.
+    - The `sops` configuration block defines which secrets to manage and how they should be handled.
+    - Each secret, like `depaysementPassword`, is declared, and `sops-nix` expects to find its encrypted value in the `secrets.yaml` file.
 
 2.  **Key Configuration:**
-    *   `sops-nix` uses AGE keys (or SSH keys) for encryption and decryption. You need to configure at least one key source.
-    *   `sops.age.keyFile`: Specifies the path to your AGE private key (e.g., `/home/depaysement/.config/sops/age/keys.txt`).
-    *   `sops.age.sshKeyPaths`: (Optional) Specifies a list of paths to SSH private keys that can be used as AGE keys.
+    - `sops-nix` uses AGE keys (or SSH keys) for encryption and decryption. You need to configure at least one key source.
+    - `sops.age.keyFile`: Specifies the path to your AGE private key (e.g., `/home/depaysement/.config/sops/age/keys.txt`).
+    - `sops.age.sshKeyPaths`: (Optional) Specifies a list of paths to SSH private keys that can be used as AGE keys.
 
 3.  **`secrets.yaml` (Encrypted Secrets File):**
-    *   The `sops.defaultSopsFile` option points to your encrypted secrets file (e.g., `../../secrets.yaml`, which resolves to the project root's `secrets.yaml`).
-    *   This file contains your actual secrets in an encrypted format.
+    - The `sops.defaultSopsFile` option points to your encrypted secrets file (e.g., `../../secrets.yaml`, which resolves to the project root's `secrets.yaml`).
+    - This file contains your actual secrets in an encrypted format.
 
 4.  **`flake.nix` `extraSpecialArgs`:**
-    *   The `sops.nix` module relies on `settings` and `meta` arguments (which are custom to this configuration) to construct paths for keys and other user-specific configurations.
-    *   These arguments (`settings.user` for your username and `meta.hostname` for your machine's hostname) are passed via `extraSpecialArgs` in your `flake.nix` to ensure the `sops.nix` module receives the correct context for path generation.
+    - The `sops.nix` module relies on `settings` and `meta` arguments (which are custom to this configuration) to construct paths for keys and other user-specific configurations.
+    - These arguments (`settings.user` for your username and `meta.hostname` for your machine's hostname) are passed via `extraSpecialArgs` in your `flake.nix` to ensure the `sops.nix` module receives the correct context for path generation.
 
 #### Setup Instructions
 
@@ -104,47 +104,54 @@ To get `sops-nix` working and manage your secrets:
     Make sure `pkgs.sops` and `pkgs.age` are included in your `home.packages` list in `home-manager/home.nix`. After a successful `home-manager switch`, these tools will be available in your shell.
 
 2.  **Generate an AGE private key (if you don't have one):**
-    This key is crucial for decrypting your secrets. Store it securely and *do not* commit it to Git.
+    This key is crucial for decrypting your secrets. Store it securely and _do not_ commit it to Git.
+
     ```bash
     mkdir -p ~/.config/sops/age
     age-keygen -o ~/.config/sops/age/keys.txt
     ```
+
     **Important:** Back up this `keys.txt` file immediately! Losing it means permanent loss of access to your encrypted secrets.
 
 3.  **Get your AGE public key:**
     You'll use this public key to encrypt your `secrets.yaml` file.
+
     ```bash
     age-keygen -y ~/.config/sops/age/keys.txt
     ```
+
     Copy the output (a string starting with `age1...`). This is your public key.
 
 4.  **Create or encrypt your `secrets.yaml` file:**
     If you have an existing plain-text `secrets.yaml` (e.g., at `/home/depaysement/.nixos-dotfiles/secrets.yaml`), you can encrypt it in-place. If you're creating it from scratch, you can provide the content directly.
+    - **Encrypting an existing plain-text `secrets.yaml` in-place:**
+      Ensure your `secrets.yaml` file contains the plain-text secrets you wish to encrypt. For example:
 
-    *   **Encrypting an existing plain-text `secrets.yaml` in-place:**
-        Ensure your `secrets.yaml` file contains the plain-text secrets you wish to encrypt. For example:
-        ```yaml
-        depaysementPassword: your_actual_password
-        depaysementGitUserName: your_github_username
-        depaysementEmail: your_email@example.com
-        depaysementGitName: Your Name
-        ```
-        Then run the encryption command:
-        ```bash
-        sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" --in-place /home/depaysement/.nixos-dotfiles/secrets.yaml
-        ```
-        (Replace `"YOUR_AGE_PUBLIC_KEY"` with the public key from step 3).
+      ```yaml
+      depaysementPassword: your_actual_password
+      depaysementGitUserName: your_github_username
+      depaysementEmail: your_email@example.com
+      depaysementGitName: Your Name
+      ```
 
-    *   **Creating a new, encrypted `secrets.yaml`:**
-        ```bash
-        sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" /home/depaysement/.nixos-dotfiles/secrets.yaml <<EOF
-        depaysementPassword: your_actual_password
-        depaysementGitUserName: your_github_username
-        depaysementEmail: your_email@example.com
-        depaysementGitName: Your Name
-        EOF
-        ```
-        (Replace `"YOUR_AGE_PUBLIC_KEY"` and the example values with your actual data).
+      Then run the encryption command:
+
+      ```bash
+      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" --in-place /home/depaysement/.nixos-dotfiles/secrets.yaml
+      ```
+
+      (Replace `"YOUR_AGE_PUBLIC_KEY"` with the public key from step 3).
+
+    - **Creating a new, encrypted `secrets.yaml`:**
+      ```bash
+      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" /home/depaysement/.nixos-dotfiles/secrets.yaml <<EOF
+      depaysementPassword: your_actual_password
+      depaysementGitUserName: your_github_username
+      depaysementEmail: your_email@example.com
+      depaysementGitName: Your Name
+      EOF
+      ```
+      (Replace `"YOUR_AGE_PUBLIC_KEY"` and the example values with your actual data).
 
 5.  **Run Home Manager Switch:**
     After your `secrets.yaml` is correctly encrypted and your keys are in place, apply your Home Manager configuration:
