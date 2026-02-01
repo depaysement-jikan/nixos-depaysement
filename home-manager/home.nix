@@ -88,6 +88,7 @@
     cargo
     unzip
     go
+    gopls
     pavucontrol
     ffmpeg_6
     playerctl
