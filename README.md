@@ -1,8 +1,8 @@
 # ~/.nixos-dotfiles
 
-<center>
+<p align="center">
   <img src="home-manager/pfp/sachi.webp" style="width:300px; height:auto;"/>
-</center>
+</p>
 
 My personal [NixOS](https://nixos.org/) configuration, managed with [Nix Flakes](https://nixos.wiki/wiki/Flakes).
 
