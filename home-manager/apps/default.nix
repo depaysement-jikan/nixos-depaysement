@@ -15,6 +15,10 @@ in {
         zsh.enable = lib.mkEnableOption "zsh configuration";
         tmux.enable = lib.mkEnableOption "tmux configuration";
       };
+      api-clients = {
+        enable = lib.mkEnableOption "api-clients configuration";
+        yaak.enable = lib.mkEnableOption "yaak configuration";
+      };
     };
   };
 
