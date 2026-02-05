@@ -22,6 +22,6 @@
         safe.directory = "${config.home.homeDirectory}/.nixos-dotfiles";
       };
     };
-    home.packages = with pkgs; [ gh git ];
+    home.packages = with pkgs; [ gh ];
   };
 }
