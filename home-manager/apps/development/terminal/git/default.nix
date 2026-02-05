@@ -15,6 +15,14 @@
           editor = "nvim";
           sshCommand = "ssh -i ~/.ssh/tsukinara_ed25519 -o IdentitiesOnly=yes";
         };
+        alias = {
+          co = "checkout";
+          s = "stash -u";
+          br = "branch";
+          cm = "commit";
+          st = "status";
+          lg = "log --oneline --graph --all";
+        };
         init = { defaultBranch = "develop"; };
         branch = { autoSetupRemote = true; };
         fetch = { prune = true; };
