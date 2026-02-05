@@ -1,4 +1,4 @@
-{ pkgs, lib, config, settings, ... }: {
+{ pkgs, lib, config, ... }: {
   options = { git.enable = lib.mkEnableOption "Enable git module"; };
 
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.git.enable {
