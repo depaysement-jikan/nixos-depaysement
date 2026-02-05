@@ -1,9 +1,9 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{ inputs, outputs, pkgs, ... }: {
   # You can import other home-manager modules here
   home = {
-    stateVersion = "25.05";
+    stateVersion = "25.11";
     sessionPath = [ "$HOME/.local/bin" ];
     sessionVariables = { EDITOR = "nvim"; };
   };
@@ -21,6 +21,7 @@
           yazi.enable = true;
           zsh.enable = true;
           tmux.enable = true;
+          git.enable = true;
         };
         api-clients = {
           enable = true;
@@ -84,7 +85,6 @@
     neovim
     ghostty
     gcc
-    git
     nodejs_20
     ripgrep
     fd
@@ -115,7 +115,6 @@
   # Enable home-manager and git
   programs = {
     home-manager.enable = true;
-    git.enable = true;
     bash.enable = true;
     nh = { enable = true; };
   };
