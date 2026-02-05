@@ -14,6 +14,7 @@ in {
         yazi.enable = lib.mkEnableOption "yazi configuration";
         zsh.enable = lib.mkEnableOption "zsh configuration";
         tmux.enable = lib.mkEnableOption "tmux configuration";
+        git.enable = lib.mkEnableOption "git configuration";
       };
       api-clients = {
         enable = lib.mkEnableOption "api-clients configuration";

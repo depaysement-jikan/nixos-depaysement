@@ -92,7 +92,6 @@ in {
     ghostty
     wl-clipboard
     gcc
-    git
     ripgrep
     fd
     fzf
@@ -126,5 +125,5 @@ in {
 
   services.openssh = { enable = true; };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }

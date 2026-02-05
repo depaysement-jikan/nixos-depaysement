@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, config, ... }:
+{ inputs, config, ... }:
 let cfg = config.myHomeConfig.system.themes.catppuccin;
 in {
   imports = [ inputs.catppuccin.homeModules.catppuccin ];
