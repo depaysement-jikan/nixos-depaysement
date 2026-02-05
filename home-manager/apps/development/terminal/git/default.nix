@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, settings, ... }: {
   options = { git.enable = lib.mkEnableOption "Enable git module"; };
 
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.git.enable {
@@ -8,8 +8,8 @@
       settings = {
         user = {
           #TODO: Fix this impurity
-          name = { sopsFile = config.sops.secrets.depaysementGitName; };
-          email = { sopsFile = config.sops.secrets.depaysementEmail; };
+          name = builtins.readFile config.sops.secrets.depaysementGitName.path;
+          email = builtins.readFile config.sops.secrets.depaysementEmail.path;
         };
         core = {
           editor = "nvim";
