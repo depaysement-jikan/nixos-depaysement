@@ -1,4 +1,4 @@
-{ pkgs, lib, config, settings, ... }: {
+{ pkgs, lib, config, ... }: {
   options = { git.enable = lib.mkEnableOption "Enable git module"; };
 
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.git.enable {
@@ -7,17 +7,19 @@
       lfs = { enable = true; };
       settings = {
         user = {
-          # name = "cat ${config.sops.secrets.depaysementName.path}";
-          # email = "cat ${config.sops.secrets.depaysementEmail.path}";
-          name = "test";
-          email = "test@test.com";
+          #TODO: Fix this impurity
+          name = { sopsFile = config.sops.secrets.depaysementGitName; };
+          email = { sopsFile = config.sops.secrets.depaysementEmail; };
         };
-        core = { editor = "nvim"; };
-        init = { defaultBranch = "main"; };
+        core = {
+          editor = "nvim";
+          sshCommand = "ssh -i ~/.ssh/tsukinara_ed25519 -o IdentitiesOnly=yes";
+        };
+        init = { defaultBranch = "develop"; };
         branch = { autoSetupRemote = true; };
         fetch = { prune = true; };
-        maintenance.repo = "/home/${settings.user}/.nixos-dotfiles";
-        safe = { directory = "/home/${settings.user}/.nixos-dotfiles"; };
+        maintenance.repo = "${config.home.homeDirectory}/.nixos-dotfiles";
+        safe.directory = "${config.home.homeDirectory}/.nixos-dotfiles";
       };
     };
     home.packages = with pkgs; [ gh git ];
