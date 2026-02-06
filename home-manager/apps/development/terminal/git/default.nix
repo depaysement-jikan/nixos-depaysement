@@ -6,11 +6,6 @@
       enable = true;
       lfs = { enable = true; };
       settings = {
-        user = {
-          #TODO: Fix this impurity
-          name = builtins.readFile config.sops.secrets.depaysementGitName.path;
-          email = builtins.readFile config.sops.secrets.depaysementEmail.path;
-        };
         core = {
           editor = "nvim";
           sshCommand = "ssh -i ~/.ssh/tsukinara_ed25519 -o IdentitiesOnly=yes";
@@ -29,6 +24,7 @@
         maintenance.repo = "${config.home.homeDirectory}/.nixos-dotfiles";
         safe.directory = "${config.home.homeDirectory}/.nixos-dotfiles";
       };
+      includes = [{ path = config.sops.templates.git-user.path; }];
     };
     home.packages = with pkgs; [ gh ];
   };

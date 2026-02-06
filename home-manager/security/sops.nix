@@ -1,4 +1,4 @@
-{ meta, settings, inputs, pkgs, ... }: {
+{ meta, settings, inputs, pkgs, config, ... }: {
   imports = [ inputs.sops-nix.homeManagerModules.sops ];
 
   home = { packages = with pkgs; [ age sops ]; };
@@ -21,6 +21,16 @@
       depaysementGitUserName = { };
       depaysementEmail = { };
       depaysementGitName = { };
+    };
+
+    templates.git-user = {
+      path = "${config.home.homeDirectory}/.config/git/user.gitconfig";
+      mode = "0400";
+      content = ''
+        [user]
+          name = ${config.sops.placeholder.depaysementGitName}
+          email = ${config.sops.placeholder.depaysementEmail}
+      '';
     };
   };
 }
