@@ -121,6 +121,8 @@
 
   home.file = { ".face.icon" = { source = ./pfp/image.png; }; };
 
+  xdg.configFile."git/config".force = true;
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
