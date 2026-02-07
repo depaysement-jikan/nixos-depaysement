@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.0.1 - 2026-02-06
+
+### New Features
+
+*   **Modularized Language Packages:** Implemented modular organization for language-specific development packages.
+*   **Added Custom Scripts:** Introduced a collection of useful scripts for various tasks.
+*   **Git Enhancements:** Added a set of convenient Git aliases and integrated initial Git configuration through Nix.
+*   **Yaak Integration:** Yaak API client has been added as a Home Manager module.
+*   **Go Language Server:** Included `gopls` for enhanced Go development experience.
+*   **README Improvements:** Enhanced README with improved image centering and updated documentation post-tag push.
+
+### Improvements & Fixes
+
+*   **Module Reorganization:** Reordered modules for better structural clarity.
+*   **Configuration Impurity Fixes:** Resolved issues related to impure configuration settings.
+*   **Dependency Management:** Removed a duplicate GitHub installation and an unused variable.
+*   **Secrets Management:** Implemented `sops` interpolation for Git configurations.
+*   **Terminal Experience:** Temporarily disabled Tmux popups and suppressed SSH PID agent number display for a cleaner terminal output.
+*   **Documentation:** Updated README with feature descriptions and a detailed file tree.
+
 ## 2026-01-31
 
 ### Resolved sops-nix configuration issues
