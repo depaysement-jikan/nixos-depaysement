@@ -7,7 +7,7 @@
     sessionPath = [ "$HOME/.local/bin" ];
     sessionVariables = { EDITOR = "nvim"; };
   };
-  imports = [ ./apps ./desktop ./system ./security ];
+  imports = [ ./apps ./desktop ./system ./security ./scripts ];
 
   myHomeConfig = {
     apps = {
