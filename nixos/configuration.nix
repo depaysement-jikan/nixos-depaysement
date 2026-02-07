@@ -99,7 +99,6 @@ in {
     home-manager
     sddm-theme
     lazygit
-    clang-tools
   ];
 
   users.extraUsers.depaysement.homeMode = "710";

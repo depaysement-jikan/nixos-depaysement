@@ -20,6 +20,19 @@ in {
         enable = lib.mkEnableOption "api-clients configuration";
         yaak.enable = lib.mkEnableOption "yaak configuration";
       };
+      languages = {
+        enable = lib.mkEnableOption "languages configuration";
+        go.enable = lib.mkEnableOption "go configuration";
+        node.enable = lib.mkEnableOption "node configuration";
+        markdown.enable = lib.mkEnableOption "markdown configuration";
+        nix-lang.enable = lib.mkEnableOption "nix configuration";
+        sh.enable = lib.mkEnableOption "sh configuration";
+        c.enable = lib.mkEnableOption "c configuration";
+        typescript.enable = lib.mkEnableOption "typescript configuration";
+        lua.enable = lib.mkEnableOption "lua configuration";
+        python.enable = lib.mkEnableOption "python configuration";
+        rust.enable = lib.mkEnableOption "rust configuration";
+      };
     };
   };
 
