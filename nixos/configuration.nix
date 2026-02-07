@@ -87,19 +87,7 @@ in {
   programs.zsh.enable = true;
   programs.hyprland.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    neovim
-    ghostty
-    wl-clipboard
-    gcc
-    ripgrep
-    fd
-    fzf
-    unzip
-    home-manager
-    sddm-theme
-    lazygit
-  ];
+  environment.systemPackages = with pkgs; [ ghostty home-manager sddm-theme ];
 
   users.extraUsers.depaysement.homeMode = "710";
 

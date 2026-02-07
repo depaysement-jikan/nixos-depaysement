@@ -5,6 +5,11 @@ in {
   config = lib.mkIf config.hyprland.enable {
     home.packages = with pkgs; [
       grim
+      ffmpeg_6
+      pavucontrol
+      playerctl
+      mpv
+      wl-clipboard
       slurp
       swappy
       wl-clipboard

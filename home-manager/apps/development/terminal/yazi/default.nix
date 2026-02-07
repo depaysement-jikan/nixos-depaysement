@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }: {
   options = { yazi.enable = lib.mkEnableOption "Enable yazi module"; };
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.yazi.enable {
-    home.packages = with pkgs; [ yazi ];
+    home.packages = with pkgs; [ yazi unzip ];
     programs.yazi = {
       enable = true;
       settings = {

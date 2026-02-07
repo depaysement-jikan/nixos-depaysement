@@ -22,6 +22,8 @@
           zsh.enable = true;
           tmux.enable = true;
           git.enable = true;
+          ghostty.enable = true;
+          neovim.enable = true;
         };
         api-clients = {
           enable = true;
@@ -39,6 +41,10 @@
           lua.enable = true;
           python.enable = true;
           rust.enable = true;
+        };
+        ai = {
+          enable = true;
+          crush.enable = true;
         };
       };
     };
@@ -92,21 +98,7 @@
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [
-    crush
-    vim
-    wget
-    neovim
-    ghostty
-    ripgrep
-    fd
-    fzf
-    unzip
-    pavucontrol
-    ffmpeg_6
-    playerctl
-    mpv
-  ];
+  home.packages = with pkgs; [ wget ];
 
   # Enable home-manager and git
   programs = {
