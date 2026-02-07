@@ -1,6 +1,6 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ inputs, outputs, pkgs, ... }: {
+{ outputs, pkgs, ... }: {
   # You can import other home-manager modules here
   home = {
     stateVersion = "25.11";
@@ -26,6 +26,19 @@
         api-clients = {
           enable = true;
           yaak.enable = true;
+        };
+        languages = {
+          enable = true;
+          go.enable = true;
+          node.enable = true;
+          markdown.enable = true;
+          nix-lang.enable = true;
+          sh.enable = true;
+          c.enable = true;
+          typescript.enable = true;
+          lua.enable = true;
+          python.enable = true;
+          rust.enable = true;
         };
       };
     };
@@ -80,36 +93,19 @@
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
+    crush
     vim
     wget
     neovim
     ghostty
-    gcc
-    nodejs_20
     ripgrep
     fd
     fzf
-    cargo
     unzip
-    go
-    gopls
     pavucontrol
     ffmpeg_6
     playerctl
     mpv
-    pnpm
-    python3
-    yarn
-    stylua
-    lua-language-server
-    marksman
-    typescript-language-server
-    typescript
-    nixfmt-classic
-    nixpkgs-fmt
-    shfmt
-    inputs.rnix-lsp.packages.x86_64-linux.rnix-lsp
-    deno
   ];
 
   # Enable home-manager and git
