@@ -72,6 +72,7 @@
           alias n='nvim'
           alias lg='lazygit'
           alias cd='z'
+          alias git-co='sh ~/.config/scripts/fuzzy-co.sh'
         '';
         oh-my-zsh = {
           enable = true;
