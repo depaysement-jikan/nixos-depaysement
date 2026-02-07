@@ -10,16 +10,82 @@ My personal [NixOS](https://nixos.org/) configuration, managed with [Nix Flakes]
 
 _Coming soon..._
 
-## 📂 Structure
+## 🚀 Features
 
-The repository is structured to separate concerns and make it easy to manage different parts of the system configuration.
+This NixOS configuration provides a comprehensive and reproducible environment with the following key features:
 
-- **flake.nix**: The entry point for the configuration. It defines the outputs, such as the NixOS and home-manager configurations.
-- **nixos/**: Contains the system-wide configuration, including hardware-specific settings.
-- **home-manager/**: Manages user-specific dotfiles and packages.
-- **modules/**: Contains custom NixOS and home-manager modules.
-- **overlays/**: Provides customizations and extra packages for the Nixpkgs.
-- **pkgs/**: A place for custom packages.
+*   **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
+*   **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar.
+*   **Robust Terminal Setup:** Features [Zsh](https://www.zsh.org/) as the default shell, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, and [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager.
+*   **Extensive Development Environment:**
+    *   **Language Support:** Pre-configured environments for a wide array of programming languages including Go, Node.js, Nix-lang, Shell scripting, C, TypeScript, Lua, Python, and Rust.
+    *   **API Clients:** Includes [Yaak](https://yaak.app/) for streamlined API development and testing.
+    *   **AI Tools:** Integration of [Crush](https://github.com/Crush-tool/crush), an AI-powered code assistant.
+*   **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
+*   **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
+*   **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data within the declarative configuration.
+*   **Custom Software & Overlays:** Provides a framework for custom packages and Nixpkgs overlays, allowing for personalized software versions and additions.
+*   **Essential Utilities:** Includes common command-line tools like `wget` and `nh` for Nix-specific operations.
+
+For a detailed history of changes, please refer to the [CHANGELOG.md](CHANGELOG.md) file.
+
+## 📂 File Tree
+
+Here is a visual representation of the project structure:
+
+```
+.
+├── CHANGELOG.md
+├── flake.lock
+├── flake.nix
+├── home-manager
+│   ├── apps
+│   │   ├── browsers
+│   │   ├── default.nix
+│   │   ├── development
+│   │   └── web
+│   ├── desktop
+│   │   ├── default.nix
+│   │   ├── hyprland
+│   │   ├── hyprlock
+│   │   ├── rofi
+│   │   ├── waybar
+│   │   └── wofi
+│   ├── home.nix
+│   ├── pfp
+│   │   ├── image.png
+│   │   └── sachi.webp
+│   ├── scripts
+│   │   ├── default.nix
+│   │   └── fuzzy-co.sh
+│   ├── secrets.yaml
+│   ├── security
+│   │   ├── default.nix
+│   │   └── sops.nix
+│   ├── system
+│   │   ├── default.nix
+│   │   ├── fonts
+│   │   └── themes
+│   └── wallpapers
+│       ├── BG_CS_Rabbit_04.jpg
+│       ├── preview_5.png
+│       └── rabbit-squad.jpg
+├── modules
+│   ├── home-manager
+│   │   └── default.nix
+│   └── nixos
+│       └── default.nix
+├── nixos
+│   ├── configuration.nix
+│   └── hardware-configuration.nix
+├── overlays
+│   └── default.nix
+├── pkgs
+│   └── default.nix
+└── README.md
+
+25 directories, 24 files
+```
 
 ## managing your configuration
 
