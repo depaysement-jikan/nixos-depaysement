@@ -5,7 +5,7 @@
       shell = { enableZshIntegration = true; };
       sessionPath = [ "$HOME/.local/share/pnpm" ];
       sessionVariables = { PNPM_HOME = "$HOME/.local/share/pnpm"; };
-      packages = with pkgs; [ zoxide ];
+      packages = with pkgs; [ zoxide ripgrep fd fzf ];
     };
     programs = {
       eza.enable = true;

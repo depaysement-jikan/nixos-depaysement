@@ -15,6 +15,8 @@ in {
         zsh.enable = lib.mkEnableOption "zsh configuration";
         tmux.enable = lib.mkEnableOption "tmux configuration";
         git.enable = lib.mkEnableOption "git configuration";
+        ghostty.enable = lib.mkEnableOption "ghostty configuration";
+        neovim.enable = lib.mkEnableOption "ghostty configuration";
       };
       api-clients = {
         enable = lib.mkEnableOption "api-clients configuration";
@@ -32,6 +34,10 @@ in {
         lua.enable = lib.mkEnableOption "lua configuration";
         python.enable = lib.mkEnableOption "python configuration";
         rust.enable = lib.mkEnableOption "rust configuration";
+      };
+      ai = {
+        enable = lib.mkEnableOption "ai configuration";
+        crush.enable = lib.mkEnableOption "crush configuration";
       };
     };
   };
