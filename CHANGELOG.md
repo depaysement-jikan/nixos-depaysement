@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-02-07
+
+### Changed
+
+- **Simplified Screenshot Script:** The Hyprland screenshot script now uses `wl-copy` directly, removing the dependency on `satty`.
+- **Cleaner Default Workspace:** The default Hyprland configuration no longer launches `ghostty`, `firefox`, or `discord` on startup, providing a cleaner initial workspace.
+
+### Removed
+
+- **Obsidian Integration:** Removed the dedicated Obsidian module, including the `git-sync-obsidian` service and related configurations.
+- **Productivity Module:** The overarching `productivity` app module has been removed to streamline application categories.
+
 ## v1.0.1 - 2026-02-06
 
 ### New Features
