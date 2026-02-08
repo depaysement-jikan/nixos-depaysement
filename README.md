@@ -15,12 +15,13 @@ _Coming soon..._
 This NixOS configuration provides a comprehensive and reproducible environment with the following key features:
 
 *   **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
-*   **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar.
+*   **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar. Initial application launches on workspace start have been removed for a cleaner startup.
 *   **Robust Terminal Setup:** Features [Zsh](https://www.zsh.org/) as the default shell, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, and [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager.
 *   **Extensive Development Environment:**
     *   **Language Support:** Pre-configured environments for a wide array of programming languages including Go, Node.js, Nix-lang, Shell scripting, C, TypeScript, Lua, Python, and Rust.
     *   **API Clients:** Includes [Yaak](https://yaak.app/) for streamlined API development and testing.
     *   **AI Tools:** Integration of [Crush](https://github.com/Crush-tool/crush), an AI-powered code assistant.
+
 *   **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
 *   **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
 *   **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data within the declarative configuration.
