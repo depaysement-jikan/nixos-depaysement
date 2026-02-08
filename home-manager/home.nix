@@ -14,6 +14,10 @@
       enable = true;
       browsers.enable = true;
       web.enable = true;
+      productivity = {
+        enable = true;
+        obsidian.enable = true;
+      };
       development = {
         enable = true;
         terminal = {
