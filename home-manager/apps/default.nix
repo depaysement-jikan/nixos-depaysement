@@ -1,12 +1,21 @@
 { lib, config, ... }:
 let cfg = config.myHomeConfig.apps;
 in {
-  imports = [ ./browsers ./web ./development ./productivity ];
+  imports = [ ./browsers ./social ./development ./productivity ];
 
   options.myHomeConfig.apps = {
     enable = lib.mkEnableOption "applications and GUI programs";
-    browsers.enable = lib.mkEnableOption "web browsers";
-    web.enable = lib.mkEnableOption "web apps";
+    browsers = {
+      enable = lib.mkEnableOption "web browsers";
+      zen.enable = lib.mkEnableOption "zen configuration";
+      firefox.enable = lib.mkEnableOption "firefox configuration";
+      floorp.enable = lib.mkEnableOption "floorp configuration";
+    };
+    social = {
+      enable = lib.mkEnableOption "web apps";
+      discord.enable = lib.mkEnableOption "discord configuration";
+      whatsapp.enable = lib.mkEnableOption "whatsapp configuration";
+    };
     productivity = {
       enable = lib.mkEnableOption "productivity apps";
       obsidian.enable = lib.mkEnableOption "obsidian configuration";

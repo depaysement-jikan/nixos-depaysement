@@ -12,8 +12,17 @@
   myHomeConfig = {
     apps = {
       enable = true;
-      browsers.enable = true;
-      web.enable = true;
+      browsers = {
+        enable = true;
+        zen.enable = true;
+        firefox.enable = true;
+        floorp.enable = true;
+      };
+      social = {
+        enable = true;
+        discord.enable = true;
+        whatsapp.enable = true;
+      };
       productivity = {
         enable = true;
         obsidian.enable = true;
