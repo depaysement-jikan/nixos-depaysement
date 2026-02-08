@@ -1,6 +1,4 @@
-{ pkgs, inputs, lib, config, ... }:
-let hyprlandFlake = inputs.hyprland.packages.${pkgs.system}.hyprland;
-in {
+{ pkgs, lib, config, ... }: {
   options = { hyprland.enable = lib.mkEnableOption "Enable hyprland"; };
   config = lib.mkIf config.hyprland.enable {
     home.packages = with pkgs; [
@@ -13,8 +11,10 @@ in {
       slurp
       swappy
       wl-clipboard
+      satty
       (writeShellScriptBin "screenshot" ''
-        grim -g "$(slurp)" - | wl-copy
+        grim -g "$(slurp)" - \
+          | satty --filename - --copy-command wl-copy
       '')
       (writeShellScriptBin "screenshot-edit" ''
         grim -g "$(slurp)" - | wl-copy
@@ -128,7 +128,29 @@ in {
 
         debug = { damage_tracking = 2; };
 
-        exec-once = [ ];
+        exec-once = [
+          "[workspace 1 silent] ghostty"
+          "[workspace 2 silent] firefox"
+          "[workspace 3 silent] discord"
+        ];
+
+        windowrulev2 = [
+          "float,class:^(pavucontrol)$"
+          "float,class:^(file_progress)$"
+          "float,class:^(confirm)$"
+          "float,class:^(dialog)$"
+          "float,class:^(download)$"
+          "float,class:^(notification)$"
+          "float,class:^(error)$"
+          "float,class:^(confirmreset)$"
+          "float,title:^(Open File)$"
+          "float,title:^(branchdialog)$"
+          "float,title:^(Confirm to replace files)$"
+          "float,title:^(File Operation Progress)$"
+          "float,title:^(mpv)$"
+          "workspace 3, class:^(discord)$"
+          "opacity 1.0 1.0,class:^(wofi)$"
+        ];
 
         bind = [
           # Kill, Exit, float, group
@@ -193,23 +215,6 @@ in {
         ];
 
         bindm = [ "SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow" ];
-
-        windowrulev2 = [
-          "float,class:^(pavucontrol)$"
-          "float,class:^(file_progress)$"
-          "float,class:^(confirm)$"
-          "float,class:^(dialog)$"
-          "float,class:^(download)$"
-          "float,class:^(notification)$"
-          "float,class:^(error)$"
-          "float,class:^(confirmreset)$"
-          "float,title:^(Open File)$"
-          "float,title:^(branchdialog)$"
-          "float,title:^(Confirm to replace files)$"
-          "float,title:^(File Operation Progress)$"
-          "float,title:^(mpv)$"
-          "opacity 1.0 1.0,class:^(wofi)$"
-        ];
 
         ecosystem = { no_update_news = true; };
 
