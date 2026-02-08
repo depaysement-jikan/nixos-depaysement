@@ -30,6 +30,53 @@ This NixOS configuration provides a comprehensive and reproducible environment w
 
 For a detailed history of changes, please refer to the [CHANGELOG.md](CHANGELOG.md) file.
 
+<details>
+<summary><b>My Home Configuration</b></summary>
+
+- **apps**:
+  - **browsers**:
+    - zen
+    - firefox
+    - floorp
+  - **social**:
+    - discord
+    - whatsapp
+  - **productivity**:
+    - obsidian
+  - **development**:
+    - **terminal**:
+      - yazi
+      - zsh
+      - tmux
+      - git
+      - ghostty
+      - neovim
+    - **api-clients**:
+      - yaak
+    - **languages**:
+      - go
+      - node
+      - markdown
+      - nix-lang
+      - sh
+      - c
+      - typescript
+      - lua
+      - python
+      - rust
+    - **ai**:
+      - crush
+- **desktop**:
+  - wofi
+  - hyprland
+  - hyprlock
+  - waybar
+- **system**:
+  - fonts
+  - **themes**:
+    - stylix
+</details>
+
 ## 📂 File Tree
 
 Here is a visual representation of the project structure:

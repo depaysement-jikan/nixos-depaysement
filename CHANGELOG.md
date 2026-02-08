@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-02-08
+
+### Added
+
+- **Firefox and Floorp:** Integrated Firefox and Floorp browsers into the configuration.
+- **Social Apps:** Added a new `social` module with support for Discord and WhatsApp.
+
 ## 2026-02-07
 
 ### Changed
