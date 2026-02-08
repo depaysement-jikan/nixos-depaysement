@@ -1,12 +1,16 @@
 { lib, config, ... }:
 let cfg = config.myHomeConfig.apps;
 in {
-  imports = [ ./browsers ./web ./development ];
+  imports = [ ./browsers ./web ./development ./productivity ];
 
   options.myHomeConfig.apps = {
     enable = lib.mkEnableOption "applications and GUI programs";
     browsers.enable = lib.mkEnableOption "web browsers";
     web.enable = lib.mkEnableOption "web apps";
+    productivity = {
+      enable = lib.mkEnableOption "productivity apps";
+      obsidian.enable = lib.mkEnableOption "obsidian configuration";
+    };
     development = {
       enable = lib.mkEnableOption "development configuration";
       terminal = {
@@ -46,5 +50,6 @@ in {
     browsers.enable = lib.mkDefault cfg.browsers.enable;
     web.enable = lib.mkDefault cfg.web.enable;
     development.enable = lib.mkDefault cfg.development.enable;
+    productivity.enable = lib.mkDefault cfg.productivity.enable;
   };
 }
