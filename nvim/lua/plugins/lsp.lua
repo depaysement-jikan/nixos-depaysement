@@ -136,5 +136,12 @@ return {
       on_attach = on_attach,
       filetypes = { "graphql", "typescriptreact", "javascriptreact", "gql", "*.gql" },
     })
+
+    -- nix
+    lspconfig.rnix.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "nix" },
+    })
   end,
 }
