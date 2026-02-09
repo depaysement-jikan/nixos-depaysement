@@ -132,6 +132,7 @@
           "[workspace 1 silent] ghostty"
           "[workspace 2 silent] firefox"
           "[workspace 3 silent] discord"
+          "[workspace 4 silent] whatsapp-electron"
         ];
 
         windowrulev2 = [
