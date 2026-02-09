@@ -1,3 +1,44 @@
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     event = "LazyFile",
+--     dependencies = {
+--       "mason.nvim",
+--       { "mason-org/mason-lspconfig.nvim", config = function() end },
+--     },
+--     opts = {
+--         servers = {
+--           lua_ls = {
+--             mason = false,
+--             settings = {
+--               Lua = {
+--                 workspace = {
+--                   checkThirdParty = false,
+--                 },
+--                 codeLens = {
+--                   enable = true,
+--                 },
+--                 completion = {
+--                   callSnippet = "Replace",
+--                 },
+--                 doc = {
+--                   privateName = { "^_" },
+--                 },
+--                 hint = {
+--                   enable = true,
+--                   setType = false,
+--                   paramType = true,
+--                   paramName = "Disable",
+--                   semicolon = "Disable",
+--                   arrayIndex = "Disable",
+--                 },
+--               },
+--             },
+--           },
+--         },
+--     }
+--   }
+-- }
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -135,6 +176,13 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = { "graphql", "typescriptreact", "javascriptreact", "gql", "*.gql" },
+    })
+
+    -- nix
+    lspconfig.rnix.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "nix" },
     })
   end,
 }
