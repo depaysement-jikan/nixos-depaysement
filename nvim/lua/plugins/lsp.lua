@@ -138,7 +138,7 @@ return {
     })
 
     -- nix
-    lspconfig.rnix.setup({
+    lspconfig.nixd.setup({
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = { "nix" },

@@ -95,7 +95,8 @@
           };
           modules = [
             # > Our main home-manager configuration file <
-            ./home-manager/home.nix
+            ./modules/home-manager/home.nix
+            ./modules/nixos
           ];
         };
       };
