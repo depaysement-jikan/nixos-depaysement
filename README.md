@@ -1,7 +1,7 @@
 # ~/.nixos-dotfiles
 
 <p align="center">
-  <img src="home-manager/pfp/sachi.webp" style="width:300px; height:auto;"/>
+  <img src="modules/home-manager/pfp/sachi.webp" style="width:300px; height:auto;"/>
 </p>
 
 My personal [NixOS](https://nixos.org/) configuration, managed with [Nix Flakes](https://nixos.wiki/wiki/Flakes).
@@ -30,53 +30,6 @@ This NixOS configuration provides a comprehensive and reproducible environment w
 
 For a detailed history of changes, please refer to the [CHANGELOG.md](CHANGELOG.md) file.
 
-<details>
-<summary><b>My Home Configuration</b></summary>
-
-- **apps**:
-  - **browsers**:
-    - zen
-    - firefox
-    - floorp
-  - **social**:
-    - discord
-    - whatsapp
-  - **productivity**:
-    - obsidian
-  - **development**:
-    - **terminal**:
-      - yazi
-      - zsh
-      - tmux
-      - git
-      - ghostty
-      - neovim
-    - **api-clients**:
-      - yaak
-    - **languages**:
-      - go
-      - node
-      - markdown
-      - nix-lang
-      - sh
-      - c
-      - typescript
-      - lua
-      - python
-      - rust
-    - **ai**:
-      - crush
-- **desktop**:
-  - wofi
-  - hyprland
-  - hyprlock
-  - waybar
-- **system**:
-  - fonts
-  - **themes**:
-    - stylix
-</details>
-
 ## 📂 File Tree
 
 Here is a visual representation of the project structure:
@@ -86,53 +39,40 @@ Here is a visual representation of the project structure:
 ├── CHANGELOG.md
 ├── flake.lock
 ├── flake.nix
-├── home-manager
-│   ├── apps
-│   │   ├── browsers
-│   │   ├── default.nix
-│   │   ├── development
-│   │   └── web
-│   ├── desktop
-│   │   ├── default.nix
-│   │   ├── hyprland
-│   │   ├── hyprlock
-│   │   ├── rofi
-│   │   ├── waybar
-│   │   └── wofi
-│   ├── home.nix
-│   ├── pfp
-│   │   ├── image.png
-│   │   └── sachi.webp
-│   ├── scripts
-│   │   ├── default.nix
-│   │   └── fuzzy-co.sh
-│   ├── secrets.yaml
-│   ├── security
-│   │   ├── default.nix
-│   │   └── sops.nix
-│   ├── system
-│   │   ├── default.nix
-│   │   ├── fonts
-│   │   └── themes
-│   └── wallpapers
-│       ├── BG_CS_Rabbit_04.jpg
-│       ├── preview_5.png
-│       └── rabbit-squad.jpg
+├── hosts
+│   └── tsukinara
+│       ├── default.nix
+│       └── hardware-configuration.nix
 ├── modules
 │   ├── home-manager
-│   │   └── default.nix
+│   │   ├── apps
+│   │   ├── default.nix
+│   │   ├── desktop
+│   │   ├── pfp
+│   │   ├── scripts
+│   │   ├── secrets.yaml
+│   │   ├── security
+│   │   ├── system
+│   │   └── wallpapers
 │   └── nixos
-│       └── default.nix
+│       └── nix
 ├── nixos
 │   ├── configuration.nix
-│   └── hardware-configuration.nix
+│   └── utils
+│       └── options.nix
+├── nvim
+│   ├── init.lua
+│   ├── lazy-lock.json
+│   ├── lazyvim.json
+│   ├── LICENSE
+│   ├── lua
+│   ├── README.md
+│   └── stylua.toml
 ├── overlays
 │   └── default.nix
 ├── pkgs
 │   └── default.nix
 └── README.md
-
-25 directories, 24 files
 ```
 
 ## managing your configuration
@@ -166,26 +106,9 @@ sudo nixos-rebuild boot --flake .#<hostname>
 
 This configuration uses [Home Manager](https://github.com/nix-community/home-manager) to declaratively manage user-specific files and packages. This allows your personal environment—your shell, editors, themes, and tools—to be as reproducible as your operating system.
 
-There are two primary ways to manage your home environment with this setup:
-
-#### 1. As part of the System Configuration (Recommended)
-
-Home Manager is integrated as a NixOS module in this configuration. When you run `nixos-rebuild switch`, it builds not only the system but also your complete user environment as defined in `home-manager/home.nix`.
+Home Manager is integrated as a NixOS module in this configuration. When you run `nixos-rebuild switch`, it builds not only the system but also your complete user environment as defined in `modules/home-manager`.
 
 This is the most seamless approach, as it ensures your user environment is always in sync with your system configuration.
-
-#### 2. Standalone Home Manager Activation
-
-If you only want to update your user environment without rebuilding the entire system, you can use the `home-manager` command directly. This is useful for quickly testing changes to your dotfiles or user packages.
-
-```sh
-home-manager switch --flake .#<username>@<hostname>
-```
-
-- **`home-manager switch`**: This command builds your home environment and activates the new configuration.
-- **`--flake .#<username>@<hostname>`**: This specifies the `homeConfigurations` output from your `flake.nix` to build.
-
-This provides a faster iteration cycle when you are only concerned with your user-level settings.
 
 ### Secrets Management with `sops-nix`
 
@@ -193,7 +116,7 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
 
 #### How it Works
 
-1.  **Secret Definition (`home-manager/security/sops.nix`):**
+1.  **Secret Definition (`modules/home-manager/security/sops.nix`):**
     - The `sops` configuration block defines which secrets to manage and how they should be handled.
     - Each secret, like `depaysementPassword`, is declared, and `sops-nix` expects to find its encrypted value in the `secrets.yaml` file.
 
@@ -215,7 +138,7 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
 To get `sops-nix` working and manage your secrets:
 
 1.  **Ensure `sops` and `age` are installed:**
-    Make sure `pkgs.sops` and `pkgs.age` are included in your `home.packages` list in `home-manager/home.nix`. After a successful `home-manager switch`, these tools will be available in your shell.
+    Make sure `pkgs.sops` and `pkgs.age` are included in your `home.packages` list in `modules/home-manager/default.nix`. After a successful `nixos-rebuild switch`, these tools will be available in your shell.
 
 2.  **Generate an AGE private key (if you don't have one):**
     This key is crucial for decrypting your secrets. Store it securely and _do not_ commit it to Git.
@@ -267,10 +190,10 @@ To get `sops-nix` working and manage your secrets:
       ```
       (Replace `"YOUR_AGE_PUBLIC_KEY"` and the example values with your actual data).
 
-5.  **Run Home Manager Switch:**
-    After your `secrets.yaml` is correctly encrypted and your keys are in place, apply your Home Manager configuration:
+5.  **Run NixOS Rebuild:**
+    After your `secrets.yaml` is correctly encrypted and your keys are in place, apply your NixOS configuration:
     ```bash
-    home-manager switch --flake .#depaysement@tsukinara
+    sudo nixos-rebuild switch --flake .#tsukinara
     ```
     This will activate the `sops-nix` service, which will decrypt and manage your secrets.
 
