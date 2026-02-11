@@ -1,5 +1,9 @@
-{ lib, config, pkgs, ... }:
-let
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
   gitSyncObsidian = pkgs.writeShellScriptBin "git-sync-obsidian" ''
     #!/usr/bin/env sh
     VAULT_DIR="$HOME/obsidian/shinobuVault"
@@ -24,9 +28,9 @@ let
     git push --force-with-lease origin develop
   '';
 in {
-  options = { obsidian.enable = lib.mkEnableOption "Enable obsidian module"; };
+  options = {obsidian.enable = lib.mkEnableOption "Enable obsidian module";};
   config = lib.mkIf config.myHomeConfig.apps.productivity.obsidian.enable {
-    home.packages = with pkgs; [ obsidian gitSyncObsidian setupObsidianLFS ];
+    home.packages = with pkgs; [obsidian gitSyncObsidian setupObsidianLFS];
     systemd.user = {
       services.git-sync-obsidian = {
         Unit = {
@@ -41,7 +45,7 @@ in {
       timers.git-sync-obsidian = {
         Unit.Description = "Run Git Sync for Obsidian Vault";
         Timer.OnCalendar = "*:0/45";
-        Install.WantedBy = [ "timers.target" ];
+        Install.WantedBy = ["timers.target"];
       };
     };
   };

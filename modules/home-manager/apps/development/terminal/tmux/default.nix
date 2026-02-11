@@ -1,5 +1,11 @@
-{ inputs, pkgs, lib, config, ... }: {
-  options = { tmux.enable = lib.mkEnableOption "Enable tmux module"; };
+{
+  inputs,
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  options = {tmux.enable = lib.mkEnableOption "Enable tmux module";};
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.tmux.enable {
     programs.tmux = {
       enable = true;
@@ -23,7 +29,8 @@
             extraConfig = "set -g @resurrect-strategy-nvim 'session'";
           }
         ];
-      in tmuxPluginsList;
+      in
+        tmuxPluginsList;
       extraConfig = ''
         set -ag terminal-overrides ",xterm-256color:RGB"
         #--------------------------------------------------------------------------

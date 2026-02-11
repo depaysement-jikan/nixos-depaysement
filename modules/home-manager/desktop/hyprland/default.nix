@@ -1,5 +1,10 @@
-{ pkgs, lib, config, ... }: {
-  options = { hyprland.enable = lib.mkEnableOption "Enable hyprland"; };
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  options = {hyprland.enable = lib.mkEnableOption "Enable hyprland";};
   config = lib.mkIf config.hyprland.enable {
     home.packages = with pkgs; [
       grim
@@ -27,20 +32,20 @@
     wayland.windowManager.hyprland = {
       enable = true;
       package = pkgs.hyprland;
-      systemd.variables = [ "--all" ];
-      xwayland = { enable = true; };
+      systemd.variables = ["--all"];
+      xwayland = {enable = true;};
       settings = {
         "$mainMod" = "SUPER";
-        env = [ "ELECTRON_OZONE_PLATFORM_HINT,auto" ];
+        env = ["ELECTRON_OZONE_PLATFORM_HINT,auto"];
 
-        xwayland = { force_zero_scaling = true; };
+        xwayland = {force_zero_scaling = true;};
         input = {
           kb_options = "caps:escape";
           follow_mouse = 1;
           mouse_refocus = false;
           accel_profile = "flat";
           force_no_accel = false;
-          touchpad = { natural_scroll = 1; };
+          touchpad = {natural_scroll = 1;};
         };
 
         cursor = {
@@ -126,7 +131,7 @@
           new_status = "slave";
         };
 
-        debug = { damage_tracking = 2; };
+        debug = {damage_tracking = 2;};
 
         exec-once = [
           "[workspace 1 silent] ghostty"
@@ -215,10 +220,9 @@
           "CTRL&ALT,DELETE,exec,hyprlock"
         ];
 
-        bindm = [ "SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow" ];
+        bindm = ["SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow"];
 
-        ecosystem = { no_update_news = true; };
-
+        ecosystem = {no_update_news = true;};
       };
     };
   };

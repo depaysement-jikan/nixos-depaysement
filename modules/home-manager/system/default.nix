@@ -1,7 +1,11 @@
-{ lib, config, ... }:
-let cfg = config.myHomeConfig.system;
+{
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.myHomeConfig.system;
 in {
-  imports = [ ./fonts ./themes ];
+  imports = [./fonts ./themes];
 
   options.myHomeConfig.system = {
     enable = lib.mkEnableOption "system configuration and utilities";

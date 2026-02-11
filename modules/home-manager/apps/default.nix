@@ -1,7 +1,11 @@
-{ lib, config, ... }:
-let cfg = config.myHomeConfig.apps;
+{
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.myHomeConfig.apps;
 in {
-  imports = [ ./browsers ./social ./development ./productivity ];
+  imports = [./browsers ./social ./development ./productivity];
 
   options.myHomeConfig.apps = {
     enable = lib.mkEnableOption "applications and GUI programs";

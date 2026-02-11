@@ -1,9 +1,8 @@
-{ config, ... }: {
+{config, ...}: {
   mainBar = {
-    modules-left = [ "custom/power" "hyprland/workspaces" ];
+    modules-left = ["custom/power" "hyprland/workspaces"];
     # modules-center = [ ];
-    modules-right =
-      [ "tray" "bluetooth" "network" "battery" "pulseaudio" "clock" ];
+    modules-right = ["tray" "bluetooth" "network" "battery" "pulseaudio" "clock"];
 
     "custom/power" = {
       format = "⭘ ";
@@ -51,7 +50,7 @@
       format-plugged = " {capacity}%";
       format-charging = " {capacity}%";
       format-alt = "{icon} {capacity}%";
-      format-icons = [ " " " " " " " " " " ];
+      format-icons = [" " " " " " " " " "];
       tooltip-format = "{time}";
       cursor = false;
     };
@@ -64,7 +63,7 @@
       format-icons = {
         headphone = " ";
         headset = " ";
-        default = [ " " ];
+        default = [" "];
       };
       on-click = "pavucontrol";
     };

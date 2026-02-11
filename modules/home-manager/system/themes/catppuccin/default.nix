@@ -1,7 +1,11 @@
-{ inputs, config, ... }:
-let cfg = config.myHomeConfig.system.themes.catppuccin;
+{
+  inputs,
+  config,
+  ...
+}: let
+  cfg = config.myHomeConfig.system.themes.catppuccin;
 in {
-  imports = [ inputs.catppuccin.homeModules.catppuccin ];
+  imports = [inputs.catppuccin.homeModules.catppuccin];
   config = {
     catppuccin = {
       enable = cfg.enable;

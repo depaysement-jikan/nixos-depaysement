@@ -1,7 +1,11 @@
-{ lib, config, ... }:
-let cfg = config.myHomeConfig.desktop;
+{
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.myHomeConfig.desktop;
 in {
-  imports = [ ./rofi ./hyprland ./wofi ./hyprlock ./waybar ];
+  imports = [./rofi ./hyprland ./wofi ./hyprlock ./waybar];
 
   options.myHomeConfig.desktop = {
     enable = lib.mkEnableOption "Desktop environment";

@@ -1,11 +1,17 @@
-{ inputs, pkgs, lib, config, ... }: {
-  options = { zsh.enable = lib.mkEnableOption "Enable zsh module"; };
+{
+  inputs,
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  options = {zsh.enable = lib.mkEnableOption "Enable zsh module";};
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.zsh.enable {
     home = {
-      shell = { enableZshIntegration = true; };
-      sessionPath = [ "$HOME/.local/share/pnpm" ];
-      sessionVariables = { PNPM_HOME = "$HOME/.local/share/pnpm"; };
-      packages = with pkgs; [ zoxide ripgrep fd fzf ];
+      shell = {enableZshIntegration = true;};
+      sessionPath = ["$HOME/.local/share/pnpm"];
+      sessionVariables = {PNPM_HOME = "$HOME/.local/share/pnpm";};
+      packages = with pkgs; [zoxide ripgrep fd fzf];
     };
     programs = {
       eza.enable = true;
@@ -77,8 +83,7 @@
         oh-my-zsh = {
           enable = true;
           theme = "alanpeabody";
-          plugins =
-            [ "git" "colorize" "colored-man-pages" "history-substring-search" ];
+          plugins = ["git" "colorize" "colored-man-pages" "history-substring-search"];
         };
 
         plugins = with pkgs; [
@@ -97,4 +102,3 @@
     };
   };
 }
-

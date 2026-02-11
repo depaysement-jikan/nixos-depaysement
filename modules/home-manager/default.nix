@@ -1,13 +1,17 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{ outputs, pkgs, ... }: {
+{
+  outputs,
+  pkgs,
+  ...
+}: {
   # You can import other home-manager modules here
   home = {
     stateVersion = "25.11";
-    sessionPath = [ "$HOME/.local/bin" ];
-    sessionVariables = { EDITOR = "nvim"; };
+    sessionPath = ["$HOME/.local/bin"];
+    sessionVariables = {EDITOR = "nvim";};
   };
-  imports = [ ./apps ./desktop ./system ./security ./scripts ];
+  imports = [./apps ./desktop ./system ./security ./scripts];
 
   myHomeConfig = {
     apps = {
@@ -111,16 +115,16 @@
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [ wget ];
+  home.packages = with pkgs; [wget];
 
   # Enable home-manager and git
   programs = {
     home-manager.enable = true;
     bash.enable = true;
-    nh = { enable = true; };
+    nh = {enable = true;};
   };
 
-  home.file = { ".face.icon" = { source = ./pfp/image.png; }; };
+  home.file = {".face.icon" = {source = ./pfp/image.png;};};
 
   xdg.configFile."git/config".force = true;
 

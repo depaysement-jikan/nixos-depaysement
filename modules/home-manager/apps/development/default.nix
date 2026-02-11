@@ -1,5 +1,10 @@
-{ lib, config, pkgs, ... }: {
-  imports = [ ./terminal ./api-clients ./languages ./ai ];
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [./terminal ./api-clients ./languages ./ai];
 
   options = {
     development.enable = lib.mkEnableOption "Enable development module";
@@ -10,5 +15,4 @@
     languages.enable = lib.mkDefault true;
     ai.enable = lib.mkDefault true;
   };
-
 }
