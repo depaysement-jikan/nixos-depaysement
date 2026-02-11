@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.3 - 2026-02-10
+
+### Changed
+
+- **Updated `README.md`:**
+  - Updated the file tree to reflect the current project structure.
+  - Rewrote the "managing your configuration" section to explain the new workflow with `mkHost` and `mkHome`.
+  - Removed the standalone home-manager activation part.
+  - Updated the `sops-nix` section to reflect the new file structure.
+  - Updated the image link to point to the correct location.
+  - Removed the "My Home Configuration" section.
+
+- **Refactored Configuration Structure:**
+  - Switched to a host and loop system to set up home, users, and hosts, improving modularity and scalability.
+  - Relocated the home-manager configuration to the `modules` directory for better organization.
+
 ## 2026-02-08
 
 ### Added
@@ -23,7 +39,7 @@
 
 ### New Features
 
-*   **Modularized Language Packages:** Implemented modular organization for language-specific development packages.
+*   **Modularized Language Packages:** Implemented modular organization for language-specific-development packages.
 *   **Added Custom Scripts:** Introduced a collection of useful scripts for various tasks.
 *   **Git Enhancements:** Added a set of convenient Git aliases and integrated initial Git configuration through Nix.
 *   **Yaak Integration:** Yaak API client has been added as a Home Manager module.

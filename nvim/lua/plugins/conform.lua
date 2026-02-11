@@ -18,7 +18,7 @@ return {
         css = { "prettier" },
         scss = { "prettier" },
         python = { "black" },
-        nix = { "nixfmt" },
+        nix = { "alejandra" },
       },
     }
   end,
