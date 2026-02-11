@@ -1,7 +1,11 @@
-{ lib, config, ... }: {
-  imports = [ ./yazi ./zsh ./tmux ./git ./ghostty ./nvim ];
+{
+  lib,
+  config,
+  ...
+}: {
+  imports = [./yazi ./zsh ./tmux ./git ./ghostty ./nvim];
 
-  options = { terminal.enable = lib.mkEnableOption "Enable terminal module"; };
+  options = {terminal.enable = lib.mkEnableOption "Enable terminal module";};
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.enable {
     yazi.enable = lib.mkDefault true;
     zsh.enable = lib.mkDefault true;

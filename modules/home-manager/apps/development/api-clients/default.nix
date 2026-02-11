@@ -1,5 +1,9 @@
-{ lib, config, ... }: {
-  imports = [ ./yaak ];
+{
+  lib,
+  config,
+  ...
+}: {
+  imports = [./yaak];
   options = {
     api-clients.enable = lib.mkEnableOption "Enable api-clients module";
   };

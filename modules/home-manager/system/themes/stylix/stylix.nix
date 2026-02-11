@@ -1,6 +1,10 @@
-{ inputs, config, lib, pkgs, ... }:
-
-let
+{
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   themes = {
     catppuccin-frappe = "catppuccin-frappe";
     oxocarbon-dark = "oxocarbon-dark";
@@ -14,8 +18,7 @@ in {
     stylix = {
       enable = cfg.enable;
       autoEnable = true;
-      base16Scheme =
-        "${pkgs.base16-schemes}/share/themes/${themes.catppuccin-frappe}.yaml";
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/${themes.catppuccin-frappe}.yaml";
       cursor = {
         name = "macOS";
         package = pkgs.apple-cursor;
@@ -49,7 +52,7 @@ in {
         popups = 0.85;
       };
       polarity = "dark";
-      targets = { nixos-icons.enable = true; };
+      targets = {nixos-icons.enable = true;};
     };
   };
 }

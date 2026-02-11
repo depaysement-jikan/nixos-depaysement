@@ -1,7 +1,12 @@
-{ pkgs, lib, config, ... }: {
-  options = { wofi.enable = lib.mkEnableOption "Enable wofi"; };
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  options = {wofi.enable = lib.mkEnableOption "Enable wofi";};
   config = lib.mkIf config.wofi.enable {
-    home = { packages = with pkgs; [ wofi ]; };
+    home = {packages = with pkgs; [wofi];};
 
     xdg.configFile = {
       "wofi/config" = {

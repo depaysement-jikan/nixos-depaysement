@@ -1,5 +1,4 @@
-{ config, ... }:
-let
+{config, ...}: let
   inherit (config.lib.stylix) colors;
   c = color: "#${color}";
 in ''

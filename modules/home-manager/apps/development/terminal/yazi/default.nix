@@ -1,12 +1,17 @@
-{ pkgs, lib, config, ... }: {
-  options = { yazi.enable = lib.mkEnableOption "Enable yazi module"; };
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
+  options = {yazi.enable = lib.mkEnableOption "Enable yazi module";};
   config = lib.mkIf config.myHomeConfig.apps.development.terminal.yazi.enable {
-    home.packages = with pkgs; [ yazi unzip ];
+    home.packages = with pkgs; [yazi unzip];
     programs.yazi = {
       enable = true;
       settings = {
         yazi = {
-          ratio = [ 1 4 3 ];
+          ratio = [1 4 3];
           sort_by = "natural";
           sort_sensitive = true;
           sort_reverse = false;
@@ -24,7 +29,7 @@
           max_height = 900;
           cache_dir = "";
           ueberzug_scale = 1;
-          ueberzug_offset = [ 0 0 0 0 ];
+          ueberzug_offset = [0 0 0 0];
         };
 
         tasks = {

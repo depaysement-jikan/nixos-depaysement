@@ -1,5 +1,9 @@
-{ lib, config, ... }: {
-  imports = [ ./obsidian ];
+{
+  lib,
+  config,
+  ...
+}: {
+  imports = [./obsidian];
   options = {
     productivity.enable = lib.mkEnableOption "Enable productivity module";
   };
