@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.4 - 2026-02-12
+
+### Added
+
+- **Nushell Support:** Integrated Nushell into the configuration.
+- **Starship Support:** Added Starship prompt customization.
+
 ## v1.0.3 - 2026-02-10
 
 ### Changed
