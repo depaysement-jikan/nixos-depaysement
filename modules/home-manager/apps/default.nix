@@ -35,6 +35,7 @@ in {
         git.enable = lib.mkEnableOption "git configuration";
         ghostty.enable = lib.mkEnableOption "ghostty configuration";
         neovim.enable = lib.mkEnableOption "ghostty configuration";
+        starship.enable = lib.mkEnableOption "starship configuration";
       };
       api-clients = {
         enable = lib.mkEnableOption "api-clients configuration";

@@ -66,6 +66,9 @@
             render_right_prompt_on_last_line: false
           }
 
+          mkdir ($nu.data-dir | path join "vendor/autoload")
+          starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
           source ~/.zoxide.nu
         '';
         extraEnv = ''
