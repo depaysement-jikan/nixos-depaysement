@@ -117,7 +117,7 @@
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [wget];
+  home.packages = with pkgs; [wget postgresql];
 
   # Enable home-manager and git
   programs = {
