@@ -30,6 +30,7 @@ in {
         enable = lib.mkEnableOption "terminal configuration";
         yazi.enable = lib.mkEnableOption "yazi configuration";
         zsh.enable = lib.mkEnableOption "zsh configuration";
+        nushell.enable = lib.mkEnableOption "nushell configuration";
         tmux.enable = lib.mkEnableOption "tmux configuration";
         git.enable = lib.mkEnableOption "git configuration";
         ghostty.enable = lib.mkEnableOption "ghostty configuration";

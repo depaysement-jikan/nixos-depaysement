@@ -37,6 +37,7 @@
           enable = true;
           yazi.enable = true;
           zsh.enable = true;
+          nushell.enable = true;
           tmux.enable = true;
           git.enable = true;
           ghostty.enable = true;
