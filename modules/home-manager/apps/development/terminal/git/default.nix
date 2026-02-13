@@ -23,6 +23,7 @@
           st = "status";
           lg = "log --oneline --graph --all";
           cp = "cherry-pick";
+          adda = "add -A";
         };
         init = {defaultBranch = "develop";};
         branch = {autoSetupRemote = true;};
