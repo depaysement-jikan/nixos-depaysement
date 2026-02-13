@@ -73,15 +73,20 @@
           eval "$(zoxide init zsh)"
           eval "$(ssh-agent -s)" > /dev/null 2>&1
 
+          #starship
+          eval "$(starship init zsh)"
+
           # Aliases
           alias n='nvim'
           alias lg='lazygit'
           alias cd='z'
           alias git-co='sh ~/.config/scripts/fuzzy-co.sh'
+
+          # Nuke starship if needed
+          # sed -i '/starship/d' ~/.zshrc
         '';
         oh-my-zsh = {
           enable = true;
-          theme = "alanpeabody";
           plugins = ["git" "colorize" "colored-man-pages" "history-substring-search"];
         };
 

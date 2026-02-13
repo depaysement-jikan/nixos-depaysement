@@ -42,6 +42,7 @@
           git.enable = true;
           ghostty.enable = true;
           neovim.enable = true;
+          starship.enable = true;
         };
         api-clients = {
           enable = true;
