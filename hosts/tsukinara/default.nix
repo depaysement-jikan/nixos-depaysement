@@ -86,7 +86,7 @@ in {
 
   users.users.depaysement = {
     isNormalUser = true;
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "k3s"];
     packages = with pkgs; [tree];
     shell = pkgs.zsh;
   };
@@ -116,6 +116,16 @@ in {
       };
     };
   };
+
+  services.k3s = {
+    enable = true;
+    extraFlags = [
+      "--write-kubeconfig-group k3s"
+      "--write-kubeconfig-mode 0660"
+    ];
+  };
+
+  users.groups.k3s = {};
 
   services.openssh = {enable = true;};
 
