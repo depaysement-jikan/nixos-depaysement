@@ -24,6 +24,7 @@ in {
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+    ../../modules/homelab
   ];
 
   nixpkgs = {
@@ -116,16 +117,6 @@ in {
       };
     };
   };
-
-  services.k3s = {
-    enable = true;
-    extraFlags = [
-      "--write-kubeconfig-group k3s"
-      "--write-kubeconfig-mode 0660"
-    ];
-  };
-
-  users.groups.k3s = {};
 
   services.openssh = {enable = true;};
 
