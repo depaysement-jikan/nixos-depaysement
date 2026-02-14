@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.0.5 - 2026-02-14
+
+### Added
+- **Homelab Module:** Introduced a new module for homelab configuration.
+- **k3s:** Enabled k3s for container orchestration.
+- **FluxCD:** Added FluxCD for GitOps.
+- **PostgreSQL:** Added PostgreSQL to the development environment.
+
+### Changed
+- **User Groups:** Added the `depaysement` user to the `k3s` group.
+
 ## v1.0.4 - 2026-02-12
 
 ### Added
