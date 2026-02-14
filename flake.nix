@@ -66,6 +66,7 @@
           inherit inputs outputs;
           systemUsers = attrs.users;
           inherit (config.hosts.${hostName}) system profile platform;
+          meta = {hostname = hostName;};
         };
         modules = [
           ./modules/nixos
