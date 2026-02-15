@@ -119,6 +119,7 @@ in {
   };
 
   services.openssh = {enable = true;};
+  services.blueman.enable = true;
 
   system.stateVersion = "25.11";
 }

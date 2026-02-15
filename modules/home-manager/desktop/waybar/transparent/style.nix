@@ -1,7 +1,4 @@
-{config, ...}: let
-  inherit (config.lib.stylix) colors;
-  c = color: "#${color}";
-in ''
+{...}: ''
   @define-color background #1e1e2e;
   @define-color foreground #cdd6f4;
   @define-color select     #585b70;
