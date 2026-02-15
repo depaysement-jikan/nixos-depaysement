@@ -54,8 +54,8 @@
         };
 
         general = {
-          gaps_in = 4;
-          gaps_out = 4;
+          gaps_in = 7;
+          gaps_out = 7;
           border_size = 2;
           layout = "dwindle";
         };

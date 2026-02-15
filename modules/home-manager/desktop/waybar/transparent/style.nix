@@ -4,6 +4,7 @@
     @define-color select     #585b70;
 
     @define-color pink       #f5c2e7;
+    @define-color pink-soft  rgba(245, 194, 231, 0.1);
     @define-color purple     #cba6f7;
     @define-color red        #f38ba8;
     @define-color orange     #fab387;
@@ -14,7 +15,7 @@
 
   * {
     font-family: "JetBrainsMono Nerd Font", monospace;
-    font-size: 14;
+    font-size: 12px;
     font-weight: bold;
     background-color: transparent;
     border-radius: 5px;
@@ -38,6 +39,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     margin-top: 5px;
     margin-bottom: 5px;
+    min-width: 80px;
   }
 
   #workspaces {
@@ -46,21 +48,19 @@
 
   #workspaces button {
     color: @foreground;
+    margin: 1.5px;
     border: none;
-    padding: 0 5px;
-    margin: 1px;
-    background: transparent;
     transition: color 0.2s ease, border-bottom 0.2s ease, padding 0.2s ease;
   }
 
   #workspaces button:hover {
     color: @pink;
-    border-bottom: 1px solid @pink;
+    background: @pink-soft;
   }
 
   #workspaces button.active {
-    color: @pink;
-    border: 2px solid @pink;
+    color: @background;
+    background: linear-gradient(135deg, @blue 0%, @purple 50%, @pink 100%);
   }
 
   #workspaces button.urgent {
