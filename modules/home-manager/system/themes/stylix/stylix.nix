@@ -52,7 +52,10 @@ in {
         popups = 0.85;
       };
       polarity = "dark";
-      targets = {nixos-icons.enable = true;};
+      targets = {
+        nixos-icons.enable = true;
+        waybar.enable = false;
+      };
     };
   };
 }
