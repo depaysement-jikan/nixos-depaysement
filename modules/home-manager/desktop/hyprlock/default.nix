@@ -34,6 +34,16 @@ in {
           }
         ];
 
+        background = lib.mkForce [
+          {
+            monitor = "";
+            path = "screenshot";
+            blur_passes = 4;
+            blur_size = 10;
+            color = "rgba(0, 0, 0, 0.4)";
+          }
+        ];
+
         input-field = {
           size = "300, 60";
           outline_thickness = 2;
