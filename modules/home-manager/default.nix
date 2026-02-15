@@ -121,10 +121,12 @@
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [wget];
+  home.packages = with pkgs; [wget swaynotificationcenter];
+  services.swaync.enable = true;
 
   # Enable home-manager and git
   programs = {
+    wlogout.enable = true;
     home-manager.enable = true;
     bash.enable = true;
     nh = {enable = true;};
