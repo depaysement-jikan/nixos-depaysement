@@ -121,7 +121,7 @@
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [wget swaynotificationcenter];
+  home.packages = with pkgs; [wget swaynotificationcenter cbonsai];
   services.swaync.enable = true;
 
   # Enable home-manager and git
