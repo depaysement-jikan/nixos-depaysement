@@ -2,6 +2,7 @@
   imports = [
     ./flux
     ./security
+    ./services
   ];
 
   homelab = {
@@ -10,7 +11,7 @@
       endpoint = config.sops.placeholder.fluxEndpoint;
       accessKeyId = config.sops.placeholder.fluxAccessKeyId;
       secretAccessKey = config.sops.placeholder.fluxSecretKey;
-      webhook = config.sops.placeholder.fluxWebhookUrl;
+      webhook = config.sops.placeholder.fluxDiscordWebhookUrl;
     };
   };
   services.k3s = {
