@@ -65,6 +65,10 @@
           enable = true;
           crush.enable = true;
         };
+        db = {
+          enable = true;
+          postgres.enable = true;
+        };
       };
     };
     desktop = {
@@ -117,7 +121,7 @@
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [wget postgresql];
+  home.packages = with pkgs; [wget];
 
   # Enable home-manager and git
   programs = {

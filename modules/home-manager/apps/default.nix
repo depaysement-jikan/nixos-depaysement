@@ -58,6 +58,10 @@ in {
         enable = lib.mkEnableOption "ai configuration";
         crush.enable = lib.mkEnableOption "crush configuration";
       };
+      db = {
+        enable = lib.mkEnableOption "db configuration";
+        postgres.enable = lib.mkEnableOption "postgres configuration";
+      };
     };
   };
 
