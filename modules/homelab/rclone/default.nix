@@ -6,7 +6,7 @@
   environment.systemPackages = with pkgs; [rclone];
   sops.templates.rclone = {
     content = ''
-      [Garage]
+      [Namishiro]
       type = s3
       provider = Cloudflare
       access_key_id = ${config.sops.placeholder.fluxAccessKeyId}
