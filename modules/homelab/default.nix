@@ -8,7 +8,7 @@
 
   homelab = {
     flux = {
-      bucketName = "sodachi";
+      bucketName = "panaino";
       endpoint = config.sops.placeholder.fluxEndpoint;
       accessKeyId = config.sops.placeholder.fluxAccessKeyId;
       secretAccessKey = config.sops.placeholder.fluxSecretKey;
