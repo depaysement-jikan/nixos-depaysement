@@ -3,6 +3,7 @@
     ./flux
     ./security
     ./services
+    ./rclone
   ];
 
   homelab = {
