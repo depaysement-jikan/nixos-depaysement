@@ -88,7 +88,7 @@
                   };
                 };
                 livenessProbe = {
-                  failureThreshold = 5;
+                  failureThreshold = 10;
                   httpGet = {
                     path = "/healthz";
                     port = 10254;
