@@ -1,5 +1,5 @@
 {lib, ...}: {
-  imports = [./bucket ./discord];
+  imports = [./namespace ./bucket ./discord ./kustomization];
   options.homelab.flux = {
     endpoint = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
