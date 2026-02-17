@@ -10,7 +10,7 @@ in {
           kind = "Provider";
           metadata = {
             name = "discord";
-            namespace = "default";
+            namespace = "flux-system";
           };
           spec = {
             type = "discord";
@@ -22,7 +22,7 @@ in {
           kind = "Alert";
           metadata = {
             name = "discord-alert";
-            namespace = "default";
+            namespace = "flux-system";
           };
           spec = {
             providerRef = {
@@ -56,7 +56,7 @@ in {
         kind = "secret";
         metadata = {
           name = "discord-webhook";
-          namespace = "default";
+          namespace = "flux-system";
         };
         stringData.address = cfg.webhook;
       }
