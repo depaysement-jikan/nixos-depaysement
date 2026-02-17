@@ -81,6 +81,7 @@
           alias lg='lazygit'
           alias cd='z'
           alias git-co='sh ~/.config/scripts/fuzzy-co.sh'
+          alias k='kubectl'
 
           # Nuke starship if needed
           # sed -i '/starship/d' ~/.zshrc

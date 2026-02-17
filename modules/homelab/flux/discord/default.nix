@@ -14,7 +14,7 @@ in {
           };
           spec = {
             type = "discord";
-            secretRef.name = "discord-webhook";
+            secretRef.name = "flux-discord-webhook";
           };
         }
         {
@@ -53,9 +53,9 @@ in {
     secrets = [
       {
         apiVersion = "v1";
-        kind = "secret";
+        kind = "Secret";
         metadata = {
-          name = "discord-webhook";
+          name = "flux-discord-webhook";
           namespace = "flux-system";
         };
         stringData.address = cfg.webhook;
