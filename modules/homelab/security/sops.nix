@@ -11,7 +11,7 @@
   sops = {
     defaultSopsFile = ../secrets.yaml;
     age = {
-      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${meta.hostname}_ed25519"];
+      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${meta.hostname}"];
       # Instructions:
       # mkdir -p ~/.config/sops/age
       # age-keygen -o ~/.config/sops/age/keys.txt
