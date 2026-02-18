@@ -87,6 +87,7 @@
         catppuccin.enable = false;
         stylix.enable = true;
       };
+      clipboard.enable = true;
     };
   };
 
