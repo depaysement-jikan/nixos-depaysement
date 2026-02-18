@@ -224,6 +224,7 @@
           "SUPER,space,exec,wofi -show drun"
           "CTRL&ALT,DELETE,exec,hyprlock"
           "SUPER, V, exec, ghostty --title=clipse -e clipse"
+          "SUPER, escape, exec, wlogout -b 5"
         ];
 
         bindm = ["SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow"];
