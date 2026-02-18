@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  meta,
   ...
 }: {
   options = {git.enable = lib.mkEnableOption "Enable git module";};
@@ -13,7 +14,7 @@
       settings = {
         core = {
           editor = "nvim";
-          sshCommand = "ssh -i ~/.ssh/tsukinara_ed25519 -o IdentitiesOnly=yes";
+          sshCommand = "ssh -i ~/.ssh/${meta.hostname} -o IdentitiesOnly=yes";
         };
         alias = {
           co = "checkout";
