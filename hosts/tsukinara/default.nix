@@ -121,5 +121,10 @@ in {
   services.openssh = {enable = true;};
   services.blueman.enable = true;
 
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
   system.stateVersion = "25.11";
 }

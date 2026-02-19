@@ -27,6 +27,11 @@
         discord.enable = true;
         whatsapp.enable = true;
       };
+      gaming = {
+        enable = true;
+        steam.enable = true;
+        gamescope.enable = true;
+      };
       productivity = {
         enable = true;
         obsidian.enable = true;

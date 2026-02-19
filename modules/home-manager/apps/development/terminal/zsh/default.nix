@@ -85,6 +85,8 @@
 
           # Nuke starship if needed
           # sed -i '/starship/d' ~/.zshrc
+
+          tmux
         '';
         oh-my-zsh = {
           enable = true;
