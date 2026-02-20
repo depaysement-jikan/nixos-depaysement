@@ -92,7 +92,17 @@
             pathType = "Prefix";
             tlsSecret = "vaultwarden-tls";
           }
-          else {};
+          else {
+            # TODO: Remove once lb is setup
+            enabled = true;
+            class = "nginx";
+            nginxIngressAnnotations = true;
+            labels = {};
+            tls = false;
+            hostname = "";
+            path = "/";
+            pathType = "Prefix";
+          };
 
         resources = config.homelab.vaultwarden.resources;
       };
