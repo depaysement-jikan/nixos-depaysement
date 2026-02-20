@@ -5,7 +5,7 @@
 }: let
   cfg = config.myHomeConfig.apps;
 in {
-  imports = [./browsers ./social ./development ./productivity];
+  imports = [./browsers ./social ./development ./productivity ./gaming];
 
   options.myHomeConfig.apps = {
     enable = lib.mkEnableOption "applications and GUI programs";
@@ -16,9 +16,14 @@ in {
       floorp.enable = lib.mkEnableOption "floorp configuration";
     };
     social = {
-      enable = lib.mkEnableOption "web apps";
+      enable = lib.mkEnableOption "social apps";
       discord.enable = lib.mkEnableOption "discord configuration";
       whatsapp.enable = lib.mkEnableOption "whatsapp configuration";
+    };
+    gaming = {
+      enable = lib.mkEnableOption "gaming apps";
+      steam.enable = lib.mkEnableOption "steam configuration";
+      gamescope.enable = lib.mkEnableOption "gamescope configuration";
     };
     productivity = {
       enable = lib.mkEnableOption "productivity apps";
@@ -58,13 +63,18 @@ in {
         enable = lib.mkEnableOption "ai configuration";
         crush.enable = lib.mkEnableOption "crush configuration";
       };
+      db = {
+        enable = lib.mkEnableOption "db configuration";
+        postgres.enable = lib.mkEnableOption "postgres configuration";
+      };
     };
   };
 
   config = lib.mkIf cfg.enable {
     browsers.enable = lib.mkDefault cfg.browsers.enable;
-    web.enable = lib.mkDefault cfg.web.enable;
     development.enable = lib.mkDefault cfg.development.enable;
     productivity.enable = lib.mkDefault cfg.productivity.enable;
+    social.enable = lib.mkDefault cfg.social.enable;
+    gaming.enable = lib.mkDefault cfg.gaming.enable;
   };
 }

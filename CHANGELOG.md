@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.0.6 - 2026-02-15
+
+### Added
+- **Homelab Module:** Introduced a comprehensive homelab setup with:
+  - `k3s` for lightweight Kubernetes orchestration.
+  - `FluxCD` for GitOps-driven cluster synchronization.
+  - `ingress-nginx` for managing external access to services.
+  - `rclone` for syncing Kubernetes manifests to an S3 bucket.
+- **PostgreSQL:** Added PostgreSQL to the development environment.
+- **Desktop Utilities:**
+  - `wlogout`: A graphical logout menu for Hyprland.
+  - `swaync`: A notification daemon for Wayland.
+  - `blueman`: A Bluetooth manager.
+
+### Changed
+- **Hyprlock:** The lock screen now uses a blurred screenshot of the current workspace for a more integrated look.
+- **Waybar:** The status bar has been redesigned with a centered, more modern appearance.
+- **Zsh:** Added the `k` alias for `kubectl` to streamline Kubernetes management.
+- **Hyprland:** Increased window gaps for a more spacious feel.
+- **User Groups:** Added the `depaysement` user to the `k3s` group.
+
 ## v1.0.4 - 2026-02-12
 
 ### Added

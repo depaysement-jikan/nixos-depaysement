@@ -27,6 +27,11 @@
         discord.enable = true;
         whatsapp.enable = true;
       };
+      gaming = {
+        enable = true;
+        steam.enable = true;
+        gamescope.enable = true;
+      };
       productivity = {
         enable = true;
         obsidian.enable = true;
@@ -65,6 +70,10 @@
           enable = true;
           crush.enable = true;
         };
+        db = {
+          enable = true;
+          postgres.enable = true;
+        };
       };
     };
     desktop = {
@@ -83,6 +92,7 @@
         catppuccin.enable = false;
         stylix.enable = true;
       };
+      clipboard.enable = true;
     };
   };
 
@@ -117,10 +127,12 @@
   };
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [wget postgresql];
+  home.packages = with pkgs; [wget swaynotificationcenter cbonsai lolcat fastfetch];
+  services.swaync.enable = true;
 
   # Enable home-manager and git
   programs = {
+    wlogout.enable = true;
     home-manager.enable = true;
     bash.enable = true;
     nh = {enable = true;};

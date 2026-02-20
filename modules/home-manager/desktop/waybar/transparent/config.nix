@@ -1,8 +1,6 @@
-{config, ...}: {
+{...}: {
   mainBar = {
-    modules-left = ["custom/power" "hyprland/workspaces"];
-    # modules-center = [ ];
-    modules-right = ["tray" "bluetooth" "network" "battery" "pulseaudio" "clock"];
+    modules-center = ["custom/power" "hyprland/workspaces" "tray" "bluetooth" "network" "battery" "pulseaudio" "clock"];
 
     "custom/power" = {
       format = "⭘ ";
@@ -15,6 +13,9 @@
       all-outputs = true;
       warp-on-scroll = false;
       format = "{name}";
+      persistent-workspaces = {
+        "*" = 5;
+      };
       cursor = true;
     };
 

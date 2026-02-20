@@ -7,6 +7,7 @@
   options = {hyprland.enable = lib.mkEnableOption "Enable hyprland";};
   config = lib.mkIf config.hyprland.enable {
     home.packages = with pkgs; [
+      kitty
       grim
       ffmpeg_6
       pavucontrol
@@ -54,8 +55,8 @@
         };
 
         general = {
-          gaps_in = 4;
-          gaps_out = 4;
+          gaps_in = 7;
+          gaps_out = 7;
           border_size = 2;
           layout = "dwindle";
         };
@@ -138,6 +139,7 @@
           "[workspace 2 silent] firefox"
           "[workspace 3 silent] discord"
           "[workspace 4 silent] whatsapp-electron"
+          "clipse -listen"
         ];
 
         windowrulev2 = [
@@ -156,6 +158,9 @@
           "float,title:^(mpv)$"
           "workspace 3, class:^(discord)$"
           "opacity 1.0 1.0,class:^(wofi)$"
+          "float,title:^(clipse)$"
+          "size 622 652,title:^(clipse)$"
+          "center,title:^(clipse)$"
         ];
 
         bind = [
@@ -206,7 +211,7 @@
           "SUPER $mainMod SHIFT, 7, movetoworkspacesilent, 7"
           "SUPER $mainMod SHIFT, 8, movetoworkspacesilent, 8"
 
-          #program shortcurts
+          # Program shortcurts
           "SUPER,RETURN,exec,ghostty"
           "SUPER,b,exec,firefox"
           "SUPER,d,exec,discord"
@@ -218,6 +223,8 @@
           "SUPER,z,exec,waybar"
           "SUPER,space,exec,wofi -show drun"
           "CTRL&ALT,DELETE,exec,hyprlock"
+          "SUPER, V, exec, ghostty --title=clipse -e clipse"
+          "SUPER, escape, exec, wlogout -b 5"
         ];
 
         bindm = ["SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow"];

@@ -1,65 +1,71 @@
-{config, ...}: let
-  inherit (config.lib.stylix) colors;
-  c = color: "#${color}";
-in ''
-  @define-color background #1e1e2e;
-  @define-color foreground #cdd6f4;
-  @define-color select     #585b70;
+{...}: ''
+    @define-color background #1e1e2e;
+    @define-color foreground #cdd6f4;
+    @define-color select     #585b70;
 
-  @define-color pink       #f5c2e7;
-  @define-color purple     #cba6f7;
-  @define-color red        #f38ba8;
-  @define-color orange     #fab387;
-  @define-color yellow     #f9e2af;
-  @define-color green      #a6e3a1;
-  @define-color blue       #89b4fa;
-  @define-color gray       #45475a;
+    @define-color pink       #f5c2e7;
+    @define-color pink-soft  rgba(245, 194, 231, 0.1);
+    @define-color purple     #cba6f7;
+    @define-color red        #f38ba8;
+    @define-color orange     #fab387;
+    @define-color yellow     #f9e2af;
+    @define-color green      #a6e3a1;
+    @define-color blue       #89b4fa;
+    @define-color gray       #45475a;
 
   * {
-      font-family: "JetBrainsMono Nerd Font";
-      font-size: 13px;
-      font-weight: bold;
-      background-color: transparent;
-      border-radius: 5px;
-      min-height: 0;
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: transparent;
+    border-radius: 5px;
+    min-height: 0;
   }
 
   window,
   tooltip {
-      background-color: @background;
+    background-color: @background;
   }
 
   #waybar {
-      background: alpha(@background, 0.6);
-      border-radius: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .modules-center {
+    background: @background;
+    padding: 8px 16px;
+    border-radius: 28px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-width: 80px;
   }
 
   #workspaces {
-      margin: 1px 0;
+    margin: 1px 0;
   }
 
   #workspaces button {
-      color: @foreground;
-      border: none;
-      padding: 0 5px;
+    color: @foreground;
+    margin: 1.5px;
+    border: none;
+    transition: color 0.2s ease, border-bottom 0.2s ease, padding 0.2s ease;
   }
+
   #workspaces button:hover {
-      color: @pink;
-      transition: none;
-      border-bottom: 1px solid @pink;
-      padding: 0 8px;
+    color: @pink;
+    background: @pink-soft;
   }
 
   #workspaces button.active {
-      color: @pink;
-      border: 2px solid @pink;
-      padding: 0 8px;
-      margin: 0 2px;
+    color: @background;
+    background: linear-gradient(135deg, @blue 0%, @purple 50%, @pink 100%);
   }
 
   #workspaces button.urgent {
-      background-color: @red;
-      padding: 0 8px;
+    background-color: @red;
+    color: @background;
   }
 
   #custom-power,
@@ -69,9 +75,11 @@ in ''
   #battery,
   #pulseaudio,
   #clock {
-      color: @foreground;
-      margin: 1px 0;
-      padding: 0 10px;
+    color: @foreground;
+    margin: 1px 0;
+    padding: 0 10px;
+    background: transparent;
+    transition: background-color 0.2s ease;
   }
 
   #custom-power:hover,
@@ -80,32 +88,33 @@ in ''
   #battery:hover,
   #pulseaudio:hover,
   #clock:hover {
-      background-color: alpha(@select, 0.6);
+    background-color: rgba(88, 91, 112, 0.6); /* alpha of --select */
+    border-radius: 3px;
   }
 
   #bluetooth {
-      color: @yellow;
+    color: @yellow;
   }
 
   #network {
-      color: @green;
+    color: @green;
   }
 
   #battery {
-      color: @purple;
+    color: @purple;
   }
 
   #pulseaudio {
-      color: @orange;
+    color: @orange;
   }
 
   #clock {
-      margin-right: 10px;
-      color: @blue;
+    margin-right: 10px;
+    color: @blue;
   }
 
   #custom-power {
-      margin-left: 10px;
-      padding: 0px 10px 0 15px;
+    margin-left: 10px;
+    padding: 0 10px 0 15px;
   }
 ''

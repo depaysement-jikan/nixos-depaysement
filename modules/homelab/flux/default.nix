@@ -1,5 +1,5 @@
 {lib, ...}: {
-  imports = [./bucket];
+  imports = [./namespace ./bucket ./discord ./kustomization];
   options.homelab.flux = {
     endpoint = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
@@ -20,6 +20,10 @@
     bucketName = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
+    };
+    manifests = lib.mkOption {
+      type = lib.types.attrsOf lib.types.anything;
+      default = {};
     };
   };
 }
