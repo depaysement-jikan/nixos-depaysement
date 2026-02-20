@@ -41,6 +41,7 @@
     vaultwarden = {
       enable = true;
       replicas = 1;
+      ingressHost = null;
       db = {
         resources = {
           requests = {
@@ -68,7 +69,7 @@
       enable = false;
     };
     garage = {
-      ingressHost = "";
+      ingressHost = null;
     };
   };
 }

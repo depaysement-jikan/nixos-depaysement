@@ -31,6 +31,9 @@
     };
   };
   config.services.k3s = lib.mkIf config.homelab.vaultwarden.enable {
+    # If stuck because namespace deletion:
+    #   kubectl delete job -n kube-system helm-install-vaultwarden
+    #   kubectl delete pod -n kube-system helm-install-vaultwarden-bj2n6
     autoDeployCharts.vaultwarden = {
       package = pkgs.lib.downloadHelmChart {
         repo = "https://guerzon.github.io/vaultwarden";
@@ -63,6 +66,8 @@
           else "https://localhost";
 
         ingress =
+          # Access through pf
+          # kubectl port-forward svc/vaultwarden 8080:80 -n vaultwarden
           if config.homelab.vaultwarden.ingressHost != null
           then {
             enabled = true;
