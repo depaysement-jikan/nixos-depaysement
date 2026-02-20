@@ -143,7 +143,6 @@
         ];
 
         windowrulev2 = [
-          "float,class:^(pavucontrol)$"
           "float,class:^(file_progress)$"
           "float,class:^(confirm)$"
           "float,class:^(dialog)$"
@@ -158,9 +157,14 @@
           "float,title:^(mpv)$"
           "workspace 3, class:^(discord)$"
           "opacity 1.0 1.0,class:^(wofi)$"
+          # Clipse
           "float,title:^(clipse)$"
           "size 622 652,title:^(clipse)$"
           "center,title:^(clipse)$"
+          # Pavucontrol
+          "float,class:^(org.pulseaudio.pavucontrol)$"
+          "center,class:^(org.pulseaudio.pavucontrol)$"
+          "size 622 652,class:^(org.pulseaudio.pavucontrol)$"
         ];
 
         bind = [
@@ -225,6 +229,12 @@
           "CTRL&ALT,DELETE,exec,hyprlock"
           "SUPER, V, exec, ghostty --title=clipse -e clipse"
           "SUPER, escape, exec, wlogout -b 5"
+
+          # Audio
+          ",XF86AudioRaiseVolume,exec,wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
+          ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+          ",XF86AudioMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+          ",XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
         ];
 
         bindm = ["SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow"];
