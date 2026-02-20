@@ -96,7 +96,7 @@ in {
   programs.zsh.enable = true;
   programs.hyprland.enable = true;
 
-  environment.systemPackages = with pkgs; [ghostty home-manager sddm-theme];
+  environment.systemPackages = with pkgs; [ghostty home-manager sddm-theme bind];
 
   users.extraUsers.depaysement.homeMode = "710";
 
