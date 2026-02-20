@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  system,
+  ...
+}: {
   imports = [
     ./k3s
     ./flux
@@ -6,7 +10,16 @@
     ./services
     ./rclone
     ./ingress-nginx
+    ./vaultwarden
+    ./cert-manager
+    ./garage
+    ./databases
   ];
+
+  nixpkgs = {
+    overlays = import ../utils config;
+    hostPlatform = system;
+  };
 
   homelab = {
     flux = {
@@ -24,6 +37,38 @@
         };
         limits.memory = "400Mi";
       };
+    };
+    vaultwarden = {
+      enable = true;
+      replicas = 1;
+      db = {
+        resources = {
+          requests = {
+            memory = "130Mi";
+          };
+          limits.memory = "200Mi";
+        };
+      };
+      resources = {
+        requests = {
+          memory = "50Mi";
+        };
+        limits.memory = "100Mi";
+      };
+    };
+    databases = {
+      cloudnative-pg = {
+        enable = true;
+      };
+    };
+
+    # TODO: Future configs
+
+    cert-manager = {
+      enable = false;
+    };
+    garage = {
+      ingressHost = "";
     };
   };
 }
