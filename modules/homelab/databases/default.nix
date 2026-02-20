@@ -1,0 +1,3 @@
+{...}: {
+  imports = [./cloudnative-pg];
+}
