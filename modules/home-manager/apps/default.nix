@@ -58,6 +58,7 @@ in {
         lua.enable = lib.mkEnableOption "lua configuration";
         python.enable = lib.mkEnableOption "python configuration";
         rust.enable = lib.mkEnableOption "rust configuration";
+        json.enable = lib.mkEnableOption "json configuration";
       };
       ai = {
         enable = lib.mkEnableOption "ai configuration";

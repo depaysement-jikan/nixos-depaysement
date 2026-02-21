@@ -65,6 +65,7 @@
           lua.enable = true;
           python.enable = true;
           rust.enable = true;
+          json.enable = true;
         };
         ai = {
           enable = true;
