@@ -14,6 +14,7 @@
     ./cert-manager
     ./garage
     ./databases
+    ./metallb
   ];
 
   nixpkgs = {
@@ -61,6 +62,13 @@
       cloudnative-pg = {
         enable = true;
       };
+    };
+    metallb = {
+      enable = true;
+      replicas = 1;
+      addresses = [
+        "192.168.1.201-192.168.1.254"
+      ];
     };
 
     # TODO: Future configs

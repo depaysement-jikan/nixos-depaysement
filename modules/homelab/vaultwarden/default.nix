@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: {
   imports = [./namespace ./db];
@@ -49,6 +48,12 @@
           name = "vaultwarden-svc";
         };
 
+        # TODO: Remove later when a better way to reach vault is found
+        service = {
+          type = "LoadBalancer";
+          loadBalancerIP = "192.168.1.201";
+        };
+
         webVaultEnabled = true;
 
         database = {
@@ -90,17 +95,7 @@
             pathType = "Prefix";
             tlsSecret = "vaultwarden-tls";
           }
-          else {
-            # TODO: Remove once lb is setup
-            enabled = true;
-            class = "nginx";
-            nginxIngressAnnotations = true;
-            labels = {};
-            tls = false;
-            hostname = "";
-            path = "/";
-            pathType = "Prefix";
-          };
+          else {};
 
         resources = config.homelab.vaultwarden.resources;
       };

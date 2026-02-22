@@ -2,6 +2,8 @@
   services.k3s = {
     enable = true;
     extraFlags = [
+      "--disable servicelb"
+      "--disable traefik"
       "--write-kubeconfig-group k3s"
       "--write-kubeconfig-mode 0660"
     ];
