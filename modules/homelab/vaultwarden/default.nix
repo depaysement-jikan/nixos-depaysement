@@ -35,12 +35,10 @@
     #   kubectl delete job -n kube-system helm-install-vaultwarden
     #   kubectl delete pod -n kube-system helm-install-vaultwarden-bj2n6
     autoDeployCharts.vaultwarden = {
-      package = pkgs.lib.downloadHelmChart {
-        repo = "https://guerzon.github.io/vaultwarden";
-        chart = "vaultwarden";
-        version = "0.34.4";
-        chartHash = "sha256-qn2kfuXoLqHLyacYrBwvKgVb+qZjMu+E16dq9jJS3RE=";
-      };
+      name = "vaultwarden";
+      repo = "https://guerzon.github.io/vaultwarden";
+      version = "0.34.4";
+      hash = "sha256-qn2kfuXoLqHLyacYrBwvKgVb+qZjMu+E16dq9jJS3RE=";
       targetNamespace = "vaultwarden";
 
       values = {
