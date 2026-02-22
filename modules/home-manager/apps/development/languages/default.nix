@@ -14,6 +14,7 @@
     ./lua
     ./python
     ./rust
+    ./json
   ];
 
   options = {

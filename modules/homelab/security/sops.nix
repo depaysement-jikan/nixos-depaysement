@@ -27,6 +27,9 @@
       fluxSecretKey = {};
       fluxDiscordWebhookUrl = {};
       fluxEndpoint = {};
+      piholePassword = {
+        sopsFile = ../pihole-secrets.yaml;
+      };
     };
   };
 }
