@@ -15,6 +15,7 @@
     ./garage
     ./databases
     ./metallb
+    ./pihole
   ];
 
   nixpkgs = {
@@ -69,6 +70,13 @@
       addresses = [
         "192.168.1.201-192.168.1.254"
       ];
+    };
+    pihole = {
+      enable = true;
+      password = config.sops.placeholder.piholePassword;
+      gated = false;
+      webLoadBalancerIP = "192.168.1.204";
+      dnsLoadBalancerIP = "192.168.1.204";
     };
 
     # TODO: Future configs
