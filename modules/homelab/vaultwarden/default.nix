@@ -51,7 +51,7 @@
         # TODO: Remove later when a better way to reach vault is found
         service = {
           type = "LoadBalancer";
-          loadBalancerIP = "192.168.1.201";
+          loadBalancerIP = "192.168.1.203";
         };
 
         webVaultEnabled = true;

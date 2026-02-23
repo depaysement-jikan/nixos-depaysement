@@ -15,6 +15,7 @@
       type = lib.types.str;
       default = "pihole.home";
     };
+    dns = lib.mkOption {type = lib.types.str;};
     gated = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -41,6 +42,7 @@
         hash = "sha256-IPXWgsxtZ5E3ybsMjMuyWduMIH3HLwDHch8alipRNNo=";
         targetNamespace = "pihole-system";
         values = {
+          DNS1 = config.homelab.pihole.dns;
           persistentVolumeClaim = {
             enabled = true;
           };
