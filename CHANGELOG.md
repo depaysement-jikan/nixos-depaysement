@@ -1,5 +1,33 @@
 # Changelog
 
+## v1.0.7 - 2026-02-23
+
+### Added
+
+- **Pi-hole:** Integrated a working DNS and HTTPS for Pi-hole.
+- **Vaultwarden:** Added Vaultwarden for secrets management.
+- **Cert-manager:** Initial integration of cert-manager for automated certificate management.
+- **MetalLB:** Initial setup for MetalLB for bare-metal load balancing.
+- **Helm Autodeploy:** Built-in Helm autodeploy for streamlined application deployment.
+- **LSP Packages:** Added more LSP-related packages for enhanced code editing.
+- **Volume Key Support:** Added support for volume keys.
+- **Bind Package:** Included the bind package for DNS utilities.
+- **Gaming Module:** Added a new gaming module.
+- **Clipboard History:** Added clipboard history support.
+
+### Changed
+
+- **HTTPS for Vault:** Enabled HTTPS for Vault.
+- **Language Tweaks:** Made minor tweaks to language settings.
+- **Ingress and Vault:** Updated ingress host and added notes on Vault.
+- **SSH Key Name:** Updated the SSH key name.
+- **Documentation:** Updated the documentation.
+
+### Removed
+
+- **Tmux Auto-initializer:** Removed the tmux auto-initializer.
+- **Bind Shutdown:** Removed the bind shutdown command.
+
 ## v1.0.6 - 2026-02-15
 
 ### Added
