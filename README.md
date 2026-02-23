@@ -14,20 +14,20 @@ _Coming soon..._
 
 This NixOS configuration provides a comprehensive and reproducible environment with the following key features:
 
-*   **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
-*   **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking, `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, and `rclone` for syncing Kubernetes manifests to an S3 bucket.
-*   **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar. Initial application launches on workspace start have been removed for a cleaner startup.
-*   **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, and [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager.
-*   **Extensive Development Environment:**
-    *   **Language Support:** Pre-configured environments for a wide array of programming languages including Go, Node.js, Nix-lang, Shell scripting, C, TypeScript, Lua, Python, Rust and PostgreSQL.
-    *   **API Clients:** Includes [Yaak](https://yaak.app/) for streamlined API development and testing.
-    *   **AI Tools:** Integration of [Crush](https://github.com/Crush-tool/crush), an AI-powered code assistant.
+- **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
+- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking, `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, and `rclone` for syncing Kubernetes manifests to an S3 bucket.
+- **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar. Initial application launches on workspace start have been removed for a cleaner startup.
+- **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, and [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager.
+- **Extensive Development Environment:**
+  - **Language Support:** Pre-configured environments for a wide array of programming languages including Go, Node.js, Nix-lang, Shell scripting, C, TypeScript, Lua, Python, Rust and PostgreSQL.
+  - **API Clients:** Includes [Yaak](https://yaak.app/) for streamlined API development and testing.
+  - **AI Tools:** Integration of [Crush](https://github.com/Crush-tool/crush), an AI-powered code assistant.
 
-*   **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
-*   **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
-*   **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data within the declarative configuration.
-*   **Custom Software & Overlays:** Provides a framework for custom packages and Nixpkgs overlays, allowing for personalized software versions and additions.
-*   **Essential Utilities:** Includes common command-line tools like `wget` and `nh` for Nix-specific operations.
+- **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
+- **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
+- **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data within the declarative configuration.
+- **Custom Software & Overlays:** Provides a framework for custom packages and Nixpkgs overlays, allowing for personalized software versions and additions.
+- **Essential Utilities:** Includes common command-line tools like `wget` and `nh` for Nix-specific operations.
 
 For a detailed history of changes, please refer to the [CHANGELOG.md](CHANGELOG.md) file.
 
@@ -47,99 +47,36 @@ Here is a visual representation of the project structure:
 ├── modules
 │   ├── homelab
 │   │   ├── cert-manager
-│   │   │   ├── cluster-issuer
-│   │   │   ├── crds
-│   │   │   ├── default.nix
-│   │   │   ├── namespace
-│   │   │   └── service
 │   │   ├── cert-secrets.yaml
 │   │   ├── databases
-│   │   │   ├── cloudnative-pg
-│   │   │   └── default.nix
 │   │   ├── default.nix
 │   │   ├── flux
-│   │   │   ├── bucket
-│   │   │   ├── default.nix
-│   │   │   ├── discord
-│   │   │   ├── kustomization
-│   │   │   └── namespace
 │   │   ├── garage
-│   │   │   └── default.nix
 │   │   ├── ingress-nginx
-│   │   │   ├── configmap.nix
-│   │   │   ├── default.nix
-│   │   │   ├── deployment.nix
-│   │   │   ├── ingressclass.nix
-│   │   │   ├── job.nix
-│   │   │   ├── namespace.nix
-│   │   │   ├── rbac.nix
-│   │   │   ├── service.nix
-│   │   │   └── validating-webhook.nix
 │   │   ├── k3s
-│   │   │   └── default.nix
 │   │   ├── metallb
-│   │   │   ├── default.nix
-│   │   │   ├── ipAddressPool
-│   │   │   ├── L2Advertisement
-│   │   │   └── namespace
 │   │   ├── pihole
-│   │   │   ├── default.nix
-│   │   │   ├── external-dns-rbac
-│   │   │   └── namespace
 │   │   ├── pihole-secrets.yaml
 │   │   ├── rclone
-│   │   │   └── default.nix
+│   │   ├── README.md
 │   │   ├── secrets.yaml
 │   │   ├── security
-│   │   │   ├── default.nix
-│   │   │   └── sops.nix
 │   │   ├── services
-│   │   │   ├── default.nix
-│   │   │   └── k3s
 │   │   └── vaultwarden
-│   │       ├── certificate
-│   │       ├── db
-│   │       ├── default.nix
-│   │       └── namespace
 │   ├── home-manager
 │   │   ├── apps
-│   │   │   ├── browsers
-│   │   │   ├── default.nix
-│   │   │   ├── development
-│   │   │   ├── gaming
-│   │   │   ├── productivity
-│   │   │   └── social
 │   │   ├── default.nix
 │   │   ├── desktop
-│   │   │   ├── default.nix
-│   │   │   ├── hyprland
-│   │   │   ├── hyprlock
-│   │   │   ├── rofi
-│   │   │   ├── waybar
-│   │   │   └── wofi
 │   │   ├── pfp
-│   │   │   ├── image.png
-│   │   │   └── sachi.webp
+│   │   ├── README.md
 │   │   ├── scripts
-│   │   │   ├── default.nix
-│   │   │   └── fuzzy-co.sh
 │   │   ├── secrets.yaml
 │   │   ├── security
-│   │   │   ├── default.nix
-│   │   │   └── sops.nix
 │   │   ├── system
-│   │   │   ├── clipboard
-│   │   │   ├── default.nix
-│   │   │   ├── fonts
-│   │   │   └── themes
 │   │   └── wallpapers
-│   │       ├── BG_CS_Rabbit_04.jpg
-│   │       ├── preview_5.png
-│   │       └── rabbit-squad.jpg
 │   ├── nixos
 │   │   ├── default.nix
 │   │   └── nix
-│   │       └── default.nix
 │   └── utils
 │       └── default.nix
 ├── nixos
@@ -153,32 +90,7 @@ Here is a visual representation of the project structure:
 │   ├── LICENSE
 │   ├── lua
 │   │   ├── config
-│   │   │   ├── autocmds.lua
-│   │   │   ├── keymaps.lua
-│   │   │   ├── lazy.lua
-│   │   │   └── options.lua
 │   │   └── plugins
-│   │       ├── buffline.lua
-│   │       ├── catppuccin.lua
-│   │       ├── cmp.lua
-│   │       ├── conflict.lua
-│   │       ├── conform.lua
-│   │       ├── context.lua
-│   │       ├── cursor.lua
-│   │       ├── dap.lua
-│   │       ├── diffview.lua
-│   │       ├── fugitive.lua
-│   │       ├── git.lua
-│   │       ├── highlight-colors.lua
-│   │       ├── lazydocker.lua
-│   │       ├── lsp.lua
-│   │       ├── markdown.lua
-│   │       ├── mason.lua
-│   │       ├── noice.lua
-│   │       ├── telescope.lua
-│   │       ├── test.lua
-│   │       ├── tmux.lua
-│   │       └── tree.lua
 │   ├── README.md
 │   └── stylua.toml
 ├── overlays
