@@ -1,17 +1,3 @@
-# Example:
-#
-# services.k3s.secrets = [
-#   {
-#     metadata = {
-#       name = "grafana-secret";
-#       namespace = "monitoring";
-#     };
-#     stringData = {
-#       username = "admin";
-#       password = config.sops.placeholder."grafana/password";
-#     };
-#   }
-# ];
 {
   lib,
   config,
@@ -35,6 +21,10 @@ in {
           spec = lib.mkOption {
             type = lib.types.nullOr (lib.types.submodule {
               options = {
+                acme = lib.mkOption {
+                  type = lib.types.nullOr lib.types.anything;
+                  default = null;
+                };
                 bucketName = lib.mkOption {
                   type = lib.types.nullOr lib.types.str;
                   default = null;
@@ -59,6 +49,7 @@ in {
             });
             default = null;
           };
+
           stringData = lib.mkOption {
             type = lib.types.anything;
             default = null;
