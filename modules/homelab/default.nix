@@ -16,6 +16,7 @@
     ./databases
     ./metallb
     ./pihole
+    ./tailscale
   ];
 
   nixpkgs = {
@@ -82,6 +83,10 @@
     cert-manager = {
       enable = true;
       email = config.sops.placeholder.certEmail;
+    };
+    tailscale = {
+      enable = true;
+      authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
     };
 
     # TODO: Future configs
