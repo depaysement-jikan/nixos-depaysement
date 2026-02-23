@@ -13,7 +13,7 @@
     password = lib.mkOption {type = lib.types.str;};
     ingressHost = lib.mkOption {
       type = lib.types.str;
-      default = "pihole.home";
+      default = "pi.home";
     };
     dns = lib.mkOption {type = lib.types.str;};
     gated = lib.mkOption {

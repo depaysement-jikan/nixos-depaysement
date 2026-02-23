@@ -30,6 +30,9 @@
       piholePassword = {
         sopsFile = ../pihole-secrets.yaml;
       };
+      certEmail = {
+        sopsFile = ../cert-secrets.yaml;
+      };
     };
   };
 }

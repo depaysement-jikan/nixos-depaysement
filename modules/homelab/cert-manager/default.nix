@@ -5,7 +5,7 @@
 }: let
   inherit (lib) types;
 in {
-  imports = [./namespace];
+  imports = [./namespace ./cluster-issuer ./crds];
 
   options.homelab.cert-manager = {
     enable = lib.mkOption {

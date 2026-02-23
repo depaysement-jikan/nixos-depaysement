@@ -81,6 +81,7 @@
     };
     cert-manager = {
       enable = true;
+      email = config.sops.placeholder.certEmail;
     };
 
     # TODO: Future configs
