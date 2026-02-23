@@ -79,12 +79,12 @@
       dnsLoadBalancerIP = "192.168.1.204";
       dns = "192.168.1.1";
     };
+    cert-manager = {
+      enable = true;
+    };
 
     # TODO: Future configs
 
-    cert-manager = {
-      enable = false;
-    };
     garage = {
       ingressHost = null;
     };
