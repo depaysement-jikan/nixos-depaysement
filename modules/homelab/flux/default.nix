@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [./namespace ./bucket ./discord ./kustomization];
   options.homelab.flux = {
     endpoint = lib.mkOption {
@@ -24,6 +28,11 @@
     manifests = lib.mkOption {
       type = lib.types.attrsOf lib.types.anything;
       default = {};
+    };
+  };
+  config = {
+    environment = {
+      systemPackages = [pkgs.fluxcd];
     };
   };
 }

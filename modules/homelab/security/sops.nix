@@ -33,6 +33,12 @@
       certEmail = {
         sopsFile = ../cert-secrets.yaml;
       };
+      tailscaleAuthKey = {
+        sopsFile = ../tailscale-secrets.yaml;
+      };
+      tailscaleApiKey = {
+        sopsFile = ../tailscale-secrets.yaml;
+      };
     };
   };
 }
