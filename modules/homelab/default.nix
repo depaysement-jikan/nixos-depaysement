@@ -43,7 +43,7 @@
     vaultwarden = {
       enable = true;
       replicas = 1;
-      ingressHost = null;
+      ingressHost = "vault.home";
       db = {
         resources = {
           requests = {
@@ -77,6 +77,7 @@
       gated = false;
       webLoadBalancerIP = "192.168.1.204";
       dnsLoadBalancerIP = "192.168.1.204";
+      dns = "192.168.1.1";
     };
 
     # TODO: Future configs
