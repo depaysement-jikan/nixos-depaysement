@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  imports = [./namespace ./db];
+  imports = [./namespace ./db ./certificate];
 
   options.homelab.vaultwarden = {
     enable = lib.mkEnableOption "vaultwarden";
@@ -48,7 +48,6 @@
           name = "vaultwarden-svc";
         };
 
-        # TODO: Remove later when a better way to reach vault is found
         service = {
           type = "LoadBalancer";
           loadBalancerIP = "192.168.1.201";
@@ -81,7 +80,7 @@
                 "nginx.ingress.kubernetes.io/rewrite-target" = "/";
               }
               // lib.optionalAttrs config.homelab.cert-manager.enable {
-                "cert-manager.io/cluster-issuer" = "letsencrypt";
+                "cert-manager.io/cluster-issuer" = "vaultwarden-selfsigned";
               }
               // lib.optionalAttrs config.homelab.vaultwarden.gated {
                 "nginx.ingress.kubernetes.io/auth-signin" = "https://${config.homelab.auth.oauth2-proxy.ingressHost}/oauth2/start?rd=https://$host$escaped_request_uri";
@@ -93,7 +92,7 @@
             hostname = config.homelab.vaultwarden.ingressHost;
             path = "/";
             pathType = "Prefix";
-            tlsSecret = "vaultwarden-tls";
+            tlsSecret = "vaultwarden-selfsigned";
           }
           else {};
 

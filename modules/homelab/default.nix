@@ -16,6 +16,8 @@
     ./databases
     ./metallb
     ./pihole
+    ./tailscale
+    ./longhorn
   ];
 
   nixpkgs = {
@@ -43,7 +45,7 @@
     vaultwarden = {
       enable = true;
       replicas = 1;
-      ingressHost = null;
+      ingressHost = "vault.home";
       db = {
         resources = {
           requests = {
@@ -71,19 +73,30 @@
         "192.168.1.201-192.168.1.254"
       ];
     };
+    longhorn = {
+      enable = true;
+      replicas = 1;
+      ingresshost = "longhorn.home";
+    };
     pihole = {
       enable = true;
       password = config.sops.placeholder.piholePassword;
       gated = false;
       webLoadBalancerIP = "192.168.1.204";
       dnsLoadBalancerIP = "192.168.1.204";
+      dns = "192.168.1.1";
+    };
+    cert-manager = {
+      enable = true;
+      email = config.sops.placeholder.certEmail;
+    };
+    tailscale = {
+      enable = true;
+      authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
     };
 
     # TODO: Future configs
 
-    cert-manager = {
-      enable = false;
-    };
     garage = {
       ingressHost = null;
     };
