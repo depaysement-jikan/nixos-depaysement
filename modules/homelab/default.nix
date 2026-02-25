@@ -17,6 +17,7 @@
     ./metallb
     ./pihole
     ./tailscale
+    ./longhorn
   ];
 
   nixpkgs = {
@@ -71,6 +72,11 @@
       addresses = [
         "192.168.1.201-192.168.1.254"
       ];
+    };
+    longhorn = {
+      enable = true;
+      replicas = 1;
+      ingresshost = "longhorn.home";
     };
     pihole = {
       enable = true;
