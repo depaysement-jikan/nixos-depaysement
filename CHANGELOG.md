@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.8 - 2026-02-25
+
+### Added
+
+- **Longhorn:** Added a new module for Longhorn, a distributed block storage system for Kubernetes.
+- **Tailscale:** Integrated Tailscale for zero-config VPN.
+- **FluxCD:** Added the `fluxcd` package to the system packages.
+
+### Changed
+
+- **SOPS:** Added Tailscale secrets to sops.
+
 ## v1.0.7 - 2026-02-23
 
 ### Added
@@ -109,7 +121,7 @@
 *   **Dependency Management:** Removed a duplicate GitHub installation and an unused variable.
 *   **Secrets Management:** Implemented `sops` interpolation for Git configurations.
 *   **Terminal Experience:** Temporarily disabled Tmux popups and suppressed SSH PID agent number display for a cleaner terminal output.
-*   **Documentation:** Updated README with feature descriptions and a detailed file tree.
+- **Documentation:** Updated README with feature descriptions and a detailed file tree.
 
 ## 2026-01-31
 

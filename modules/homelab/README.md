@@ -18,5 +18,7 @@ The homelab is composed of several modules, each responsible for a specific part
 -   **`databases/`**: Manages the databases used by the services.
 -   **`metallb/`**: Provides load-balancing for the services.
 -   **`pihole/`**: A network-wide ad-blocker.
+-   **`longhorn/`**: A distributed block storage system for Kubernetes.
+-   **`tailscale/`**: A zero-config VPN.
 
 The main entry point is `default.nix`, which imports all the modules and configures them.
