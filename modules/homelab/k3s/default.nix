@@ -1,6 +1,6 @@
 {config, ...}: {
   services.k3s = {
-    enable = true;
+    enable = false;
     extraFlags = [
       "--disable servicelb"
       "--disable traefik"
