@@ -2,7 +2,7 @@
   config = {
     services.k3s = {
       enable = true;
-      manifestDir = "/var/lib/manifests";
+      # manifestDir = "/var/lib/manifests";
       extraFlags = [
         "--disable servicelb"
         "--disable traefik"
