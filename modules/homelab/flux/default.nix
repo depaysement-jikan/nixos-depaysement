@@ -37,6 +37,7 @@
   config = {
     environment = {
       systemPackages = [pkgs.fluxcd];
+      variables.KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
     };
   };
 }
