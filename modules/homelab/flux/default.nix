@@ -1,3 +1,7 @@
+# kubectl apply -f https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
+# sudo kubectl apply -f /var/lib/rancher/k3s/server/manifests/flux-discord-webhook.json
+# sudo kubectl apply -f /var/lib/rancher/k3s/server/manifests/flux-s3-credentials.json
+# sudo kubectl apply -f /var/lib/rancher/k3s/server/manifests/flux-bucket.json
 {
   lib,
   pkgs,
