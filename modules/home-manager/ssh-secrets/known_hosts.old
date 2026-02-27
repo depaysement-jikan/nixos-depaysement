@@ -1,0 +1,14 @@
+{
+	"data": "ENC[AES256_GCM,data:TMBW2wiP6dcr5mr74To+QqPBamZ1+fdQC/k+ZCMDZDWLM+FDr/r0PZqfl5rZhngv7Zuor+j89p1pKkHvyt835ZTskNejaQlh+mNZo20yh/lFixsXxyE+tQssU5anxV8KQLCozdaNGozQSYER8qkA73F3Vpqo3HRk3pf2F1XnXWTQZLtz79zE6AqQx8KowtyU7ns5wS39u9LUKI2iVFE8HjZUHXe8cUE9hb2zJ2e5ZgHoaIkVh8SMIEsmtDwUZncd/kcu/xxEDyxqexj/D0rUif8DfoXjTvEzsmKJkcC1HwanLm5NchxLc87r7E7cb1BFAvg6/mMUohB2sxc5Gx6BFcPwZcWqmzfrEPeu7Htoy9/C88WogczUsVLhYg5n9iK3X4Ja35Nqg7K9wdfwFj7oQJjI6WjDbotepAJAeALUVQsqyFyCy78nAe/xpr5kM9MBzJPjq2+LYjM7reqSxu9EdVBFUnWIfZHEMZaP1ufqK3IltiF0jIeskUZMsZlqB5jvp+II61WX/Hp2bmTfpncEmg98Y1RHQytTWAm/MPrfMCrlbB+dTSihNtDfNjkUB4VWXAG8y2em4ejXd/TRLzXbzUoaNOZmNyoRikHjQ1ZdA4sH9bKWRrupimJ/O+LkZdymODtxA2vCIb+9e8vD85kj2P9x+gUk3zfItIe8wao/VQfmdXsB0rQi3RdMrVvRDf+hopt6/1s3vnu75FUE3MWvK8TX1Vah0/G1wD4E4q5EzqklqREosfPoGqFA/lqM0vIhm8RwnLEp1WW0x1wHGlAZ/Hpn+5Gjsz6tNphnAZ+A+b8OFFhswr+PvOCG7tP/DdwwCUFUJT8jzQ4xmqHjmnSP9LMOD+4GmEY2cNh/LdEgmbdKsrgitkr5aRcjJPKtY0iFuzxRvvKtKBy3RojCMVUYUTmMXxRlpCItxiN1et+pW3UyITtCS7s3eZ5n94AKUppE9Typm74DYD71srhNWlZzIeFJKHzxoLpYHXPfRPO2yf7F/XlsJ1C92M29VXHh+nmPecv/nG/Gzp/4RZ0xzlcGq1o5wLkxObUJcuMjLlkYtAlaaOVVjM0X8F+70bGe7YUWa8Diut0PrjqA5qhkJVQpkFTJvRUXK9C6wsLUsdx0hdUUyoVMzZCIc24bT076DkCDz9vaCpCOQeqEhOvjQ0z0G6lpDBAwbwYUSVL1Q88TqfVO74YSmfbsYpaA1o8crWMjLSQOXOZhYA==,iv:kDLb4eUnFcJqqHvVSB5Jc1JdG5/YrZ9UgO9ooqabFlQ=,tag:JSTV1ofqKnCX5ZxUD8WxSw==,type:str]",
+	"sops": {
+		"age": [
+			{
+				"recipient": "age1jtytq9w0jgeglrp7pmy8em57m8uchygsyv2qakc5awn8dwuaypgq5cmgw9",
+				"enc": "-----BEGIN AGE ENCRYPTED FILE-----\nYWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB3cWt1ODVBRktLV05mYkU4\nYVpFSzFkcnVxM2ZONjJWWTExemdRTmdBWkVjClVtRXB6UzZ0b05qdVEwN01HTFpL\nZmF2U2JSWHVZVzVyK0phc1NzU0Ezam8KLS0tICt3MDQydWhGV3l3cDRZTitLdWd2\ndXMwajhJT1JiOSsvTCtiRHgvaDZ1OFUKflAzJeGve0CnHnnXngeAWhFOSsDTH1Cr\npeCYjd65fo03x7WM4neDSl8txfsyfoo8pde/HIQKODDYgxJ32G8ctg==\n-----END AGE ENCRYPTED FILE-----\n"
+			}
+		],
+		"lastmodified": "2026-02-27T23:52:26Z",
+		"mac": "ENC[AES256_GCM,data:9tP86DeT8TeGaLw/A0Lb2S1wmqsu/seh9ZMqna9k9gMGRqfStTg+YHwKXQZsQIEcDbMoSxVpVEU/Lqjr5pRwThSwvPMD8LSqTstNJefG/aemFCRSxwUT6TroXoergMHGOU8/ElkNkKR4Dz39AXnaoo6oB+Nq3GLsC33aNSK3jRM=,iv:MmHTTBJqsZ/B0jJlo+0IQz60OdBetVHJXzqAZr+lOAs=,tag:tjVtCQ+j134tDzNrfJz9lQ==,type:str]",
+		"version": "3.11.0"
+	}
+}
