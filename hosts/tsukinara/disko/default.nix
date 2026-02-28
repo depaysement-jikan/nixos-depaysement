@@ -1,6 +1,5 @@
 {...}: {
   disko = {
-    enableConfig = true;
     devices = {
       disk.main = {
         type = "disk";
