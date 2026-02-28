@@ -33,11 +33,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko.url = "github:nix-community/disko";
   };
 
   outputs = {
     self,
     nixpkgs,
+    disko,
     home-manager,
     ...
   } @ inputs: let
@@ -71,8 +73,13 @@
         modules = [
           ./modules/nixos
           ./hosts/${hostName}
+          disko.nixosModules.disko
           {networking = {inherit hostName;};}
         ];
+        # ++ nixpkgs.lib.optionals (builtins.pathExists ./hosts/${hostName}/disko) [
+        #   disko.nixosModules.disko
+        #   ./hosts/${hostName}/disko
+        # ];
       };
 
     mkHome = hostName: username: let

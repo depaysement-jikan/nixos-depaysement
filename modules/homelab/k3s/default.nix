@@ -1,7 +1,9 @@
+# Emergency reset
+# sudo rm -rf /var/lib/rancher && sudo rm -rf /etc/k3s
 {config, ...}: {
   config = {
     services.k3s = {
-      enable = true;
+      enable = false;
       # manifestDir = "/var/lib/manifests";
       extraFlags = [
         "--disable servicelb"
