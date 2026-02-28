@@ -1,3 +1,5 @@
+# sudo kubectl apply -f /var/lib/rancher/k3s/server/manifests/metallb-L2Advertisement.yaml
+# sudo kubectl apply -f /var/lib/rancher/k3s/server/manifests/metallb-IPAddressPool.yaml
 {
   lib,
   config,

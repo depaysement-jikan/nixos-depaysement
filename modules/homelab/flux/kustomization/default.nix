@@ -13,7 +13,7 @@
         prune = true;
         sourceRef = {
           kind = "Bucket";
-          name = "s3-bucket";
+          name = "flux-bucket";
         };
       };
     }
