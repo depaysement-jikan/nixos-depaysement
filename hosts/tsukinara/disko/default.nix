@@ -23,10 +23,10 @@
               };
             };
             swap = {
+              name = "swap";
               size = "4G";
               content = {
                 type = "swap";
-                label = "swap";
                 resumeDevice = true;
               };
             };
