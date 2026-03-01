@@ -15,8 +15,6 @@
               content = {
                 type = "filesystem";
                 format = "vfat";
-                mountpoint = "/boot";
-                device = "/dev/disk/by-uuid/4D6F-33A5";
               };
             };
             esp = {
@@ -27,7 +25,6 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                device = "/dev/disk/by-uuid/4D6F-33A5";
               };
             };
             swap = {
@@ -35,7 +32,6 @@
               size = "4G";
               content = {
                 type = "swap";
-                device = "/dev/disk/by-uuid/b78dabd8-69ed-48e1-8356-3efb0cf8dc7c";
                 resumeDevice = true;
               };
             };
@@ -46,7 +42,6 @@
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
-                device = "/dev/disk/by-uuid/2315fd0e-1171-4960-a8da-ad651e0c3f9c";
               };
             };
           };
