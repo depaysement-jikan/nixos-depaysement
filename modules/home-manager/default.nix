@@ -139,7 +139,9 @@
     nh = {enable = true;};
   };
 
-  home.file = {".face.icon" = {source = ./pfp/image.png;};};
+  home.file.".face.icon" = {
+    source = ./pfp/image.png;
+  };
 
   xdg.configFile."git/config".force = true;
 
