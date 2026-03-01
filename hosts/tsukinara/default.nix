@@ -97,6 +97,7 @@ in {
     extraGroups = ["wheel" "k3s"];
     packages = with pkgs; [tree];
     shell = pkgs.zsh;
+    password = "12345";
   };
 
   programs.firefox.enable = true;
