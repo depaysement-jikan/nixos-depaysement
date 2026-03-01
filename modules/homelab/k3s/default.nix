@@ -2,8 +2,12 @@
 # sudo rm -rf /var/lib/rancher && sudo rm -rf /etc/k3s
 {config, ...}: {
   config = {
+    systemd.services.k3s = {
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
+    };
     services.k3s = {
-      enable = false;
+      enable = true;
       # manifestDir = "/var/lib/manifests";
       extraFlags = [
         "--disable servicelb"

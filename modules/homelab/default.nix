@@ -74,7 +74,8 @@
       ];
     };
     longhorn = {
-      enable = true;
+      # TODO: This is causing issues with flannel generation, disabled for now, Flux might fix it
+      enable = false;
       replicas = 1;
       ingresshost = "longhorn.home";
     };

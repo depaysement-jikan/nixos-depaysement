@@ -24,6 +24,7 @@
       hash = "sha256-fpBaiw3DJ0KRQ1Co5AYjT/WuZR1LjD+Zq6hKg2CKG/Y=";
       targetNamespace = "longhorn-system";
       values = {
+        image.longhorn.instanceManager.tag = "v1.11.0-hotfix-1";
         replicas = config.homelab.longhorn.replicas;
         service = {
           ui = {
