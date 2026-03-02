@@ -18,6 +18,7 @@
     ./pihole
     ./tailscale
     ./longhorn
+    ./immich
   ];
 
   nixpkgs = {
@@ -79,6 +80,16 @@
       enable = false;
       replicas = 1;
       ingresshost = "longhorn.home";
+    };
+    immich = {
+      enable = true;
+      replicas = 1;
+      ingresshost = "immich.home";
+      storageClass = "local-path";
+      db = {
+        instances = 1;
+        size = "1Gi";
+      };
     };
     pihole = {
       enable = true;

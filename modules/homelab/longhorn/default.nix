@@ -29,7 +29,7 @@
         service = {
           ui = {
             type = "LoadBalancer";
-            loadBalancerIP = "192.168.1.205";
+            loadBalancerIP = "192.168.1.206";
           };
         };
         ingress = {
