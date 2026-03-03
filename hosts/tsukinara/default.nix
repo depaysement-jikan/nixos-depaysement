@@ -94,9 +94,11 @@ in {
 
   users.users.depaysement = {
     isNormalUser = true;
-    extraGroups = ["wheel" "k3s"];
+    extraGroups = ["wheel" "k3s" "sddm"];
     packages = with pkgs; [tree];
     shell = pkgs.zsh;
+    password = "12345";
+    homeMode = "711";
   };
 
   programs.firefox.enable = true;
@@ -105,9 +107,8 @@ in {
 
   environment.systemPackages = with pkgs; [ghostty home-manager sddm-theme bind];
 
-  users.extraUsers.depaysement.homeMode = "710";
-
   services.displayManager.sddm = {
+    # To make pfp show up
     # chmod o+x ~
     enable = true;
     wayland.enable = true;

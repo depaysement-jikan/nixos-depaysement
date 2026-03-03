@@ -24,11 +24,12 @@
       hash = "sha256-fpBaiw3DJ0KRQ1Co5AYjT/WuZR1LjD+Zq6hKg2CKG/Y=";
       targetNamespace = "longhorn-system";
       values = {
+        image.longhorn.instanceManager.tag = "v1.11.0-hotfix-1";
         replicas = config.homelab.longhorn.replicas;
         service = {
           ui = {
             type = "LoadBalancer";
-            loadBalancerIP = "192.168.1.205";
+            loadBalancerIP = "192.168.1.206";
           };
         };
         ingress = {

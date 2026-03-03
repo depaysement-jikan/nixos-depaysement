@@ -11,7 +11,7 @@
     sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {EDITOR = "nvim";};
   };
-  imports = [./apps ./desktop ./system ./security ./scripts];
+  imports = [./apps ./desktop ./system ./security ./scripts ./hardware];
 
   myHomeConfig = {
     apps = {
@@ -95,6 +95,10 @@
       };
       clipboard.enable = true;
     };
+    hardware = {
+      enable = true;
+      qmk.enable = true;
+    };
   };
 
   nixpkgs = {
@@ -139,7 +143,9 @@
     nh = {enable = true;};
   };
 
-  home.file = {".face.icon" = {source = ./pfp/image.png;};};
+  home.file.".face.icon" = {
+    source = ./pfp/image.png;
+  };
 
   xdg.configFile."git/config".force = true;
 

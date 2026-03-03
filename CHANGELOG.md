@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.0.9 - 2026-03-03
+
+### Added
+
+- **Disko:** Integrated Disko for declarative disk partitioning and formatting.
+- **Immich:** Added Immich, a self-hosted photo and video management solution, to the homelab.
+- **QMK:** Added a new QMK module for hardware keyboard configuration.
+- **SSH Secrets:** Added SSH secrets management for users and hosts.
+- **Prometheus:** Initial module structure added (currently disabled/placeholder).
+
+### Changed
+
+- **K3s:** Updated K3s configuration with improved deployment options.
+- **Longhorn:** Explicitly disabled Longhorn due to Helm chart issues affecting flannel generation (see [k3s-io/k3s#13277](https://github.com/k3s-io/k3s/issues/13277#issuecomment-3837472085)).
+
 ## v1.0.8 - 2026-02-25
 
 ### Added

@@ -62,7 +62,7 @@
         };
 
         decoration = {
-          rounding = 10;
+          rounding = 12;
           shadow = {
             enabled = false;
             ignore_window = true;
@@ -143,6 +143,7 @@
         ];
 
         windowrulev2 = [
+          "opacity 0.95 0.95,class:^(com.mitchellh.ghostty)$"
           "float,class:^(file_progress)$"
           "float,class:^(confirm)$"
           "float,class:^(dialog)$"

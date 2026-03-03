@@ -18,6 +18,7 @@
     ./pihole
     ./tailscale
     ./longhorn
+    ./immich
   ];
 
   nixpkgs = {
@@ -74,9 +75,21 @@
       ];
     };
     longhorn = {
-      enable = true;
+      # TODO: This is causing issues with flannel generation, disabled for now, Flux might fix it
+      # context: https://github.com/k3s-io/k3s/issues/13277#issuecomment-3837472085
+      enable = false;
       replicas = 1;
       ingresshost = "longhorn.home";
+    };
+    immich = {
+      enable = true;
+      replicas = 1;
+      ingresshost = "immich.home";
+      storageClass = "local-path";
+      db = {
+        instances = 1;
+        size = "1Gi";
+      };
     };
     pihole = {
       enable = true;
