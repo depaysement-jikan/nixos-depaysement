@@ -40,16 +40,77 @@
       targetNamespace = "immich";
       values = {
         valkey.enabled = true;
+        server = {
+          ingress = {
+            main = {
+              enabled = true;
+              className = "nginx";
+              annotations = {
+                "nginx.ingress.kubernetes.io/proxy-body-size" = "0";
+              };
+              hosts = [
+                {
+                  host = "immich.home";
+                  paths = [
+                    {
+                      path = "/";
+                      service = {
+                        identifier = "main";
+                      };
+                    }
+                  ];
+                }
+              ];
+              tls = false;
+            };
+          };
+
+          controllers = {
+            main = {
+              containers = {
+                main = {
+                  env = {
+                    DB_HOSTNAME = {
+                      valueFrom = {
+                        secretKeyRef = {
+                          name = "immich-database-app";
+                          key = "host";
+                        };
+                      };
+                    };
+                    DB_USERNAME = {
+                      valueFrom = {
+                        secretKeyRef = {
+                          name = "immich-database-app";
+                          key = "user";
+                        };
+                      };
+                    };
+                    DB_PASSWORD = {
+                      valueFrom = {
+                        secretKeyRef = {
+                          name = "immich-database-app";
+                          key = "password";
+                        };
+                      };
+                    };
+                    DB_DATABASE_NAME = {
+                      valueFrom = {
+                        secretKeyRef = {
+                          name = "immich-database-app";
+                          key = "dbname";
+                        };
+                      };
+                    };
+                  };
+                };
+              };
+            };
+          };
+        };
         replicas = config.homelab.immich.replicas;
         service = {
-          type = "LoadBalancer";
-          loadBalancerIP = "192.168.1.206";
-        };
-        ingress = {
-          enabled = true;
-          ingressClassName = "nginx";
-          host = config.homelab.immich.ingresshost;
-          tls = false;
+          type = "ClusterIP";
         };
         immich.persistence.library.existingClaim = "immich-library-pvc";
       };
