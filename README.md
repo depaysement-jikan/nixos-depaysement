@@ -15,13 +15,15 @@ _Coming soon..._
 This NixOS configuration provides a comprehensive and reproducible environment with the following key features:
 
 - **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
-- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking, `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage, `Tailscale` for zero-config VPN, and `rclone` for syncing Kubernetes manifests to an S3 bucket.
+- **Disko Integration:** Uses [Disko](https://github.com/nix-community/disko) for declarative disk partitioning and formatting, managing host storage configurations.
+- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking, `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage (currently disabled), `Immich` for self-hosted photo/video management, `Tailscale` for zero-config VPN, and `rclone` for syncing Kubernetes manifests to an S3 bucket.
 - **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar. Initial application launches on workspace start have been removed for a cleaner startup.
 - **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, and [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager.
 - **Extensive Development Environment:**
   - **Language Support:** Pre-configured environments for a wide array of programming languages including Go, Node.js, Nix-lang, Shell scripting, C, TypeScript, Lua, Python, Rust and PostgreSQL.
   - **API Clients:** Includes [Yaak](https://yaak.app/) for streamlined API development and testing.
   - **AI Tools:** Integration of [Crush](https://github.com/Crush-tool/crush), an AI-powered code assistant.
+  - **Hardware:** Support for [QMK](https://qmk.fm/) for custom keyboard configuration.
 
 - **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
 - **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
