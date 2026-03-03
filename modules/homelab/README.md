@@ -17,8 +17,9 @@ The homelab is composed of several modules, each responsible for a specific part
 -   **`garage/`**: A self-hosted Git server.
 -   **`databases/`**: Manages the databases used by the services.
 -   **`metallb/`**: Provides load-balancing for the services.
--   **`pihole/`**: A network-wide ad-blocker.
--   **`longhorn/`**: A distributed block storage system for Kubernetes.
--   **`tailscale/`**: A zero-config VPN.
+- **`pihole/`**: A network-wide ad-blocker.
+- **`longhorn/`**: A distributed block storage system for Kubernetes (currently disabled).
+- **`tailscale/`**: A zero-config VPN.
+- **`immich/`**: A self-hosted photo and video management solution.
 
 The main entry point is `default.nix`, which imports all the modules and configures them.
