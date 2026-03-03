@@ -11,7 +11,7 @@
     sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {EDITOR = "nvim";};
   };
-  imports = [./apps ./desktop ./system ./security ./scripts];
+  imports = [./apps ./desktop ./system ./security ./scripts ./hardware];
 
   myHomeConfig = {
     apps = {
@@ -94,6 +94,10 @@
         stylix.enable = true;
       };
       clipboard.enable = true;
+    };
+    hardware = {
+      enable = true;
+      qmk.enable = true;
     };
   };
 
