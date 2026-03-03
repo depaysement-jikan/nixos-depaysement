@@ -7,7 +7,7 @@
       wants = ["network-online.target"];
     };
     services.k3s = {
-      enable = true;
+      enable = false;
       # manifestDir = "/var/lib/manifests";
       extraFlags = [
         "--disable servicelb"
