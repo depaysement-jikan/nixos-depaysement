@@ -3,11 +3,11 @@
   config,
   ...
 }: let
-  cfg = config.myHomeConfig.system;
+  cfg = config.homeManager.system;
 in {
   imports = [./fonts ./themes ./clipboard];
 
-  options.myHomeConfig.system = {
+  options.homeManager.system = {
     enable = lib.mkEnableOption "system configuration and utilities";
     fonts.enable = lib.mkEnableOption "fonts configuration";
     themes = {

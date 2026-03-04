@@ -3,11 +3,11 @@
   config,
   ...
 }: let
-  cfg = config.myHomeConfig.apps;
+  cfg = config.homeManager.apps;
 in {
   imports = [./browsers ./social ./development ./productivity ./gaming];
 
-  options.myHomeConfig.apps = {
+  options.homeManager.apps = {
     enable = lib.mkEnableOption "applications and GUI programs";
     browsers = {
       enable = lib.mkEnableOption "web browsers";

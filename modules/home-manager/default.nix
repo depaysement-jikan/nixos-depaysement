@@ -13,7 +13,7 @@
   };
   imports = [./apps ./desktop ./system ./security ./scripts ./hardware];
 
-  myHomeConfig = {
+  homeManager = {
     apps = {
       enable = true;
       browsers = {

@@ -5,14 +5,14 @@
   ...
 }: {
   imports = [./qmk];
-  options.myHomeConfig.hardware = {
+  options.homeManager.hardware = {
     enable = lib.mkEnableOption "hardware options";
     qmk = {
       enable = lib.mkEnableOption "qmk module";
     };
   };
 
-  config = lib.mkIf config.myHomeConfig.hardware.enable {
-    qmk.enable = lib.mkDefault config.myHomeConfig.qmk.enable;
+  config = lib.mkIf config.homeManager.hardware.enable {
+    qmk.enable = lib.mkDefault config.homeManager.qmk.enable;
   };
 }

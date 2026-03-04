@@ -29,7 +29,7 @@
   '';
 in {
   options = {obsidian.enable = lib.mkEnableOption "Enable obsidian module";};
-  config = lib.mkIf config.myHomeConfig.apps.productivity.obsidian.enable {
+  config = lib.mkIf config.homeManager.apps.productivity.obsidian.enable {
     home.packages = with pkgs; [obsidian gitSyncObsidian setupObsidianLFS];
     systemd.user = {
       services.git-sync-obsidian = {

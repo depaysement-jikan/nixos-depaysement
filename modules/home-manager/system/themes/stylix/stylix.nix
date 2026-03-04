@@ -12,7 +12,7 @@
     tokyo-night-dark = "tokyo-night-dark";
     tokyo-night-storm = "tokyo-night-storm";
   };
-  cfg = config.myHomeConfig.system.themes.stylix;
+  cfg = config.homeManager.system.themes.stylix;
 in {
   config = {
     stylix = {

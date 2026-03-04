@@ -6,7 +6,7 @@
   ...
 }: {
   options = {tmux.enable = lib.mkEnableOption "Enable tmux module";};
-  config = lib.mkIf config.myHomeConfig.apps.development.terminal.tmux.enable {
+  config = lib.mkIf config.homeManager.apps.development.terminal.tmux.enable {
     programs.tmux = {
       enable = true;
       clock24 = true;
