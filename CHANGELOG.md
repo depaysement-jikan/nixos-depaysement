@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.11 - 2026-03-04
+
+### Changed
+
+- **Configuration Centralization:** Refactored Home Manager and Homelab configurations to be host-specific. This decouples module definitions from their actual configuration, allowing for easier management across different hosts.
+- **Home Manager:** Renamed `myHomeConfig` to `homeManager` and moved specific user configurations (apps, desktop, system, hardware) to `hosts/tsukinara/config/home-manager-config/`.
+- **Homelab:** Moved homelab service configurations to `hosts/tsukinara/config/homelab-config/`.
+
+## v1.0.10 - 2026-03-04
+
+### Changed
+
+- **Homelab:** Added `enable` flags for `flux`, `databases`, `ingress-nginx`, and `garage` services for more granular control.
+- **Ingress-Nginx:** Cleaned up manual manifests to simplify the module structure and transition towards a more managed approach.
+- **K3s:** Disabled `k3s` service by default in the host configuration.
+
 ## v1.0.9 - 2026-03-03
 
 ### Added

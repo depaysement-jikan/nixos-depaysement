@@ -44,7 +44,14 @@ Here is a visual representation of the project structure:
 ├── flake.nix
 ├── hosts
 │   └── tsukinara
+│       ├── config
+│       │   ├── home-manager-config
+│       │   │   └── default.nix
+│       │   └── homelab-config
+│       │       └── default.nix
 │       ├── default.nix
+│       ├── disko
+│       │   └── default.nix
 │       └── hardware-configuration.nix
 ├── modules
 │   ├── homelab
