@@ -114,7 +114,7 @@
     # TODO: Future configs
 
     garage = {
-      # enable = true;
+      enable = true;
       ingressHost = null;
     };
   };
