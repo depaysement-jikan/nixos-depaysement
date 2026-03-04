@@ -1,5 +1,5 @@
 {lib, ...}: {
-  options.homeManager.enable = lib.mkEnableOption "applications and GUI programs";
+  options.homeManager.enable = lib.mkEnableOption "Enable home manager";
   config = {
     homeManager = {
       enable = true;

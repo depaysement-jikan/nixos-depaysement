@@ -7,7 +7,7 @@
       wants = ["network-online.target"];
     };
     services.k3s = {
-      enable = false;
+      enable = config.homelab.enable;
       # manifestDir = "/var/lib/manifests";
       extraFlags = [
         "--disable servicelb"
