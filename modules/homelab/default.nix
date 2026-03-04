@@ -65,7 +65,7 @@
       };
     };
     databases = {
-      # enable = true;
+      enable = true;
       cloudnative-pg = {
         enable = true;
       };
