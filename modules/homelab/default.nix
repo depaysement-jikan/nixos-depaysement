@@ -36,7 +36,7 @@
       webhook = config.sops.placeholder.fluxDiscordWebhookUrl;
     };
     ingress = {
-      # enable = true;
+      enable = true;
       resources = {
         requests = {
           cpu = "100m";

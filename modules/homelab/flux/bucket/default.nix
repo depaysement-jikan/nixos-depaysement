@@ -2,9 +2,7 @@
   config,
   lib,
   ...
-}: let
-  cfg = config.homelab.flux;
-in {
+}: {
   config = lib.mkIf config.homelab.flux.enable {
     services.k3s = {
       secrets = [
@@ -17,8 +15,8 @@ in {
           };
           spec = {
             interval = "1m";
-            bucketName = cfg.bucketName;
-            endpoint = cfg.endpoint;
+            bucketName = config.homelab.flux.bucketName;
+            endpoint = config.homelab.flux.endpoint;
             provider = "aws";
             secretRef.name = "flux-s3-credentials";
           };
