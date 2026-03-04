@@ -4,7 +4,7 @@ in {
   options.homelab.garage = {
     enable = lib.mkOption {
       type = types.bool;
-      default = false;
+      default = true;
     };
     ingressHost = lib.mkOption {
       type = types.nullOr types.str;
