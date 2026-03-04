@@ -5,7 +5,7 @@
   config,
   ...
 }: let
-  cfg = config.myHomeConfig.desktop.hyprlock;
+  cfg = config.homeManager.desktop.hyprlock;
 in {
   options = {hyprlock.enable = lib.mkEnableOption "Enable Hyprlock";};
 

@@ -3,11 +3,11 @@
   config,
   ...
 }: let
-  cfg = config.myHomeConfig.desktop;
+  cfg = config.homeManager.desktop;
 in {
   imports = [./rofi ./hyprland ./wofi ./hyprlock ./waybar];
 
-  options.myHomeConfig.desktop = {
+  options.homeManager.desktop = {
     enable = lib.mkEnableOption "Desktop environment";
     rofi.enable = lib.mkEnableOption "Rofi launcher";
     wofi.enable = lib.mkEnableOption "Wofi launcher";
