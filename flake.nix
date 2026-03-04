@@ -96,6 +96,7 @@
         modules = [
           ./modules/home-manager
           ./modules/nixos
+          ./hosts/${hostName}/config/home-manager-config
         ];
       };
 
