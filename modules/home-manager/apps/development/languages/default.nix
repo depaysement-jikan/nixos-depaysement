@@ -20,7 +20,7 @@
   options = {
     languages.enable = lib.mkEnableOption "Enable languages module";
   };
-  config = lib.mkIf config.myHomeConfig.apps.development.languages.enable {
+  config = lib.mkIf config.homeManager.apps.development.languages.enable {
     go.enable = lib.mkDefault true;
     node.enable = lib.mkDefault true;
     markdown.enable = lib.mkDefault true;

@@ -7,7 +7,7 @@
 }: {
   options = {git.enable = lib.mkEnableOption "Enable git module";};
 
-  config = lib.mkIf config.myHomeConfig.apps.development.terminal.git.enable {
+  config = lib.mkIf config.homeManager.apps.development.terminal.git.enable {
     programs.git = {
       enable = true;
       lfs = {enable = true;};

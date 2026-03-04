@@ -7,7 +7,7 @@
   options = {
     api-clients.enable = lib.mkEnableOption "Enable api-clients module";
   };
-  config = lib.mkIf config.myHomeConfig.apps.development.api-clients.enable {
+  config = lib.mkIf config.homeManager.apps.development.api-clients.enable {
     yaak.enable = lib.mkDefault true;
   };
 }

@@ -5,7 +5,7 @@
   ...
 }: {
   options = {zsh.enable = lib.mkEnableOption "Enable zsh module";};
-  config = lib.mkIf config.myHomeConfig.apps.development.terminal.zsh.enable {
+  config = lib.mkIf config.homeManager.apps.development.terminal.zsh.enable {
     home = {
       shell = {enableZshIntegration = true;};
       sessionPath = ["$HOME/.local/share/pnpm"];

@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.myHomeConfig.system.themes.catppuccin;
+  cfg = config.homeManager.system.themes.catppuccin;
 in {
   imports = [inputs.catppuccin.homeModules.catppuccin];
   config = {

@@ -6,7 +6,7 @@
   imports = [./yazi ./zsh ./nushell ./tmux ./git ./ghostty ./nvim ./starship];
 
   options = {terminal.enable = lib.mkEnableOption "Enable terminal module";};
-  config = lib.mkIf config.myHomeConfig.apps.development.terminal.enable {
+  config = lib.mkIf config.homeManager.apps.development.terminal.enable {
     yazi.enable = lib.mkDefault true;
     zsh.enable = lib.mkDefault true;
     nushell.enable = lib.mkDefault true;

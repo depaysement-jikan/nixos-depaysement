@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  cfg = config.myHomeConfig.desktop.rofi;
+  cfg = config.homeManager.desktop.rofi;
 in {
   options = {rofi.enable = lib.mkEnableOption "Enable Rofi";};
 
