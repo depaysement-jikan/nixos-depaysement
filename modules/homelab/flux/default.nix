@@ -5,10 +5,15 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: {
   imports = [./namespace ./bucket ./discord ./kustomization];
   options.homelab.flux = {
+    enable = lib.mkOption {
+      type = lib.types.nullOr lib.types.bool;
+      default = true;
+    };
     endpoint = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
@@ -34,7 +39,7 @@
       default = {};
     };
   };
-  config = {
+  config = lib.mkIf config.homelab.flux.enable {
     environment = {
       systemPackages = [pkgs.fluxcd];
       variables.KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";

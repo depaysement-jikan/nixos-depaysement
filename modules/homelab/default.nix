@@ -28,6 +28,7 @@
 
   homelab = {
     flux = {
+      enable = true;
       bucketName = "panaino";
       endpoint = config.sops.placeholder.fluxEndpoint;
       accessKeyId = config.sops.placeholder.fluxAccessKeyId;
@@ -35,6 +36,7 @@
       webhook = config.sops.placeholder.fluxDiscordWebhookUrl;
     };
     ingress = {
+      # enable = true;
       resources = {
         requests = {
           cpu = "100m";
@@ -63,6 +65,7 @@
       };
     };
     databases = {
+      # enable = true;
       cloudnative-pg = {
         enable = true;
       };
@@ -111,6 +114,7 @@
     # TODO: Future configs
 
     garage = {
+      # enable = true;
       ingressHost = null;
     };
   };
