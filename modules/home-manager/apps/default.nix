@@ -28,6 +28,7 @@ in {
     productivity = {
       enable = lib.mkEnableOption "productivity apps";
       obsidian.enable = lib.mkEnableOption "obsidian configuration";
+      sioyek.enable = lib.mkEnableOption "sioyek configuration";
     };
     development = {
       enable = lib.mkEnableOption "development configuration";
