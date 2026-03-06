@@ -27,7 +27,7 @@
           adda = "add -A";
         };
         init = {defaultBranch = "develop";};
-        branch = {autoSetupRemote = true;};
+        push = {autoSetupRemote = true;};
         fetch = {prune = true;};
         maintenance.repo = "${config.home.homeDirectory}/.nixos-dotfiles";
         safe.directory = "${config.home.homeDirectory}/.nixos-dotfiles";

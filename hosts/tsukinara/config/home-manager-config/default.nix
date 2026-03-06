@@ -24,6 +24,7 @@
         productivity = {
           enable = true;
           obsidian.enable = true;
+          sioyek.enable = true;
         };
         development = {
           enable = true;
