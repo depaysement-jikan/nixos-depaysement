@@ -15,6 +15,7 @@
           enable = true;
           discord.enable = true;
           whatsapp.enable = true;
+          spotify.enable = true;
         };
         gaming = {
           enable = true;
