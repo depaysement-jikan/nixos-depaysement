@@ -139,6 +139,7 @@
           "[workspace 2 silent] firefox"
           "[workspace 3 silent] discord"
           "[workspace 4 silent] whatsapp-electron"
+          "[workspace 5 silent] spotify"
           "clipse -listen"
         ];
 

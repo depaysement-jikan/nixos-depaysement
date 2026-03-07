@@ -19,6 +19,7 @@ in {
       enable = lib.mkEnableOption "social apps";
       discord.enable = lib.mkEnableOption "discord configuration";
       whatsapp.enable = lib.mkEnableOption "whatsapp configuration";
+      spotify.enable = lib.mkEnableOption "spotify configuration";
     };
     gaming = {
       enable = lib.mkEnableOption "gaming apps";
