@@ -26,6 +26,7 @@ in {
     ./hardware-configuration.nix
     ../../modules/homelab
     ./disko
+    ./security/sops.nix
   ];
 
   nixpkgs = {
@@ -90,14 +91,14 @@ in {
 
   time.timeZone = "America/Chicago";
 
-  environment.shells = with pkgs; [zsh];
+  environment.shells = with pkgs; [zsh git];
 
   users.users.depaysement = {
     isNormalUser = true;
     extraGroups = ["wheel" "k3s" "sddm"];
-    packages = with pkgs; [tree];
+    packages = with pkgs; [tree kitty];
     shell = pkgs.zsh;
-    password = "12345";
+    hashedPasswordFile = config.sops.secrets.depaysementUserPassword.path;
     homeMode = "711";
   };
 
