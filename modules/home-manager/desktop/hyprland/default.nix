@@ -87,8 +87,8 @@
             "global, 1, 10, default"
             "border, 1, 5.39, easeOutQuint"
             "windows, 1, 4.79, easeOutQuint"
-            "windowsIn, 1, 4.1, easeOutQuint, popin 87%"
-            "windowsOut, 1, 1.49, linear, popin 87%"
+            "windowsIn, 1, 4.1, easeOutQuint, popin"
+            "windowsOut, 1, 1.49, easeInBack, popin"
             "fadeIn, 1, 1.73, almostLinear"
             "fadeOut, 1, 1.46, almostLinear"
             "fade, 1, 3.03, quick"
@@ -103,6 +103,7 @@
           ];
           bezier = [
             "easeOutQuint,0.23,1,0.32,1"
+            "easeInBack,0.36,0,0.66,-0.56"
             "easeInOutCubic,0.65,0.05,0.36,1"
             "linear,0,0,1,1"
             "almostLinear,0.5,0.5,0.75,1.0"
@@ -158,7 +159,6 @@
           "float,title:^(File Operation Progress)$"
           "float,title:^(mpv)$"
           "workspace 3, class:^(discord)$"
-          "opacity 1.0 1.0,class:^(wofi)$"
           # Clipse
           "float,title:^(clipse)$"
           "size 622 652,title:^(clipse)$"
@@ -227,7 +227,7 @@
           "SUPER,o,exec,obsidian"
           "SUPER,i,exec,idea-ultimate"
           "SUPER,z,exec,waybar"
-          "SUPER,space,exec,wofi -show drun"
+          "SUPER,space,exec,pkill wofi || wofi drun"
           "CTRL&ALT,DELETE,exec,hyprlock"
           "SUPER, V, exec, ghostty --title=clipse -e clipse"
           "SUPER, escape, exec, wlogout -b 5"
