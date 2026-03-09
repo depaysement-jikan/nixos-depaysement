@@ -16,6 +16,7 @@ jobs:
           image: nixos/nix:2.24.0
           options: --rm
           run: |
+            ls
             cd /github/workspace
             nix-channel --update
             nix-env -iA nixpkgs.nodejs
