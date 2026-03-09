@@ -1,6 +1,4 @@
 {
-  inputs,
-  pkgs,
   lib,
   config,
   ...
@@ -9,7 +7,7 @@
 in {
   options = {hyprlock.enable = lib.mkEnableOption "Enable Hyprlock";};
 
-  config = lib.mkIf config.hyprlock.enable {
+  config = lib.mkIf config.homeManager.desktop.hyprlock.enable {
     programs.hyprlock = {
       enable = cfg.enable;
       settings = {

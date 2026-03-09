@@ -5,7 +5,7 @@
   ...
 }: {
   options = {wofi.enable = lib.mkEnableOption "Enable wofi";};
-  config = lib.mkIf config.wofi.enable {
+  config = lib.mkIf config.homeManager.desktop.wofi.enable {
     home = {packages = with pkgs; [wofi];};
 
     xdg.configFile = {
