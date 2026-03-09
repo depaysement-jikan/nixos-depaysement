@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     name: Flake check
-    runs-on: ubuntu-latest
+    runs-on: docker
     container:
       image: nixos/nix:2.24.0
     steps:
