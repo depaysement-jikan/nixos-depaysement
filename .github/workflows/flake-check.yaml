@@ -1,23 +1,34 @@
-name: Flake check
+name: Flake Check
+
 on:
   pull_request:
   push:
     branches:
       - develop
+
 jobs:
-  test:
+  flake-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Run in Nix container
+      - name: Run Nix flake check
         uses: addnab/docker-run-action@v3
         with:
           image: nixos/nix:2.24.0
           options: --rm
-          volumes: /home/runner/work/nixos-dotfiles/nixos-dotfiles:/workspace
+          volumes: ${{ github.workspace }}:/workspace
           run: |
             cd /workspace
             nix-channel --update
             nix-env -iA nixpkgs.nodejs
             nix flake check --extra-experimental-features "nix-command flakes pipe-operators"
+
+      # - name: Cache Nix store
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: /nix/store
+      #     key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-nix-
