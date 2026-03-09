@@ -12,6 +12,11 @@ jobs:
     container:
       image: nixos/nix:2.24.0
     steps:
+      - name: Install Node.js for Actions
+        run: |
+          nix-channel --update
+          nix-env -iA nixpkgs.nodejs
+
       - name: Checkout code
         uses: actions/checkout@v4
 
