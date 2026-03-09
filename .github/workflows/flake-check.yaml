@@ -18,17 +18,9 @@ jobs:
         with:
           image: nixos/nix:2.24.0
           options: --rm
-          volumes: ${{ github.workspace }}:/workspace
+          working-directory: ${{ github.workspace }}
           run: |
-            cd /workspace
+            ls
             nix-channel --update
             nix-env -iA nixpkgs.nodejs
             nix flake check --extra-experimental-features "nix-command flakes pipe-operators"
-
-      # - name: Cache Nix store
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: /nix/store
-      #     key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-nix-
