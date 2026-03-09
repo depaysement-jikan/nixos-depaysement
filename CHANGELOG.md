@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.12 - 2026-03-08
+
+### Added
+
+- **Spotify:** Added Spotify package and configured autostart in Hyprland.
+- **Sioyek:** Added Sioyek, a PDF viewer optimized for technical books and research papers.
+- **Host Secrets:** Implemented host-level secrets management using SOPS for the `tsukinara` host, including user password hash management.
+
+### Changed
+
+- **Homelab:** Fixed conditional flags and improved configuration for `cert-manager`, `metallb`, and `vaultwarden`.
+- **Security:** Updated user password management to use SOPS-encrypted hashes.
+- **Desktop:** Minor updates to Hyprland, Hyprlock, and Wofi configurations.
+- **System:** Updated default fonts configuration.
+- **Development:** Small tweaks to Git and Tmux configurations.
+
 ## v1.0.11 - 2026-03-04
 
 ### Changed

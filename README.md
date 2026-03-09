@@ -26,8 +26,9 @@ This NixOS configuration provides a comprehensive and reproducible environment w
   - **Hardware:** Support for [QMK](https://qmk.fm/) for custom keyboard configuration.
 
 - **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
+- **Productivity & Social:** Includes [Spotify](https://www.spotify.com/) with Hyprland autostart and [Sioyek](https://sioyek.info/) for specialized technical PDF viewing.
 - **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
-- **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data within the declarative configuration.
+- **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data at both the user (Home Manager) and host level.
 - **Custom Software & Overlays:** Provides a framework for custom packages and Nixpkgs overlays, allowing for personalized software versions and additions.
 - **Essential Utilities:** Includes common command-line tools like `wget` and `nh` for Nix-specific operations.
 
@@ -52,7 +53,10 @@ Here is a visual representation of the project structure:
 │       ├── default.nix
 │       ├── disko
 │       │   └── default.nix
-│       └── hardware-configuration.nix
+│       ├── hardware-configuration.nix
+│       ├── secrets.yaml
+│       └── security
+│           └── sops.nix
 ├── modules
 │   ├── homelab
 │   │   ├── cert-manager
