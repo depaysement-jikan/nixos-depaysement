@@ -16,7 +16,7 @@ jobs:
           image: nixos/nix:2.24.0
           options: --rm
           run: |
-            cd $GITHUB_WORKSPACE
+            cd /github/workspace
             nix-channel --update
             nix-env -iA nixpkgs.nodejs
             nix flake check --extra-experimental-features "nix-command flakes pipe-operators"
