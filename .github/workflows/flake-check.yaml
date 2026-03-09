@@ -1,25 +1,25 @@
-name: Flake Check
-
+name: Flake check
 on:
   pull_request:
   push:
     branches:
-      - develop
+      - master
 
 jobs:
-  flake-check:
+  test:
+    name: Flake check
     runs-on: ubuntu-latest
+    container:
+      image: nixos/nix:2.24.0
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Nix flake check
-        uses: addnab/docker-run-action@v3
-        with:
-          image: nixos/nix:2.24.0
-          options: --rm
-          run: |
-            cd /home/runner/work/nixos-dotfiles/nixos-dotfiles
-            nix-channel --update
-            nix-env -iA nixpkgs.nodejs
-            nix flake check --extra-experimental-features "nix-command flakes pipe-operators"
+      - name: Enable Nix flakes
+        run: |
+          nix --version
+          nix --extra-experimental-features "nix-command flakes" flake show
+
+      - name: Run flake check
+        run: |
+          nix flake check --extra-experimental-features "nix-command flakes pipe-operators"
