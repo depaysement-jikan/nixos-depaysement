@@ -22,4 +22,5 @@ jobs:
 
       - name: Run flake check
         run: |
+          cd /home/runner/work/nixos-dotfiles/nixos-dotfiles
           nix flake check --extra-experimental-features "nix-command flakes pipe-operators"
