@@ -1,15 +1,21 @@
-{...}: {
-  services.k3s.manifests."metallb-L2Advertisement".content = [
-    {
-      apiVersion = "metallb.io/v1beta1";
-      kind = "L2Advertisement";
-      metadata = {
-        name = "k3s-nuc-l2advertisment";
-        namespace = "metallb-system";
-      };
-      spec = {
-        ipAddressPools = ["k3s-nuc-pool"];
-      };
-    }
-  ];
+{
+  lib,
+  config,
+  ...
+}: {
+  config = lib.mkIf config.homelab.metallb.enable {
+    services.k3s.manifests."metallb-L2Advertisement".content = [
+      {
+        apiVersion = "metallb.io/v1beta1";
+        kind = "L2Advertisement";
+        metadata = {
+          name = "k3s-nuc-l2advertisment";
+          namespace = "metallb-system";
+        };
+        spec = {
+          ipAddressPools = ["k3s-nuc-pool"];
+        };
+      }
+    ];
+  };
 }

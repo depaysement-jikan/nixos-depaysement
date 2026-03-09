@@ -2,10 +2,8 @@
   config,
   lib,
   ...
-}: let
-  cfg = config.homelab.cert-manager;
-in {
-  config = lib.mkIf cfg.enable {
+}: {
+  config = lib.mkIf config.homelab.cert-manager.enable {
     services.k3s.manifests."cert-manager-service".content = [
       {
         apiVersion = "v1";
