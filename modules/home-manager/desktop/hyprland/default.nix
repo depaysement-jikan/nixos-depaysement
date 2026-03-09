@@ -5,7 +5,7 @@
   ...
 }: {
   options = {hyprland.enable = lib.mkEnableOption "Enable hyprland";};
-  config = lib.mkIf config.hyprland.enable {
+  config = lib.mkIf config.homeManager.desktop.hyprland.enable {
     home.packages = with pkgs; [
       kitty
       grim
