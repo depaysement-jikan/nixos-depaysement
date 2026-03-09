@@ -2,9 +2,7 @@
   config,
   lib,
   ...
-}: let
-  cfg = config.homelab.cert-manager;
-in {
+}: {
   options.homelab.cert-manager = {
     email = lib.mkOption {
       type = lib.types.str;
@@ -13,7 +11,7 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf config.homelab.cert-manager.enable {
     services.k3s = {
       secrets = [
         {
