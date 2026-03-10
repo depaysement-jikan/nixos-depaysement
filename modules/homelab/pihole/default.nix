@@ -1,4 +1,3 @@
-# TODO: pihole https
 {
   lib,
   config,
@@ -7,6 +6,7 @@
   imports = [
     ./external-dns-rbac
     ./namespace
+    ./certificate
   ];
 
   options.homelab.pihole = {
@@ -51,6 +51,12 @@
             enabled = config.homelab.pihole.ingressHost != null;
             ingressClassName = "nginx";
             hosts = [config.homelab.pihole.ingressHost];
+            tls = [
+              {
+                secretName = "pihole-tls";
+                hosts = [config.homelab.pihole.ingressHost];
+              }
+            ];
           };
           serviceWeb = {
             loadBalancerIP = config.homelab.pihole.webLoadBalancerIP;
