@@ -20,7 +20,8 @@ The homelab is composed of several modules, each responsible for a specific part
 -   **`databases/`**: Manages databases used by services (e.g., CloudNativePG).
 -   **`metallb/`**: Provides load-balancing for services.
 -   **`pihole/`**: A network-wide ad-blocker.
--   **`longhorn/`**: A distributed block storage system (currently disabled).
+-   **`prometheus/`**: Monitoring and alerting toolkit.
+-   **`longhorn/`**: A distributed block storage system.
 -   **`tailscale/`**: A zero-config VPN integration.
 -   **`immich/`**: A self-hosted photo and video management solution.
 
