@@ -3,7 +3,7 @@
   options.homelab = {
     prometheus = {
       enable = lib.mkEnableOption "prometheus";
-      ingresshost = lib.mkOption {
+      ingressHost = lib.mkOption {
         type = lib.types.str;
         default = "prometheus.home";
       };

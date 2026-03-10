@@ -62,12 +62,12 @@
         # context: https://github.com/k3s-io/k3s/issues/13277#issuecomment-3837472085
         enable = false;
         replicas = 1;
-        ingresshost = "longhorn.home";
+        ingressHost = "longhorn.home";
       };
       immich = {
         enable = true;
         replicas = 1;
-        ingresshost = "immich.home";
+        ingressHost = "immich.home";
         storageClass = "local-path";
         db = {
           instances = 1;

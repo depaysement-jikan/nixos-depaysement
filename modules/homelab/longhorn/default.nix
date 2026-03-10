@@ -11,7 +11,7 @@
       type = lib.types.int;
       default = 1;
     };
-    ingresshost = lib.mkOption {
+    ingressHost = lib.mkOption {
       type = lib.types.str;
       default = "longhorn.home";
     };
@@ -35,7 +35,7 @@
         ingress = {
           enabled = true;
           ingressClassName = "nginx";
-          host = config.homelab.longhorn.ingresshost;
+          host = config.homelab.longhorn.ingressHost;
           tls = false;
         };
       };

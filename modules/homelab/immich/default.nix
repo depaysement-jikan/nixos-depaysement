@@ -1,17 +1,16 @@
-# TODO: immich https
 {
   lib,
   config,
   ...
 }: {
-  imports = [./namespace ./db ./pvc];
+  imports = [./namespace ./db ./pvc ./certificate];
   options.homelab.immich = {
     enable = lib.mkEnableOption "immich";
     replicas = lib.mkOption {
       type = lib.types.int;
       default = 1;
     };
-    ingresshost = lib.mkOption {
+    ingressHost = lib.mkOption {
       type = lib.types.str;
       default = "immich.home";
     };
@@ -61,7 +60,12 @@
                   ];
                 }
               ];
-              tls = false;
+              tls = [
+                {
+                  secretName = "immich-tls";
+                  hosts = [config.homelab.immich.ingressHost];
+                }
+              ];
             };
           };
 
