@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.13 - 2026-03-10
+
+### Added
+
+- **CI/CD:** Integrated GitHub Actions with `flake-checker` for automated flake health checks.
+- **Homelab:** Added self-signed HTTPS certificate management for `Pi-hole` and `Immich`.
+
+### Changed
+
+- **Desktop:**
+  - Simplified and refactored `Wofi` configuration and CSS for a cleaner look.
+  - Adjusted Hyprland window animations and workspace rules.
+  - Updated `Wofi` launch command to toggle visibility (pkill).
+- **Homelab:** Minor configuration updates for `Longhorn` and `Prometheus` modules.
+- **CI/CD:** Fixed Nix environment availability in GitHub Actions.
+
 ## v1.0.12 - 2026-03-08
 
 ### Added
