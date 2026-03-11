@@ -19,6 +19,7 @@
     ./tailscale
     ./longhorn
     ./immich
+    ./prometheus
   ];
 
   nixpkgs = {
