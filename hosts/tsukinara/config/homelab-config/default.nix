@@ -6,7 +6,7 @@
   options.homelab.enable = lib.mkEnableOption "Enable homelab";
   config = {
     homelab = {
-      enable = true;
+      enable = false;
       flux = {
         enable = true;
         bucketName = "panaino";
@@ -89,6 +89,10 @@
       tailscale = {
         enable = true;
         authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
+      };
+      prometheus = {
+        enable = true;
+        ingressHost = "prometheus.home";
       };
 
       # TODO: Future configs

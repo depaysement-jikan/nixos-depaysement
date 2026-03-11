@@ -6,7 +6,7 @@
       metadata = {
         name = "pihole-system";
         labels = {
-          "app.kubernetes.io/name" = "piihole";
+          "app.kubernetes.io/name" = "pihole";
         };
       };
     }
