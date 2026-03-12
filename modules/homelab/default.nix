@@ -20,6 +20,7 @@
     ./longhorn
     ./immich
     ./prometheus
+    ./uptime-kuma
   ];
 
   nixpkgs = {

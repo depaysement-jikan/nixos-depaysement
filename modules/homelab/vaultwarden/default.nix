@@ -11,19 +11,19 @@
       type = lib.types.int;
       default = 1;
     };
-
+    loadBalancerIP = lib.mkOption {
+      type = lib.types.str;
+    };
     gated = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = "Whether to gate this service behind oauth2-proxy";
     };
-
     ingressHost = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
       description = "Host in which the vault will be served";
     };
-
     resources = lib.mkOption {
       type = lib.types.attrsOf (lib.types.attrsOf (lib.types.nullOr lib.types.str));
       description = "Kubernetes resource requests/limits for vaultwarden container.";
@@ -50,7 +50,7 @@
 
         service = {
           type = "LoadBalancer";
-          loadBalancerIP = "192.168.1.201";
+          loadBalancerIP = config.homelab.vaultwarden.loadBalancerIP;
         };
 
         webVaultEnabled = true;

@@ -29,6 +29,7 @@
         enable = true;
         replicas = 1;
         ingressHost = "vault.home";
+        loadBalancerIP = "192.168.1.201";
         db = {
           resources = {
             requests = {
@@ -93,6 +94,11 @@
       prometheus = {
         enable = true;
         ingressHost = "prometheus.home";
+      };
+      uptime-kuma = {
+        enable = true;
+        ingressHost = "kuma.home";
+        loadBalancerIP = "192.168.1.209";
       };
 
       # TODO: Future configs
