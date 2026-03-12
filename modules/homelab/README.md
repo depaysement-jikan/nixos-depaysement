@@ -21,6 +21,7 @@ The homelab is composed of several modules, each responsible for a specific part
 -   **`metallb/`**: Provides load-balancing for services.
 -   **`pihole/`**: A network-wide ad-blocker.
 -   **`prometheus/`**: Monitoring and alerting toolkit.
+-   **`uptime-kuma/`**: Self-hosted monitoring tool.
 -   **`longhorn/`**: A distributed block storage system.
 -   **`tailscale/`**: A zero-config VPN integration.
 -   **`immich/`**: A self-hosted photo and video management solution.
