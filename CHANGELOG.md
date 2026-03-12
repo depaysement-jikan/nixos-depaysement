@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.14 - 2026-03-12
+
+### Added
+
+- **Homelab:**
+  - Added `Uptime Kuma` for service monitoring and status pages.
+  - Added `Prometheus` for metrics collection with self-signed HTTPS certificate management.
+
+### Changed
+
+- **Homelab:**
+  - Configured `loadBalancerIP` for `Vaultwarden` and `Uptime Kuma` to ensure consistent internal IPs.
+  - Enabled `Longhorn` distributed block storage.
+- **Networking:** Added `cni0` and `flannel.1` to trusted interfaces in the firewall for improved Kubernetes networking stability.
+- **Fixes:** Corrected a label typo (`piihole` -> `pihole`) in the Pi-hole namespace configuration.
+
 ## v1.0.13 - 2026-03-10
 
 ### Added
