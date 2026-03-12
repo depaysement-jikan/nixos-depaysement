@@ -81,6 +81,7 @@ in {
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [4200 3000];
+    trustedInterfaces = ["cni0" "flannel.1"];
   };
   networking.networkmanager.dns = "none";
 
