@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.0.15 - 2026-03-15
+
+### Added
+
+- **Homelab:**
+  - Added `Grafana` for data visualization and dashboard management.
+  - Integrated self-signed HTTPS certificate management for `Grafana`.
+
+### Changed
+
+- **Homelab:**
+  - Corrected `Uptime Kuma` ingress configuration to ensure compatibility with the Helm chart.
+- **Documentation:** Updated README files to reflect the latest homelab additions.
+
 ## v1.0.14 - 2026-03-12
 
 ### Added
