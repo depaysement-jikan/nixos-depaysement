@@ -4,6 +4,56 @@ This directory contains the configuration for the homelab, which is built on top
 
 Service enablement and host-specific values are now centralized in `hosts/<host>/config/homelab-config/`. This separation keeps the modules generic and reusable across different host environments.
 
+## Architecture
+
+The following diagram illustrates the high-level architecture of the homelab:
+
+```mermaid
+graph TD
+    subgraph "NixOS Host"
+        K3S[k3s Cluster]
+    end
+
+    subgraph "Kubernetes Infrastructure"
+        Flux[FluxCD GitOps]
+        CertMan[cert-manager]
+        MetalLB[MetalLB Load Balancer]
+        Ingress[ingress-nginx]
+        Longhorn[Longhorn Distributed Storage]
+    end
+
+    subgraph "Services & Applications"
+        Vault[Vaultwarden]
+        PiHole[Pi-hole DNS]
+        Immich[Immich Photos]
+        Garage[Garage Git Server]
+        DB[CloudNativePG]
+    end
+
+    subgraph "Monitoring & Status"
+        Prom[Prometheus]
+        Grafana[Grafana]
+        Kuma[Uptime Kuma]
+    end
+
+    subgraph "Networking & Backups"
+        Tailscale[Tailscale VPN]
+        S3[External S3 Backups]
+    end
+
+    %% Relationships
+    Flux -->|Sync Manifests| K3S
+    Ingress -->|External Traffic| Vault & PiHole & Immich & Grafana & Kuma
+    CertMan -->|Automated SSL| Ingress
+    MetalLB -->|Load Balancing| Ingress
+    Vault & Immich & DB & Garage -->|Persistent Data| Longhorn
+    Prom -->|Scrapes Metrics| K3S & Vault & Immich
+    Grafana -->|Visualizes| Prom
+    Kuma -->|Monitors Uptime| Ingress
+    Tailscale --- K3S
+    Vault & DB & Immich -->|Backups via rclone| S3
+```
+
 ## Structure
 
 The homelab is composed of several modules, each responsible for a specific part of the infrastructure:
