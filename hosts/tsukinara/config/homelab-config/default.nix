@@ -6,7 +6,7 @@
   options.homelab.enable = lib.mkEnableOption "Enable homelab";
   config = {
     homelab = {
-      enable = false;
+      enable = true;
       flux = {
         enable = true;
         bucketName = "panaino";
@@ -94,6 +94,11 @@
       prometheus = {
         enable = true;
         ingressHost = "prometheus.home";
+      };
+      grafana = {
+        enable = true;
+        ingressHost = "grafana.home";
+        loadBalancerIP = "192.168.1.210";
       };
       uptime-kuma = {
         enable = true;
