@@ -31,10 +31,17 @@
         };
         ingress = {
           enabled = true;
-          ingressClassName = "nginx";
-
+          className = "nginx";
           hosts = [
-            config.homelab.uptime-kuma.ingressHost
+            {
+              host = config.homelab.uptime-kuma.ingressHost;
+              paths = [
+                {
+                  path = "/";
+                  pathType = "Prefix";
+                }
+              ];
+            }
           ];
           tls = [
             {

@@ -20,6 +20,7 @@
     ./longhorn
     ./immich
     ./prometheus
+    ./grafana
     ./uptime-kuma
   ];
 
