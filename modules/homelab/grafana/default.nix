@@ -17,6 +17,8 @@
     };
   };
 
+  # If password is not programatically set it can be found at
+  # k get secret -n grafana-system grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
   config.services.k3s = lib.mkIf config.homelab.grafana.enable {
     autoDeployCharts.grafana = {
       name = "grafana";
