@@ -6,7 +6,7 @@
   options.homelab.enable = lib.mkEnableOption "Enable homelab";
   config = {
     homelab = {
-      enable = true;
+      enable = false;
       flux = {
         enable = true;
         bucketName = "panaino";
