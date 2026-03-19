@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.0.16 - 2026-03-18
+
+### Added
+
+- **Homelab:**
+  - Integrated `kube-prometheus-stack` for unified monitoring and alerting, replacing the previous standalone `Prometheus` and `Grafana` modules.
+  - Added `monitoring` namespace and self-signed HTTPS certificate management for the new Prometheus stack.
+- **CI/CD:** Added a `pull_request_template.md` to standardize and improve the contribution workflow.
+- **Development:**
+  - Added `black` formatter to the Python development module.
+  - Added `openssl` to the Zsh package list.
+
+### Changed
+
+- **Documentation:**
+  - Updated Homelab architecture diagram and module structure in `modules/homelab/README.md`.
+  - Updated main `README.md` file tree and feature list to reflect the new Prometheus stack.
+
 ## v1.0.15 - 2026-03-15
 
 ### Added

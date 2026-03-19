@@ -70,8 +70,9 @@ The homelab is composed of several modules, each responsible for a specific part
 -   **`databases/`**: Manages databases used by services (e.g., CloudNativePG).
 -   **`metallb/`**: Provides load-balancing for services.
 -   **`pihole/`**: A network-wide ad-blocker.
--   **`prometheus/`**: Monitoring and alerting toolkit.
--   **`grafana/`**: Data visualization and dashboard management.
+-   **`prometheus-stack/`**: Unified monitoring and alerting stack (Prometheus & Grafana). Replaces standalone modules.
+-   **`prometheus/`**: Legacy standalone Prometheus module (deprecated).
+-   **`grafana/`**: Legacy standalone Grafana module (deprecated).
 -   **`uptime-kuma/`**: Self-hosted monitoring tool.
 -   **`longhorn/`**: A distributed block storage system.
 -   **`tailscale/`**: A zero-config VPN integration.

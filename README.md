@@ -16,7 +16,7 @@ This NixOS configuration provides a comprehensive and reproducible environment w
 
 - **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
 - **Disko Integration:** Uses [Disko](https://github.com/nix-community/disko) for declarative disk partitioning and formatting, managing host storage configurations.
-- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus` for monitoring (now with HTTPS), `Grafana` for visualization (now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), and `rclone` for syncing Kubernetes manifests to an S3 bucket.
+- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus Stack` for unified monitoring and visualization (replacing standalone modules, now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), and `rclone` for syncing Kubernetes manifests to an S3 bucket.
 - **CI/CD:** Automated flake health checks and reproducibility validation using GitHub Actions and [flake-checker](https://github.com/DeterminateSystems/flake-checker).
 - **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar. Initial application launches on workspace start have been removed for a cleaner startup.
 - **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, and [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager.
@@ -28,7 +28,7 @@ This NixOS configuration provides a comprehensive and reproducible environment w
 
 - **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
 - **Productivity & Social:** Includes [Spotify](https://www.spotify.com/) with Hyprland autostart and [Sioyek](https://sioyek.info/) for specialized technical PDF viewing.
-- **Self-signed HTTPS:** Integrated self-signed certificate management for internal homelab services (Pi-hole, Immich, Prometheus, Grafana, Uptime Kuma) to enhance local network security.
+- **Self-signed HTTPS:** Integrated self-signed certificate management for internal homelab services (Pi-hole, Immich, Prometheus Stack, Uptime Kuma) to enhance local network security.
 - **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
 - **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data at both the user (Home Manager) and host level.
 - **Custom Software & Overlays:** Provides a framework for custom packages and Nixpkgs overlays, allowing for personalized software versions and additions.
@@ -79,6 +79,7 @@ Here is a visual representation of the project structure:
 │   │   ├── pihole
 │   │   ├── pihole-secrets.yaml
 │   │   ├── prometheus
+│   │   ├── prometheus-stack
 │   │   ├── rclone
 │   │   ├── README.md
 │   │   ├── secrets.yaml
