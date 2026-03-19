@@ -92,13 +92,25 @@
         authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
       };
       prometheus = {
-        enable = true;
+        enable = false;
         ingressHost = "prometheus.home";
       };
       grafana = {
-        enable = true;
+        enable = false;
         ingressHost = "grafana.home";
         loadBalancerIP = "192.168.1.210";
+      };
+      prometheus-stack = {
+        enable = true;
+        prometheus = {
+          enable = false;
+          ingressHost = "prometheus.home";
+        };
+        grafana = {
+          enable = false;
+          ingressHost = "grafana.home";
+          loadBalancerIP = "192.168.1.210";
+        };
       };
       uptime-kuma = {
         enable = true;
