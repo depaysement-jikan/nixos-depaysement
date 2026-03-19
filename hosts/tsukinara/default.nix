@@ -7,9 +7,7 @@
   config,
   pkgs,
   ...
-}: let
-  sddm-theme = inputs.silentSDDM.packages.${pkgs.system}.default;
-in {
+}: {
   imports = [
     ./hardware-configuration.nix
     ../../modules/homelab
@@ -72,30 +70,8 @@ in {
     homeMode = "711";
   };
 
-  programs.firefox.enable = true;
+  environment.systemPackages = with pkgs; [bind];
   programs.zsh.enable = true;
-  programs.hyprland.enable = true;
-
-  environment.systemPackages = with pkgs; [ghostty home-manager sddm-theme bind];
-
-  services.displayManager.sddm = {
-    # To make pfp show up
-    # chmod o+x ~
-    enable = true;
-    wayland.enable = true;
-    enableHidpi = true;
-    theme = sddm-theme.pname;
-    package = pkgs.kdePackages.sddm;
-    extraPackages = sddm-theme.propagatedBuildInputs;
-
-    settings = {
-      Wayland = {EnableHiDPI = true;};
-      General = {
-        GreeterEnvironment = "QML2_IMPORT_PATH=${sddm-theme}/share/sddm/themes/${sddm-theme.pname}/components/,QT_IM_MODULE=qtvirtualkeyboard";
-        InputMethod = "qtvirtualkeyboard";
-      };
-    };
-  };
 
   services.openssh = {enable = true;};
   services.blueman.enable = true;

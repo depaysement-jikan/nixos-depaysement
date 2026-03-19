@@ -74,6 +74,7 @@
           ./modules/nixos
           ./hosts/${hostName}
           ./hosts/${hostName}/config/homelab-config
+          ./hosts/${hostName}/config/nixos-config
           disko.nixosModules.disko
           {networking = {inherit hostName;};}
         ];
