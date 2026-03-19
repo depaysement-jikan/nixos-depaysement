@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  options.homelab.enable = lib.mkEnableOption "Enable homelab";
+  options.homelab.enable = lib.mkEnableOption "Enable homelab module";
   config = {
     homelab = {
       enable = false;
