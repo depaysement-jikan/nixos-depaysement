@@ -22,6 +22,9 @@
       hash = "sha256-W29NO3JnQoypwo3jqYXEeg9HxICOCwcWIdEIqtjLiNY=";
       targetNamespace = "prometheus-system";
       values = {
+        alert-manager = {
+          enabled = true;
+        };
         server = {
           ingress = {
             enabled = true;
