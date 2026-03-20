@@ -11,7 +11,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    nixos-generic.desktop.sddm.enable = lib.mkDefault true;
-    nixos-generic.desktop.hyprland.enable = lib.mkDefault true;
+    nixos-generic.desktop = {
+      sddm.enable = lib.mkDefault true;
+      hyprland.enable = lib.mkDefault true;
+      homeManager.enable = lib.mkDefault true;
+    };
   };
 }
