@@ -10,7 +10,7 @@ The configuration for these modules is centralized at the host level in `hosts/<
     - **`sddm/`**: Simple Desktop Display Manager setup with custom themes.
     - **`hyprland/`**: Hyprland compositor and window manager configuration.
     - **`home-manager/`**: Integration of Home Manager as a NixOS module.
-- **`nix/`**: Global Nix daemon settings, including flake support and experimental features.
+- **`nix/`**: Global Nix daemon settings, including flake support, garbage collection, and experimental features.
 
 ## Usage
 

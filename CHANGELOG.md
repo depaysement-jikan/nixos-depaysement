@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.0.18 - 2026-03-20
+
+### Added
+
+- **Home Manager:**
+  - Introduced a new `misc` module for miscellaneous user configurations.
+  - Added a `cli` submodule within `misc` to manage common CLI tools like `cbonsai`, `lolcat`, and `fastfetch`.
+  - Added a `package-managers` submodule to `apps/development` for centralized management of package-related tools (e.g., `wget`).
+
+### Changed
+
+- **Home Manager:**
+  - Refactored `modules/home-manager/default.nix` to improve modularity by moving package declarations to their respective submodules.
+  - Cleaned up unused imports and improved internal module structure.
+- **Documentation:**
+  - Updated root `README.md` and `modules/home-manager/README.md` to reflect the new `misc` module and updated file tree.
+  - Enhanced `modules/nixos/README.md` with more detailed descriptions of the NixOS module structure.
+
 ## v1.0.17 - 2026-03-19
 
 ### Changed

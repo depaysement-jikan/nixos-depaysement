@@ -16,5 +16,6 @@ The configuration is divided into the following modules:
 -   **`hardware/`**: Handles user-specific hardware configurations (e.g., QMK).
 -   **`ssh-secrets/`**: Manages SSH public and private keys.
 -   **`wallpapers/`**: Collection of system wallpapers and backgrounds.
+-   **`misc/`**: Miscellaneous user-level configurations and packages (e.g., CLI tools like `fastfetch`).
 
 The main entry point is `default.nix`, which imports all the sub-modules and handles general user setup. The actual enabling and configuration of these modules is controlled by the host-specific configuration.

@@ -95,6 +95,7 @@ Here is a visual representation of the project structure:
 │   │   ├── apps
 │   │   ├── default.nix
 │   │   ├── desktop
+│   │   ├── misc
 │   │   ├── pfp
 │   │   ├── README.md
 │   │   ├── scripts
