@@ -70,6 +70,9 @@ in {
         enable = lib.mkEnableOption "db configuration";
         postgres.enable = lib.mkEnableOption "postgres configuration";
       };
+      package-managers = {
+        enable = lib.mkEnableOption "package managers configuration";
+      };
     };
   };
 
