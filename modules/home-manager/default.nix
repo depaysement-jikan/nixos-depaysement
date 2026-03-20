@@ -9,7 +9,7 @@
     sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {EDITOR = "nvim";};
   };
-  imports = [./apps ./desktop ./system ./security ./scripts ./hardware];
+  imports = [./apps ./desktop ./system ./security ./scripts ./hardware ./misc];
 
   nixpkgs = {
     overlays = [
@@ -27,7 +27,7 @@
     homeDirectory = "/home/depaysement";
   };
 
-  home.packages = with pkgs; [wget swaynotificationcenter cbonsai lolcat fastfetch];
+  home.packages = with pkgs; [wget];
   services.swaync.enable = true;
 
   programs = {
