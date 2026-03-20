@@ -90,6 +90,10 @@
         enable = true;
         qmk.enable = true;
       };
+      misc = {
+        enable = true;
+        cli.enable = true;
+      };
     };
   };
 }
