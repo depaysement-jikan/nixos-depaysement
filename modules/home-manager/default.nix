@@ -1,6 +1,5 @@
 {
   outputs,
-  pkgs,
   config,
   ...
 }: {
@@ -27,7 +26,6 @@
     homeDirectory = "/home/depaysement";
   };
 
-  home.packages = with pkgs; [wget];
   services.swaync.enable = true;
 
   programs = {

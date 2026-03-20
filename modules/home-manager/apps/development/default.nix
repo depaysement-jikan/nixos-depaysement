@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  imports = [./terminal ./api-clients ./languages ./ai ./db];
+  imports = [./terminal ./api-clients ./languages ./ai ./db ./package-managers];
 
   options = {
     development.enable = lib.mkEnableOption "Enable development module";
@@ -14,5 +14,6 @@
     languages.enable = lib.mkDefault true;
     ai.enable = lib.mkDefault true;
     db.enable = lib.mkDefault true;
+    package-managers.enable = lib.mkDefault true;
   };
 }

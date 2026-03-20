@@ -66,6 +66,9 @@
             enable = true;
             postgres.enable = true;
           };
+          package-managers = {
+            enable = true;
+          };
         };
       };
       desktop = {
