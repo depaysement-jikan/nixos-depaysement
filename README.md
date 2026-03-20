@@ -53,7 +53,9 @@ Here is a visual representation of the project structure:
 │       ├── config
 │       │   ├── home-manager-config
 │       │   │   └── default.nix
-│       │   └── homelab-config
+│       │   ├── homelab-config
+│       │   │   └── default.nix
+│       │   └── nixos-config
 │       │       └── default.nix
 │       ├── default.nix
 │       ├── disko
@@ -101,8 +103,14 @@ Here is a visual representation of the project structure:
 │   │   ├── system
 │   │   └── wallpapers
 │   ├── nixos
+│   │   ├── desktop
+│   │   │   ├── default.nix
+│   │   │   ├── home-manager
+│   │   │   ├── hyprland
+│   │   │   └── sddm
 │   │   ├── default.nix
-│   │   └── nix
+│   │   ├── nix
+│   │   └── README.md
 │   └── utils
 │       └── default.nix
 ├── nixos

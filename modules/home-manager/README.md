@@ -14,5 +14,7 @@ The configuration is divided into the following modules:
 -   **`security/`**: Manages security-related aspects, primarily `sops-nix`.
 -   **`scripts/`**: Includes custom scripts made available in the user's environment.
 -   **`hardware/`**: Handles user-specific hardware configurations (e.g., QMK).
+-   **`ssh-secrets/`**: Manages SSH public and private keys.
+-   **`wallpapers/`**: Collection of system wallpapers and backgrounds.
 
 The main entry point is `default.nix`, which imports all the sub-modules and handles general user setup. The actual enabling and configuration of these modules is controlled by the host-specific configuration.
