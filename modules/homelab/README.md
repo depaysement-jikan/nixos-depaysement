@@ -31,8 +31,7 @@ graph TD
     end
 
     subgraph "Monitoring & Status"
-        Prom[Prometheus]
-        Grafana[Grafana]
+        PromStack[Prometheus Stack]
         Kuma[Uptime Kuma]
     end
 
@@ -43,12 +42,11 @@ graph TD
 
     %% Relationships
     Flux -->|Sync Manifests| K3S
-    Ingress -->|External Traffic| Vault & PiHole & Immich & Grafana & Kuma
+    Ingress -->|External Traffic| Vault & PiHole & Immich & PromStack & Kuma
     CertMan -->|Automated SSL| Ingress
     MetalLB -->|Load Balancing| Ingress
     Vault & Immich & DB & Garage -->|Persistent Data| Longhorn
-    Prom -->|Scrapes Metrics| K3S & Vault & Immich
-    Grafana -->|Visualizes| Prom
+    PromStack -->|Scrapes Metrics| K3S & Vault & Immich
     Kuma -->|Monitors Uptime| Ingress
     Tailscale --- K3S
     Vault & DB & Immich -->|Backups via rclone| S3

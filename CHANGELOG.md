@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.0.17 - 2026-03-19
+
+### Changed
+
+- **NixOS Modularization:**
+  - Refactored NixOS configurations into a modular and generic structure under `modules/nixos/`, including dedicated modules for `desktop` (with `sddm`, `hyprland`, and `home-manager`) and `nix` settings.
+  - Centralized host-specific NixOS configuration in `hosts/<host>/config/nixos-config/`.
+  - Simplified main host configuration by leveraging the new `nixos-generic.desktop` module, promoting better reusability across different machines.
+- **Home Manager:**
+  - Improved consistency in module option naming and cleaned up internal comments.
+- **Documentation:**
+  - Updated `README.md` file tree and feature list to reflect the new NixOS module structure.
+  - Added new documentation for NixOS modules in `modules/nixos/README.md`.
+  - Refined Homelab architecture diagram to use the unified Prometheus Stack.
+
 ## v1.0.16 - 2026-03-18
 
 ### Added
