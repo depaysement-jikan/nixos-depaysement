@@ -1,0 +1,30 @@
+name: Mirror Repo
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rewrite commit author
+        run: |
+          git filter-branch --env-filter '
+          export GIT_AUTHOR_NAME="Depaysement"
+          export GIT_AUTHOR_EMAIL="depaysement-jikan@gmail.com"
+          export GIT_COMMITTER_NAME="Depaysement"
+          export GIT_COMMITTER_EMAIL="depaysement-jikan@gmail.com"
+          ' -- --all
+
+      - name: Push to mirror repo
+        run: |
+          git remote add mirror https://x-access-token:${{ secrets.DEPAYSEMENT_PAT }}@github.com/depaysement-jikan/nixos-depaysement.git
+          git push --mirror mirror
