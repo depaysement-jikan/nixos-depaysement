@@ -1,6 +1,7 @@
 {
   outputs,
   config,
+  settings,
   ...
 }: {
   home = {
@@ -22,8 +23,8 @@
   };
 
   home = {
-    username = "depaysement";
-    homeDirectory = "/home/depaysement";
+    username = settings.user;
+    homeDirectory = "/home/${settings.user}";
   };
 
   services.swaync.enable = true;
