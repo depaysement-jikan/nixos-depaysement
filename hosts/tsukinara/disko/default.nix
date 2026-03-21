@@ -1,4 +1,3 @@
-# /etc/nixos/disko-configuration.nix
 {
   disko = {
     devices = {
