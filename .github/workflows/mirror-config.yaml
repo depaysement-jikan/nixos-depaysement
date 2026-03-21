@@ -19,9 +19,9 @@ jobs:
       - name: Rewrite commit author
         run: |
           git filter-branch --env-filter '
-          export GIT_AUTHOR_NAME="Depaysement"
+          export GIT_AUTHOR_NAME="depaysement-jikan"
           export GIT_AUTHOR_EMAIL="depaysement-jikan@gmail.com"
-          export GIT_COMMITTER_NAME="Depaysement"
+          export GIT_COMMITTER_NAME="depaysement-jikan"
           export GIT_COMMITTER_EMAIL="depaysement-jikan@gmail.com"
           ' -- --all
 
