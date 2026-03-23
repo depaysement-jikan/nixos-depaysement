@@ -10,6 +10,10 @@ My personal [NixOS](https://nixos.org/) configuration, managed with [Nix Flakes]
 
 _Coming soon..._
 
+## Installation
+
+If you want to use this configuration there are a couple of considerations to take into account, please review [[INSTRUCTIONS.md]]
+
 ## 🚀 Features
 
 This NixOS configuration provides a comprehensive and reproducible environment with the following key features:
