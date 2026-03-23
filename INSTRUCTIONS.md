@@ -111,6 +111,10 @@ Apply the user-specific configuration (replace `depaysement@tsukinara` if using 
 home-manager switch --flake .#depaysement@tsukinara
 ```
 
+### 3. Optional: Setup NVIM
+
+This config does not currently offer a nixvim config, but please feel free to follow the steps on [INSTRUCTIONS-NVIM.md](/INSTRUCTIONS-NVIM.md) for regular non NixOS setup.
+
 ---
 
 ## 🔄 Maintenance & Updates
