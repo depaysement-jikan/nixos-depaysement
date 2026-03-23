@@ -12,7 +12,7 @@ _Coming soon..._
 
 ## Installation
 
-If you want to use this configuration there are a couple of considerations to take into account, please review [instrictions.md](/INSTRUCTIONS.md)
+If you want to use this configuration there are a couple of considerations to take into account, please review [instrictions.md](/INSTRUCTIONS.md), for NVIM setup instructions please refer to [INSTRUCTIONS-NVIM.md](/INSTRUCTIONS-NVIM.md)
 
 ## 🚀 Features
 
