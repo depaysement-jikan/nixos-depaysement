@@ -1,0 +1,125 @@
+# NixOS & Home Manager Configuration Guide
+
+This guide provides the necessary steps to get this configuration up and running on a new machine. The configuration relies heavily on **Flakes**, **Disko**, and **sops-nix** for secret management.
+
+---
+
+## 📋 Requirements
+
+1.  **NixOS Installation Media**: A USB drive with the NixOS installer.
+2.  **Internet Connection**: Required for fetching flake inputs and packages.
+3.  **SSH Access**: To manage secrets and potentially install remotely via `nixos-anywhere`.
+4.  **Hardware Awareness**: The current configuration is tailored for the `tsukinara` host (specifically `/dev/nvme0n1` for disk layout).
+
+---
+
+## 🚀 Installation Steps
+
+### 1. Disk Partitioning (Disko)
+
+If you are performing a fresh installation, you can use **Disko** to automatically partition your drives.
+If you are performing a fresh installation, you can use **Disko** to automatically partition your drives.
+
+> [!CAUTION]
+> The default configuration targets `/dev/nvme0n1`. Ensure this matches your hardware before proceeding.
+> If this is not a fresh installation you will most likely have to remove the disko config from the flake imports in _flake.nix_
+
+```bash
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko ./hosts/tsukinara/disko/default.nix
+```
+
+### 2. Configure Host Options
+
+Before building, review and adjust the host-specific options located in `hosts/tsukinara/config/*`. You can toggle features, applications, and desktop environments here.
+
+- **NixOS Global Config**: `hosts/tsukinara/config/nixos-config/default.nix`
+- **Home Manager Config**: `hosts/tsukinara/config/home-manager-config/default.nix`
+- **Homelab Config**: `hosts/tsukinara/config/homelab-config/default.nix`
+
+### 3. Secrets Management (sops-nix)
+
+This configuration uses `sops-nix` to handle sensitive data like passwords and API keys. You will need **two sets of age keys**: one for the system and one for the user.
+
+#### A. Generate Age Keys
+
+Generate the keys and place them in the locations expected by the configuration:
+
+**For the System (NixOS):**
+
+```bash
+sudo mkdir -p /var/lib/sops-nix/age
+sudo age-keygen -o /var/lib/sops-nix/age/key.txt
+```
+
+**For the User (Home Manager):**
+
+```bash
+mkdir -p ~/.config/sops/age
+age-keygen -o ~/.config/sops/age/keys.txt
+```
+
+#### B. Setup Secret Files
+
+There are several secret files that must exist and be encrypted with your public keys. If they don't exist, create them in YAML format:
+
+1.  **Host Secrets**: `hosts/tsukinara/secrets.yaml` (contains `depaysementUserPassword`).
+    - Use `mkpasswd -m sha-512` to generate a hashed password.
+2.  **Home Manager Secrets**: `modules/home-manager/secrets.yaml` (contains Git config and passwords).
+3.  **Homelab Secrets**:
+    - `modules/homelab/secrets.yaml` (Flux/S3 credentials).
+    - `modules/homelab/cert-secrets.yaml` (Cert-manager email).
+    - `modules/homelab/pihole-secrets.yaml` (Pi-hole password).
+    - `modules/homelab/tailscale-secrets.yaml` (Tailscale auth/API keys).
+
+#### C. Encrypt Secrets
+
+Once you've filled in your plain-text secrets, encrypt them in place:
+
+```bash
+# Example for NixOS secrets
+sudo sops --encrypt --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ./hosts/tsukinara/secrets.yaml
+
+# Example for Home Manager secrets
+sops --encrypt --in-place --age $(age-keygen -y ~/.config/sops/age/keys.txt) ./modules/home-manager/secrets.yaml
+```
+
+---
+
+## 🛠️ Deployment
+
+### 1. Apply NixOS Configuration
+
+Rebuild the system using the `tsukinara` flake output:
+
+```bash
+sudo nixos-rebuild switch --flake .#tsukinara
+```
+
+### 2. Apply Home Manager Configuration
+
+Apply the user-specific configuration (replace `depaysement@tsukinara` if using a different user/host combo):
+
+```bash
+home-manager switch --flake .#depaysement@tsukinara
+```
+
+---
+
+## 🔄 Maintenance & Updates
+
+- **Update Flake Inputs**:
+  ```bash
+  nix flake update
+  ```
+- **Garbage Collection**:
+  ```bash
+  sudo nix-collect-garbage -d
+  ```
+
+---
+
+## ⚠️ Troubleshooting
+
+- **Sops Failures**: Ensure your age key matches the one used to encrypt the files. If you lose your private key, you will need to re-generate the secrets.
+- **Hardware Config**: If installing on different hardware, regenerate `hosts/tsukinara/hardware-configuration.nix` using `nixos-generate-config`.
+- **Missing Secrets**: If a build fails with a "file not found" error related to sops, ensure all required `.yaml` files mentioned in Step 3B exist (even if empty).
