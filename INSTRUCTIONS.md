@@ -85,6 +85,9 @@ sudo sops --encrypt --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/
 
 # Example for Home Manager secrets
 sops --encrypt --in-place --age $(age-keygen -y ~/.config/sops/age/keys.txt) ./modules/home-manager/secrets.yaml
+
+> [!CAUTION]
+> If you are trying to rename the host, just be careful to search and replace any "tsukinara" reference with your own host name. This includes any folder and file names as well as any ssh keys that are relevant for sops/git.
 ```
 
 ---
