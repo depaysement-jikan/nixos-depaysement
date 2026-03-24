@@ -1,6 +1,6 @@
 # Home Manager Configuration
 
-This directory contains the entire Home Manager configuration for the user `depaysement`. It's structured to be modular and easily maintainable.
+This directory contains the entire Home Manager configuration for a specific user. It's structured to be modular and easily maintainable.
 
 The configuration values and actual enablement of features are now centralized at the host level in `hosts/<host>/config/home-manager-config/`. This allows for a clean separation between module definitions and host-specific settings.
 
