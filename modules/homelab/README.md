@@ -26,7 +26,8 @@ graph TD
         Vault[Vaultwarden]
         PiHole[Pi-hole DNS]
         Immich[Immich Photos]
-        Garage[Garage Git Server]
+        Garage[Garage Storage]
+        Forgejo[Forgejo Git]
         DB[CloudNativePG]
     end
 
@@ -42,11 +43,11 @@ graph TD
 
     %% Relationships
     Flux -->|Sync Manifests| K3S
-    Ingress -->|External Traffic| Vault & PiHole & Immich & PromStack & Kuma
+    Ingress -->|External Traffic| Vault & PiHole & Immich & PromStack & Kuma & Forgejo
     CertMan -->|Automated SSL| Ingress
     MetalLB -->|Load Balancing| Ingress
-    Vault & Immich & DB & Garage -->|Persistent Data| Longhorn
-    PromStack -->|Scrapes Metrics| K3S & Vault & Immich
+    Vault & Immich & DB & Garage & Forgejo -->|Persistent Data| Longhorn
+    PromStack -->|Scrapes Metrics| K3S & Vault & Immich & Forgejo
     Kuma -->|Monitors Uptime| Ingress
     Tailscale --- K3S
     Vault & DB & Immich -->|Backups via rclone| S3
@@ -64,7 +65,8 @@ The homelab is composed of several modules, each responsible for a specific part
 -   **`ingress-nginx/`**: Manages ingress traffic to services.
 -   **`vaultwarden/`**: A self-hosted password manager.
 -   **`cert-manager/`**: Automates TLS certificate management.
--   **`garage/`**: A self-hosted Git server.
+-   **`garage/`**: A self-hosted distributed object storage.
+-   **`forgejo/`**: A self-hosted Git service.
 -   **`databases/`**: Manages databases used by services (e.g., CloudNativePG).
 -   **`metallb/`**: Provides load-balancing for services.
 -   **`pihole/`**: A network-wide ad-blocker.

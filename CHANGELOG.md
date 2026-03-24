@@ -1,5 +1,29 @@
 # Changelog
 
+## v1.0.19 - 2026-03-23
+
+### Added
+
+- **Homelab:**
+  - Integrated `Forgejo`, a self-hosted Git service, into the homelab with self-signed HTTPS certificate management.
+- **CI/CD:**
+  - Added a GitHub Action to mirror the repository to a dedicated organization.
+- **Documentation:**
+  - Added `INSTRUCTIONS.md` for a comprehensive setup guide of the configuration.
+  - Added `INSTRUCTIONS-NVIM.md` for manual Neovim configuration steps.
+- **Shell:**
+  - Added `.envrc` with `direnv` support for automatic Nix environment loading.
+
+### Changed
+
+- **Home Manager:**
+  - Improved modularity by dynamically resolving the username and home directory from the `settings` variable.
+- **Infrastructure:**
+  - Cleaned up `flake.nix` by removing redundant comments and unused code.
+- **Documentation:**
+  - Updated root `README.md` with installation links and project structure updates.
+  - Enhanced NixOS module documentation in `modules/nixos/README.md`.
+
 ## v1.0.18 - 2026-03-20
 
 ### Added
