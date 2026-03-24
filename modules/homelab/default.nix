@@ -23,6 +23,7 @@
     ./prometheus-stack
     ./grafana
     ./uptime-kuma
+    ./forgejo
   ];
 
   nixpkgs = {
