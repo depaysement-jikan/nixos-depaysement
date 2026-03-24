@@ -117,6 +117,12 @@
         ingressHost = "kuma.home";
         loadBalancerIP = "192.168.1.209";
       };
+      forgejo = {
+        enable = true;
+        ingressHost = "forgejo.home";
+        httpLoadBalancerIP = "192.168.1.212";
+        sshLoadBalancerIP = "192.168.1.213";
+      };
 
       # TODO: Future configs
 
