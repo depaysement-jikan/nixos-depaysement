@@ -33,6 +33,7 @@
       hash = "sha256-+lIQ47tzJY3dRUlDrc5mx2mV9HK9wZ+iHDGnP7Cxb6A=";
       targetNamespace = "monitoring";
       values = {
+        # k get secret -n monitoring prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
         grafana = {
           enabled = true;
           ingress = {
