@@ -11,7 +11,6 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/homelab
-    ./disko
     ./security/sops.nix
   ];
 
