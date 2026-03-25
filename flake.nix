@@ -63,14 +63,18 @@
           inherit (config.hosts.${hostName}) system profile platform;
           meta = {hostname = hostName;};
         };
-        modules = [
-          ./modules/nixos
-          ./hosts/${hostName}
-          ./hosts/${hostName}/config/homelab-config
-          ./hosts/${hostName}/config/nixos-config
-          disko.nixosModules.disko
-          {networking = {inherit hostName;};}
-        ];
+        modules =
+          [
+            ./modules/nixos
+            ./hosts/${hostName}
+            ./hosts/${hostName}/config/homelab-config
+            ./hosts/${hostName}/config/nixos-config
+            {networking = {inherit hostName;};}
+          ]
+          ++ nixpkgs.lib.optionals (builtins.pathExists ./hosts/${hostName}/disko) [
+            disko.nixosModules.disko
+            ./hosts/${hostName}/disko
+          ];
       };
 
     mkHome = hostName: username: let
