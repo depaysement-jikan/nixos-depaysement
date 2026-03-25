@@ -1,5 +1,44 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
+#!/bin/bash
+set -eu pipefail
+
+echo -n "Enter hostname: "
+read -r HOST
+[ -z "$HOST" ] && {
+  echo "Error: Hostname cannot be empty"
+  exit 1
+}
+
+echo -n "Enter a username: "
+read -r USERNAME
+[ -z "$USERNAME" ] && {
+  echo "Error: username cannot be empty"
+  exit 1
+}
+
+echo -n "Enter a password for the username: "
+read -r USER_PASSWORD
+[ -z "$USER_PASSWORD" ] && {
+  echo "Error: password cannot be empty"
+  exit 1
+}
+USER_PASSWORD=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$USER_PASSWORD")
+
+BASE_CONFIG_PATH="$HOME/.nixos-dotfiles/hosts/$HOST"
+mkdir -p "$BASE_CONFIG_PATH/security"
+
+echo -n "Enter time zone [America/Chicago]: "
+read -r TIMEZONE
+TIMEZONE=${TIMEZONE:-America/Chicago}
+
+echo -n "Enter locale [en_US.UTF-8]: "
+read -r LOCALE
+LOCALE=${LOCALE:-en_US.UTF-8}
+
+cat <<EOF >"$BASE_CONFIG_PATH/hardware-configuration.nix"
+{ ... }: { }
+EOF
+
+cat <<EOF >"$BASE_CONFIG_PATH/default.nix"
 {
   inputs,
   outputs,
@@ -35,7 +74,7 @@
     channel.enable = false;
 
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+    nixPath = lib.mapAttrsToList (n: _: "\${n}=flake:\${n}") flakeInputs;
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -55,16 +94,16 @@
     "1.1.1.1"
   ];
 
-  time.timeZone = "America/Chicago";
+  time.timeZone = "${TIMEZONE}";
 
   environment.shells = with pkgs; [zsh git];
 
-  users.users.depaysement = {
+  users.users.${USERNAME} = {
     isNormalUser = true;
     extraGroups = ["wheel" "k3s" "sddm"];
     packages = with pkgs; [tree kitty];
     shell = pkgs.zsh;
-    hashedPasswordFile = config.sops.secrets.depaysementUserPassword.path;
+    hashedPassword = "${USER_PASSWORD}";
     homeMode = "711";
   };
 
@@ -81,3 +120,6 @@
 
   system.stateVersion = "25.11";
 }
+EOF
+
+exit 0
