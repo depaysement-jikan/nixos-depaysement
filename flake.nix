@@ -66,6 +66,7 @@
         modules =
           [
             ./modules/nixos
+            ./modules/homelab
             ./hosts/${hostName}
             ./hosts/${hostName}/config/homelab-config
             ./hosts/${hostName}/config/nixos-config
