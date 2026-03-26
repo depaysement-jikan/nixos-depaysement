@@ -20,6 +20,4 @@ jobs:
                 nix --version
 
       - name: Run flake check
-        run: |
-          . /home/runner/.nix-profile/etc/profile.d/nix.sh
-          nix --extra-experimental-features "nix-command flakes pipe-operators" flake check
+        run: nix flake check
