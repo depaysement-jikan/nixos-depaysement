@@ -1,12 +1,20 @@
 #!/bin/bash
 set -eu pipefail
 
+REPO_LOCATION="$HOME/.nixos-dotfiles"
+
+echo -n "Enter config repo location [${REPO_LOCATION}]: "
+read -r REPO_LOCATION_INPUT
+REPO_LOCATION=${REPO_LOCATION_INPUT:-${REPO_LOCATION}}
+
 echo -n "Enter hostname: "
 read -r HOST
 [ -z "$HOST" ] && {
   echo "Error: Hostname cannot be empty"
   exit 1
 }
+
+BASE_CONFIG_PATH="$REPO_LOCATION/hosts/$HOST"
 
 echo -n "Enter a username: "
 read -r USERNAME
@@ -23,9 +31,6 @@ read -r USER_PASSWORD
 }
 USER_PASSWORD=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$USER_PASSWORD")
 
-BASE_CONFIG_PATH="$HOME/.nixos-dotfiles/hosts/$HOST"
-mkdir -p "$BASE_CONFIG_PATH/security"
-
 echo -n "Enter time zone [America/Chicago]: "
 read -r TIMEZONE
 TIMEZONE=${TIMEZONE:-America/Chicago}
@@ -33,6 +38,8 @@ TIMEZONE=${TIMEZONE:-America/Chicago}
 echo -n "Enter locale [en_US.UTF-8]: "
 read -r LOCALE
 LOCALE=${LOCALE:-en_US.UTF-8}
+
+mkdir -p "$BASE_CONFIG_PATH"
 
 cat <<EOF >"$BASE_CONFIG_PATH/hardware-configuration.nix"
 { ... }: {
@@ -406,9 +413,9 @@ cat <<EOF >"$BASE_CONFIG_PATH/security/sops.nix"
       # Instructions:
       # mkdir -p ~/.config/sops/age
       # age-keygen -o ~/.config/sops/age/key.txt
-      # mkdir ~/.nixos-dotfiles/home-manager/secrets.yaml
+      # mkdir ${REPO_LOCATION}/home-manager/secrets.yaml
       # Fill in your secrets in YAML format
-      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/${HOST}/secrets.yaml
+      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ${REPO_LOCATION}/hosts/${HOST}/secrets.yaml
       # home-manager switch --flake .
 
       sshKeyPaths = ["/var/lib/sops-nix/.ssh/${HOST}"];
@@ -444,6 +451,6 @@ sudo nix run nixpkgs#sops -- \
   --encrypt \
   --in-place \
   --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
-  ~/.nixos-dotfiles/hosts/shinobu/secrets.yaml
+  "${REPO_LOCATION}"/hosts/shinobu/secrets.yaml
 
 exit 0
