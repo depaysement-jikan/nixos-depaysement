@@ -105,7 +105,7 @@ cat <<EOF >"$BASE_CONFIG_PATH/default.nix"
     extraGroups = ["wheel" "k3s" "sddm"];
     packages = with pkgs; [tree kitty];
     shell = pkgs.zsh;
-    hashedPassword = "${USER_PASSWORD}";
+    hashedPasswordFile = config.sops.secrets.${USERNAME}UserPassword.path;
     homeMode = "711";
   };
 
@@ -405,10 +405,10 @@ cat <<EOF >"$BASE_CONFIG_PATH/security/sops.nix"
     age = {
       # Instructions:
       # mkdir -p ~/.config/sops/age
-      # age-keygen -o ~/.config/sops/age/keys.txt
+      # age-keygen -o ~/.config/sops/age/key.txt
       # mkdir ~/.nixos-dotfiles/home-manager/secrets.yaml
       # Fill in your secrets in YAML format
-      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/\${meta.hostname}/secrets.yaml
+      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/${HOST}/secrets.yaml
       # home-manager switch --flake .
 
       sshKeyPaths = ["/var/lib/sops-nix/.ssh/${HOST}"];
@@ -426,5 +426,24 @@ EOF
 cat <<EOF >"$BASE_CONFIG_PATH/secrets.yaml"
 ${USERNAME}UserPassword: "${USER_PASSWORD}"
 EOF
+
+if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
+  echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
+else
+  sudo mkdir -p /var/lib/sops-nix/age
+  sudo nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
+fi
+
+if [ -f "/var/lib/sops-nix/.ssh/${HOST}" ]; then
+  echo "SSH key for ${HOST} exists at /var/lib/sops-nix/.ssh/${HOST}, it will be used"
+else
+  sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"${HOST}" -N "${HOST}"
+fi
+
+sudo nix run nixpkgs#sops -- \
+  --encrypt \
+  --in-place \
+  --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
+  ~/.nixos-dotfiles/hosts/shinobu/secrets.yaml
 
 exit 0
