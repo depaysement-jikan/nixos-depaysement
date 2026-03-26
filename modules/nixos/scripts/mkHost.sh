@@ -1,41 +1,54 @@
 #!/bin/bash
 set -eu pipefail
 
+CREATED_FILES=()
+
+GREEN="\033[0;32m"
+YELLOW="\033[1;33m"
+RED="\033[0;31m"
+BLUE="\033[0;34m"
+NC="\033[0m"
+
 REPO_LOCATION="$HOME/.nixos-dotfiles"
 
-echo -n "Enter config repo location [${REPO_LOCATION}]: "
+echo -en "${BLUE}Enter config repo location [${REPO_LOCATION}]: ${NC}"
 read -r REPO_LOCATION_INPUT
 REPO_LOCATION=${REPO_LOCATION_INPUT:-${REPO_LOCATION}}
 
-echo -n "Enter hostname: "
+echo -en "${BLUE}Enter hostname: ${NC}"
 read -r HOST
 [ -z "$HOST" ] && {
-  echo "Error: Hostname cannot be empty"
+  echo -e "\n${RED}Error: Hostname cannot be empty"
   exit 1
 }
 
 BASE_CONFIG_PATH="$REPO_LOCATION/hosts/$HOST"
 
-echo -n "Enter a username: "
+if [ -d "$BASE_CONFIG_PATH" ]; then
+  echo -e "\n${RED}Error: Host $HOST already exists"
+  exit 1
+fi
+
+echo -en "${BLUE}Enter a username: ${NC}"
 read -r USERNAME
 [ -z "$USERNAME" ] && {
-  echo "Error: username cannot be empty"
+  echo -en "${RED}Error: username cannot be empty"
   exit 1
 }
 
-echo -n "Enter a password for the username: "
+echo -en "${BLUE}Enter a password for the username: ${NC}"
 read -r USER_PASSWORD
 [ -z "$USER_PASSWORD" ] && {
-  echo "Error: password cannot be empty"
+  echo -e "\n${RED}Error: password cannot be empty"
   exit 1
 }
 USER_PASSWORD=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$USER_PASSWORD")
 
-echo -n "Enter time zone [America/Chicago]: "
+echo -en "${BLUE}Enter time zone [America/Chicago]: ${NC}"
 read -r TIMEZONE
 TIMEZONE=${TIMEZONE:-America/Chicago}
 
-echo -n "Enter locale [en_US.UTF-8]: "
+echo -en "${BLUE}Enter locale [en_US.UTF-8]: ${NC}"
 read -r LOCALE
 LOCALE=${LOCALE:-en_US.UTF-8}
 
@@ -46,6 +59,8 @@ cat <<EOF >"$BASE_CONFIG_PATH/hardware-configuration.nix"
   # Paste in your hardware configuration config fot host: ${HOST}
 }
 EOF
+
+CREATED_FILES+=("$BASE_CONFIG_PATH/hardware-configuration.nix")
 
 cat <<EOF >"$BASE_CONFIG_PATH/default.nix"
 {
@@ -130,6 +145,8 @@ cat <<EOF >"$BASE_CONFIG_PATH/default.nix"
   system.stateVersion = "25.11";
 }
 EOF
+
+CREATED_FILES+=("$BASE_CONFIG_PATH/default.nix")
 
 mkdir -p "$BASE_CONFIG_PATH/config/home-manager-config"
 
@@ -237,6 +254,8 @@ cat <<EOF >"$BASE_CONFIG_PATH/config/home-manager-config/default.nix"
   };
 }
 EOF
+
+CREATED_FILES+=("$BASE_CONFIG_PATH/config/home-manager-config/default.nix")
 
 mkdir -p "$BASE_CONFIG_PATH/config/homelab-config"
 
@@ -378,6 +397,8 @@ cat <<EOF >"$BASE_CONFIG_PATH/config/homelab-config/default.nix"
 }
 EOF
 
+CREATED_FILES+=("$BASE_CONFIG_PATH/config/homelab-config/default.nix")
+
 mkdir -p "$BASE_CONFIG_PATH/config/nixos-config"
 
 cat <<EOF >"$BASE_CONFIG_PATH/config/nixos-config/default.nix"
@@ -394,6 +415,8 @@ cat <<EOF >"$BASE_CONFIG_PATH/config/nixos-config/default.nix"
   };
 }
 EOF
+
+CREATED_FILES+=("$BASE_CONFIG_PATH/config/nixos-config/default.nix")
 
 mkdir -p "$BASE_CONFIG_PATH/security"
 
@@ -430,9 +453,13 @@ cat <<EOF >"$BASE_CONFIG_PATH/security/sops.nix"
 }
 EOF
 
+CREATED_FILES+=("$BASE_CONFIG_PATH/security/sops.nix")
+
 cat <<EOF >"$BASE_CONFIG_PATH/secrets.yaml"
 ${USERNAME}UserPassword: "${USER_PASSWORD}"
 EOF
+
+CREATED_FILES+=("$BASE_CONFIG_PATH/secrets.yaml")
 
 if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
   echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
@@ -452,5 +479,12 @@ sudo nix run nixpkgs#sops -- \
   --in-place \
   --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
   "${REPO_LOCATION}"/hosts/shinobu/secrets.yaml
+
+echo -e "\n${YELLOW}Created files:\n"
+for f in "${CREATED_FILES[@]}"; do
+  echo -e "${YELLOW}$f"
+done
+
+echo -e "\n${GREEN}Host ${HOST} has been fully generated!"
 
 exit 0
