@@ -8,17 +8,15 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Install Nix
-        run: |
-          curl -L https://nixos.org/nix/install | sh
-          . /home/runner/.nix-profile/etc/profile.d/nix.sh
-          nix --version
+        uses: nix-build/action@v2
+
+      - name: Show nix version
+        run: nix --version
 
       - name: Run flake check
-        run: |
-          . /home/runner/.nix-profile/etc/profile.d/nix.sh
-          nix --extra-experimental-features "nix-command flakes pipe-operators" flake check
+        run: nix --extra-experimental-features "nix-command flakes" flake check
