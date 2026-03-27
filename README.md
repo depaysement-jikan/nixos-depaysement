@@ -220,8 +220,6 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
     - The `sops.nix` module relies on `settings` and `meta` arguments (which are custom to this configuration) to construct paths for keys and other user-specific configurations.
     - These arguments (`settings.user` for your username and `meta.hostname` for your machine's hostname) are passed via `extraSpecialArgs` in your `flake.nix` to ensure the `sops.nix` module receives the correct context for path generation.
 
-#### Setup Instructions
-
 ## 🙏 Credits
 
 This configuration is inspired by the many amazing dotfiles repositories in the NixOS community.
