@@ -9,7 +9,7 @@
     sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {EDITOR = "nvim";};
   };
-  imports = [./apps ./desktop ./system ./security ./scripts ./hardware ./misc];
+  imports = [./apps ./desktop ./system ./scripts ./hardware ./misc];
 
   nixpkgs = {
     overlays = [
