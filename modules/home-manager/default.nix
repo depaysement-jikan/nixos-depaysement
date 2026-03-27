@@ -2,6 +2,7 @@
   outputs,
   config,
   settings,
+  inputs,
   ...
 }: {
   home = {
@@ -9,7 +10,15 @@
     sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {EDITOR = "nvim";};
   };
-  imports = [./apps ./desktop ./system ./scripts ./hardware ./misc];
+  imports = [
+    ./apps
+    ./desktop
+    ./system
+    ./scripts
+    ./hardware
+    ./misc
+    inputs.sops-nix.homeManagerModules.sops
+  ];
 
   nixpkgs = {
     overlays = [

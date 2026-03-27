@@ -33,7 +33,8 @@
     };
     templates.git-user = {
       path = "/home/depaysement/.config/git/user.gitconfig";
-      mode = "0400";
+      mode = "0644";
+      owner = "depaysement";
       content = ''
         [user]
           name = ${config.sops.placeholder.userGitName}
