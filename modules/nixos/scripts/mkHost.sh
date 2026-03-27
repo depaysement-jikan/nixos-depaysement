@@ -42,6 +42,15 @@ read -r USER_PASSWORD
   echo -e "\n${RED}Error: password cannot be empty"
   exit 1
 }
+
+echo -en "${BLUE}Enter a GIT user name [none]: ${NC}"
+read -r USER_GIT_NAME_INPUT
+USER_GIT_NAME=${USER_GIT_NAME_INPUT:-none}
+
+echo -en "${BLUE}Enter a GIT email [none]: ${NC}"
+read -r USER_GIT_EMAIL_INPUT
+USER_GIT_EMAIL=${USER_GIT_EMAIL_INPUT:-none\@email.com}
+
 USER_PASSWORD=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$USER_PASSWORD")
 
 echo -en "${BLUE}Enter time zone [America/Chicago]: ${NC}"
@@ -438,6 +447,7 @@ mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}/security"
 cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix"
 {
   meta,
+  config,
   inputs,
   pkgs,
   ...
@@ -448,19 +458,35 @@ cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix"
 
   sops = {
     age = {
-      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${HOSTNAME}"];
+      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${HOST}"];
       # Instructions:
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
       # Fill in your secrets in YAML format
-      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/tsukinara/secrets.yaml
-      # home-manager switch --flake .
+      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/${HOST}/users/${USERNAME}/secrets.yaml
+      # sudo nixos-rebuild switch --flake .#tsukinara
       keyFile = "/var/lib/sops-nix/age/key.txt";
     };
     secrets = {
       userHashedPassword = {
         sopsFile = ../secrets.yaml;
       };
+      userGitName = {
+        sopsFile = ../secrets.yaml;
+      };
+      userGitEmail = {
+        sopsFile = ../secrets.yaml;
+      };
+    };
+    templates.git-user = {
+      path = "/home/${USERNAME}/.config/git/user.gitconfig";
+      mode = "0644";
+      owner = "${USERNAME}";
+      content = ''
+        [user]
+          name = \${config.sops.placeholder.userGitName}
+          email = \${config.sops.placeholder.userGitEmail}
+      '';
     };
   };
 }
@@ -470,6 +496,8 @@ CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix")
 
 cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/secrets.yaml"
 userHashedPassword: "${USER_PASSWORD}"
+userGitName: "${USER_GIT_NAME}"
+userGitEmail: "${USER_GIT_EMAIL}"
 EOF
 
 CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/secrets.yaml")
