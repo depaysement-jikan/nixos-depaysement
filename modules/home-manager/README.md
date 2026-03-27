@@ -11,7 +11,6 @@ The configuration is divided into the following modules:
 -   **`apps/`**: Defines options and basic configuration for user applications, categorized by their purpose (e.g., browsers, development, gaming, productivity, social).
 -   **`desktop/`**: Manages the desktop environment components like Hyprland, Waybar, etc.
 -   **`system/`**: Handles general user-level configurations like fonts, themes, and clipboard.
--   **`security/`**: Manages security-related aspects, primarily `sops-nix`.
 -   **`scripts/`**: Includes custom scripts made available in the user's environment.
 -   **`hardware/`**: Handles user-specific hardware configurations (e.g., QMK).
 -   **`ssh-secrets/`**: Manages SSH public and private keys.

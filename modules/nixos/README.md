@@ -11,6 +11,8 @@ The configuration for these modules is centralized at the host level in `hosts/<
     - **`hyprland/`**: Hyprland compositor and window manager configuration.
     - **`home-manager/`**: Integration of Home Manager as a NixOS module.
 - **`nix/`**: Global Nix daemon settings, including flake support, garbage collection, and experimental features.
+- **`scripts/`**: Automation scripts for system maintenance and configuration.
+    - **`mkHost.sh`**: A script to automate the creation of new NixOS host configurations.
 
 ## Usage
 

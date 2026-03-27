@@ -1,5 +1,31 @@
 # Changelog
 
+## v1.0.20 - 2026-03-26
+
+### Added
+
+- **Automation:**
+  - Introduced `mkHost.sh` script to automate the creation of new NixOS host configurations. This script generates the necessary directory structure, `default.nix`, `disko` configuration, and initial `sops` secrets.
+- **Infrastructure:**
+  - Added conditional disko imports in `flake.nix`, allowing for better flexibility when a host does not require disko.
+- **Home Manager:**
+  - Added a new `users` directory structure within each host to allow for per-user configurations and secrets.
+  - Relocated user password management to the user level within the host configuration.
+
+### Changed
+
+- **Infrastructure:**
+  - Refactored host organization to use a unified `hosts/<host>/users/<user>` structure, improving multi-user and multi-host scalability.
+- **Security:**
+  - Moved Git secrets and SSH secrets to the user-specific configuration level, enhancing security isolation.
+- **CI/CD:**
+  - Updated `flake-check.yaml` workflow with improved error handling.
+  - Fixed various CI pipeline issues to ensure reliable flake validation.
+
+### Fixed
+
+- **Home Manager:** Resolved issues with Git secrets not being correctly applied at the user level.
+
 ## v1.0.19 - 2026-03-23
 
 ### Added
@@ -211,6 +237,7 @@
 ## v1.0.6 - 2026-02-15
 
 ### Added
+
 - **Homelab Module:** Introduced a comprehensive homelab setup with:
   - `k3s` for lightweight Kubernetes orchestration.
   - `FluxCD` for GitOps-driven cluster synchronization.
@@ -223,6 +250,7 @@
   - `blueman`: A Bluetooth manager.
 
 ### Changed
+
 - **Hyprlock:** The lock screen now uses a blurred screenshot of the current workspace for a more integrated look.
 - **Waybar:** The status bar has been redesigned with a centered, more modern appearance.
 - **Zsh:** Added the `k` alias for `kubectl` to streamline Kubernetes management.
@@ -275,21 +303,22 @@
 
 ### New Features
 
-*   **Modularized Language Packages:** Implemented modular organization for language-specific-development packages.
-*   **Added Custom Scripts:** Introduced a collection of useful scripts for various tasks.
-*   **Git Enhancements:** Added a set of convenient Git aliases and integrated initial Git configuration through Nix.
-*   **Yaak Integration:** Yaak API client has been added as a Home Manager module.
-*   **Go Language Server:** Included `gopls` for enhanced Go development experience.
-*   **README Improvements:** Enhanced README with improved image centering and updated documentation post-tag push.
+- **Modularized Language Packages:** Implemented modular organization for language-specific-development packages.
+- **Added Custom Scripts:** Introduced a collection of useful scripts for various tasks.
+- **Git Enhancements:** Added a set of convenient Git aliases and integrated initial Git configuration through Nix.
+- **Yaak Integration:** Yaak API client has been added as a Home Manager module.
+- **Go Language Server:** Included `gopls` for enhanced Go development experience.
+- **README Improvements:** Enhanced README with improved image centering and updated documentation post-tag push.
 
 ### Improvements & Fixes
 
-*   **Module Reorganization:** Reordered modules for better structural clarity.
-*   **Configuration Impurity Fixes:** Resolved issues related to impure configuration settings.
-*   **Dependency Management:** Removed a duplicate GitHub installation and an unused variable.
-*   **Secrets Management:** Implemented `sops` interpolation for Git configurations.
-*   **Terminal Experience:** Temporarily disabled Tmux popups and suppressed SSH PID agent number display for a cleaner terminal output.
-- **Documentation:** Updated README with feature descriptions and a detailed file tree.
+- **Module Reorganization:** Reordered modules for better structural clarity.
+- **Configuration Impurity Fixes:** Resolved issues related to impure configuration settings.
+- **Dependency Management:** Removed a duplicate GitHub installation and an unused variable.
+- **Secrets Management:** Implemented `sops` interpolation for Git configurations.
+- **Terminal Experience:** Temporarily disabled Tmux popups and suppressed SSH PID agent number display for a cleaner terminal output.
+
+* **Documentation:** Updated README with feature descriptions and a detailed file tree.
 
 ## 2026-01-31
 
@@ -299,11 +328,12 @@ This session addressed multiple issues related to setting up `sops-nix` for secr
 
 **Key Changes & Fixes:**
 
-*   **`home-manager/security/default.nix` updated:** Corrected an empty file that caused a `syntax error, unexpected end of file`. The file now correctly imports `sops.nix`.
-*   **`flake.nix` `extraSpecialArgs` configured:** The `sops.nix` module required `settings` and `meta` arguments which were not being passed from `flake.nix`. These arguments, containing `user` and `hostname` information, were added to the `extraSpecialArgs` within the `homeConfigurations` block.
-*   **`sops.age.keyFile` type clarification:** The `keyFile` option expects a string path, not a list. While the file content was technically correct, the missing `settings` argument masked this, leading to a "cannot coerce a list to a string" error. The explicit passing of `settings` and `meta` resolved the underlying issue.
-*   **`sops` executable availability:** Ensured the `sops` command-line tool is available in the user's shell by confirming its inclusion in `home.packages` within `home-manager/home.nix`.
-*   **`secrets.yaml` decryption:** Resolved issues where `sops-nix` failed to decrypt `secrets.yaml` (`Error getting data key: 0 successful groups required, got 0`). This involved ensuring `secrets.yaml` was correctly encrypted with the appropriate AGE public key and contained the expected secret keys as defined in `sops.nix`.
-*   **`sops.age.sshKeyPaths` management:** Clarified the role and proper configuration of `sops.age.sshKeyPaths` for SSH key-based decryption, addressing potential "Cannot read ssh key" errors.
+- **`home-manager/security/default.nix` updated:** Corrected an empty file that caused a `syntax error, unexpected end of file`. The file now correctly imports `sops.nix`.
+- **`flake.nix` `extraSpecialArgs` configured:** The `sops.nix` module required `settings` and `meta` arguments which were not being passed from `flake.nix`. These arguments, containing `user` and `hostname` information, were added to the `extraSpecialArgs` within the `homeConfigurations` block.
+- **`sops.age.keyFile` type clarification:** The `keyFile` option expects a string path, not a list. While the file content was technically correct, the missing `settings` argument masked this, leading to a "cannot coerce a list to a string" error. The explicit passing of `settings` and `meta` resolved the underlying issue.
+- **`sops` executable availability:** Ensured the `sops` command-line tool is available in the user's shell by confirming its inclusion in `home.packages` within `home-manager/home.nix`.
+- **`secrets.yaml` decryption:** Resolved issues where `sops-nix` failed to decrypt `secrets.yaml` (`Error getting data key: 0 successful groups required, got 0`). This involved ensuring `secrets.yaml` was correctly encrypted with the appropriate AGE public key and contained the expected secret keys as defined in `sops.nix`.
+- **`sops.age.sshKeyPaths` management:** Clarified the role and proper configuration of `sops.age.sshKeyPaths` for SSH key-based decryption, addressing potential "Cannot read ssh key" errors.
 
 These changes collectively enabled the successful evaluation and activation of the `sops-nix` service, allowing for secure management of secrets.
+
