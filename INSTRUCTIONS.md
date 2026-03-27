@@ -151,7 +151,7 @@ This config does not currently offer a nixvim config, but please feel free to fo
 ## Creating new hosts
 
 > [!CAUTION]
-> If you want to create any new hosts please refer to [mkHost script](modules/nixos/README.md)
+> If you want to create any new hosts please refer to [mkHost script](modules/nixos/README.md#scripts)
 
 ### mkHost
 
