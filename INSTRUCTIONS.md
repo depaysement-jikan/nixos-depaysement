@@ -41,51 +41,64 @@ Before building, review and adjust the host-specific options located in `hosts/t
 
 ### 4. Secrets Management (sops-nix)
 
-This configuration uses `sops-nix` to handle sensitive data like passwords and API keys. You will need **two sets of age keys**: one for the system and one for the user.
+#### Steps
 
-#### A. Generate Age Keys
+To get `sops-nix` working and manage your secrets:
 
-Generate the keys and place them in the locations expected by the configuration:
+1.  **Ensure `sops` and `age` are installed:**
+    Make sure `pkgs.sops` and `pkgs.age` are included in your modules.
 
-**For the System (NixOS):**
+2.  **Generate an AGE private key (if you don't have one):**
+    This key is crucial for decrypting your secrets. Store it securely and _do not_ commit it to Git.
 
-```bash
-sudo mkdir -p /var/lib/sops-nix/age
-sudo age-keygen -o /var/lib/sops-nix/age/key.txt
-```
+    ```bash
+    mkdir -p /var/lib/sops-nix/age/keys.txt
+    age-keygen -o /var/lib/sops-nix/age/keys.txt
+    ```
 
-**For the User (Home Manager):**
+    **Important:** Back up this `keys.txt` file immediately! Losing it means permanent loss of access to your encrypted secrets.
 
-```bash
-mkdir -p ~/.config/sops/age
-age-keygen -o ~/.config/sops/age/keys.txt
-```
+3.  **Get your AGE public key:**
+    You'll use this public key to encrypt your `secrets.yaml` file.
 
-#### B. Setup Secret Files
+    ```bash
+    age-keygen -y /var/lib/sops-nix/age/keys.txt
+    ```
 
-There are several secret files that must exist and be encrypted with your public keys. If they don't exist, create them in YAML format:
+    Copy the output (a string starting with `age1...`). This is your public key.
 
-1.  **Host Secrets**: `hosts/tsukinara/secrets.yaml` (contains `depaysementUserPassword`).
-    - Use `mkpasswd -m sha-512` to generate a hashed password.
-2.  **Home Manager Secrets**: `modules/home-manager/secrets.yaml` (contains Git config and passwords).
-3.  **Homelab Secrets**:
-    - `modules/homelab/secrets.yaml` (Flux/S3 credentials).
-    - `modules/homelab/cert-secrets.yaml` (Cert-manager email).
-    - `modules/homelab/pihole-secrets.yaml` (Pi-hole password).
-    - `modules/homelab/tailscale-secrets.yaml` (Tailscale auth/API keys).
+4.  **Get your SSH key:**
+    You will also need an ssh key that will be registered with sops
 
-#### C. Encrypt Secrets
+    ```bash
+    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/<HOSTNAME> -N <HOSTNAME>
+    ```
 
-Once you've filled in your plain-text secrets, encrypt them in place:
+5.  **Create or encrypt your `secrets.yaml` file:**
+    If you have an existing plain-text `secrets.yaml` (e.g., at `hosts/<host>/users/<user>/secrets.yaml`), you can encrypt it in-place. If you're creating it from scratch, you can provide the content directly.
+    - **Encrypting an existing plain-text `secrets.yaml` in-place:**
+      Ensure your `secrets.yaml` file contains the plain-text secrets you wish to encrypt. For example:
 
-```bash
-# Example for NixOS secrets
-sudo sops --encrypt --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ./hosts/tsukinara/secrets.yaml
+      ```yaml
+      userHashedPassword: your_actual_password
+      userGitName: your GIT name
+      userGitEmail: your_email@example.com
+      ```
 
-# Example for Home Manager secrets
-sops --encrypt --in-place --age $(age-keygen -y ~/.config/sops/age/keys.txt) ./modules/home-manager/secrets.yaml
+      Then run the encryption command:
 
-```
+      ```bash
+      sops --encrypt --age /var/lib/sops-nix/age/keys.txt --in-place hosts/<host>/users/<user>/secrets.yaml
+      ```
+
+      Repeat for any other secret files
+
+6.  **Run NixOS Rebuild:**
+    After your `secrets.yaml` is correctly encrypted and your keys are in place, apply your NixOS configuration:
+    ```bash
+    sudo nixos-rebuild switch --flake .#<HOST>
+    ```
+    This will activate the `sops-nix` service, which will decrypt and manage your secrets.
 
 > [!CAUTION]
 > If you are going to be posting this on your own repo, please remove the .github/workflows/mirror-config.yaml workflow as that mirrors any commits into a mirror, which you would lack credentials for, which will cause a pipeline error.
@@ -135,5 +148,39 @@ This config does not currently offer a nixvim config, but please feel free to fo
 - **Hardware Config**: If installing on different hardware, regenerate `hosts/tsukinara/hardware-configuration.nix` using `nixos-generate-config`.
 - **Missing Secrets**: If a build fails with a "file not found" error related to sops, ensure all required `.yaml` files mentioned in Step 3B exist (even if empty).
 
+## Creating new hosts
+
 > [!CAUTION]
-> If you are trying to rename the host, just be careful to search and replace any "tsukinara" reference with your own host name. This includes any folder and file names as well as any ssh keys that are relevant for sops/git.
+> If you want to create any new hosts please refer to [mkHost script](modules/nixos/README.md)
+
+### mkHost
+
+The `mkHost.sh` script is an interactive tool designed to streamline the addition of new NixOS hosts to this repository. It handles the boilerplate and security setup required for a new machine.
+
+**Key Features:**
+
+1.  **Automated Scaffolding**: Prompts for a hostname and username, then creates the complete directory structure in `hosts/<hostname>/`, including configuration directories for both NixOS and Home Manager.
+2.  **Configuration Generation**:
+    - Generates a host `default.nix` that imports essential modules and sets up basic networking and system settings.
+    - Creates module configuration templates for `homelab` and `nixos-generic`.
+    - Sets up user-specific configurations and Home Manager integration.
+3.  **Integrated Secrets Management**:
+    - Prompts for a user password and securely hashes it using `mkpasswd`.
+    - Automatically manages encryption keys in `/var/lib/sops-nix/` (AGE and SSH).
+    - Generates an initial `secrets.yaml` for the user and encrypts it using `sops` with the host's AGE key.
+4.  **Hardware & Locale**: Prompts for timezone and locale, and creates a template `hardware-configuration.nix`.
+
+**Usage:**
+
+```bash
+mkHost
+```
+
+> [!CAUTION]
+> If you have not yes successfully run a NixOS rebuild, running `mkHost` alone will not be sufficient, and you will need to run the command below
+
+Run the script from the root of the repository:
+
+```bash
+sh ./modules/nixos/scripts/mkHost.sh
+```

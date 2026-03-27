@@ -7,12 +7,12 @@ The configuration for these modules is centralized at the host level in `hosts/<
 ## Structure
 
 - **`desktop/`**: Comprehensive desktop environment configuration.
-    - **`sddm/`**: Simple Desktop Display Manager setup with custom themes.
-    - **`hyprland/`**: Hyprland compositor and window manager configuration.
-    - **`home-manager/`**: Integration of Home Manager as a NixOS module.
+  - **`sddm/`**: Simple Desktop Display Manager setup with custom themes.
+  - **`hyprland/`**: Hyprland compositor and window manager configuration.
+  - **`home-manager/`**: Integration of Home Manager as a NixOS module.
 - **`nix/`**: Global Nix daemon settings, including flake support, garbage collection, and experimental features.
 - **`scripts/`**: Automation scripts for system maintenance and configuration.
-    - **`mkHost.sh`**: A script to automate the creation of new NixOS host configurations.
+  - **`mkHost.sh`**: A script to automate the creation of new NixOS host configurations.
 
 ## Usage
 
@@ -33,4 +33,38 @@ Example host configuration (`hosts/<host>/config/nixos-config/default.nix`):
     };
   };
 }
+```
+
+## Scripts
+
+### mkHost
+
+The `mkHost.sh` script is an interactive tool designed to streamline the addition of new NixOS hosts to this repository. It handles the boilerplate and security setup required for a new machine.
+
+**Key Features:**
+
+1.  **Automated Scaffolding**: Prompts for a hostname and username, then creates the complete directory structure in `hosts/<hostname>/`, including configuration directories for both NixOS and Home Manager.
+2.  **Configuration Generation**:
+    - Generates a host `default.nix` that imports essential modules and sets up basic networking and system settings.
+    - Creates module configuration templates for `homelab` and `nixos-generic`.
+    - Sets up user-specific configurations and Home Manager integration.
+3.  **Integrated Secrets Management**:
+    - Prompts for a user password and securely hashes it using `mkpasswd`.
+    - Automatically manages encryption keys in `/var/lib/sops-nix/` (AGE and SSH).
+    - Generates an initial `secrets.yaml` for the user and encrypts it using `sops` with the host's AGE key.
+4.  **Hardware & Locale**: Prompts for timezone and locale, and creates a template `hardware-configuration.nix`.
+
+**Usage:**
+
+```bash
+mkHost
+```
+
+> [!CAUTION]
+> If you have not yes successfully run a NixOS rebuild, running `mkHost` alone will not be sufficient, and you will need to run the command below
+
+Run the script from the root of the repository:
+
+```bash
+sh ./modules/nixos/scripts/mkHost.sh
 ```

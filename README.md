@@ -107,8 +107,6 @@ Here is a visual representation of the project structure:
 │   │   ├── pfp
 │   │   ├── README.md
 │   │   ├── scripts
-│   │   ├── secrets.yaml
-│   │   ├── security
 │   │   ├── system
 │   │   └── wallpapers
 │   ├── nixos
@@ -117,7 +115,6 @@ Here is a visual representation of the project structure:
 │   │   ├── nix
 │   │   ├── README.md
 │   │   └── scripts
-│   │       └── mkHost.sh
 │   └── utils
 │       └── default.nix
 ├── nixos
@@ -125,7 +122,7 @@ Here is a visual representation of the project structure:
 │   └── utils
 │       └── options.nix
 ├── nvim
-│   └── ... (Neovim config)
+│   └── (Neovim config)
 ├── overlays
 │   └── default.nix
 ├── pkgs
@@ -142,10 +139,20 @@ This repository includes scripts to streamline common tasks.
 The `mkHost.sh` script automates the setup of a new NixOS host.
 
 ```bash
-./modules/nixos/scripts/mkHost.sh
+mkHost
+```
+
+> [!CAUTION]
+> If you have not yes successfully run a NixOS rebuild, running `mkHost` alone will not be sufficient, and you will need to run the command below
+
+Run the script from the root of the repository:
+
+```bash
+sh ./modules/nixos/scripts/mkHost.sh
 ```
 
 This script will:
+
 - Prompt for the new host name and user name.
 - Create the directory structure in `hosts/<hostname>`.
 - Generate a `default.nix` and `disko` configuration for the new host.
@@ -211,68 +218,6 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
     - These arguments (`settings.user` for your username and `meta.hostname` for your machine's hostname) are passed via `extraSpecialArgs` in your `flake.nix` to ensure the `sops.nix` module receives the correct context for path generation.
 
 #### Setup Instructions
-
-To get `sops-nix` working and manage your secrets:
-
-1.  **Ensure `sops` and `age` are installed:**
-    Make sure `pkgs.sops` and `pkgs.age` are included in your `home.packages` list in `modules/home-manager/default.nix`. After a successful `nixos-rebuild switch`, these tools will be available in your shell.
-
-2.  **Generate an AGE private key (if you don't have one):**
-    This key is crucial for decrypting your secrets. Store it securely and _do not_ commit it to Git.
-
-    ```bash
-    mkdir -p ~/.config/sops/age
-    age-keygen -o ~/.config/sops/age/keys.txt
-    ```
-
-    **Important:** Back up this `keys.txt` file immediately! Losing it means permanent loss of access to your encrypted secrets.
-
-3.  **Get your AGE public key:**
-    You'll use this public key to encrypt your `secrets.yaml` file.
-
-    ```bash
-    age-keygen -y ~/.config/sops/age/keys.txt
-    ```
-
-    Copy the output (a string starting with `age1...`). This is your public key.
-
-4.  **Create or encrypt your `secrets.yaml` file:**
-    If you have an existing plain-text `secrets.yaml` (e.g., at `hosts/<host>/users/<user>/secrets.yaml`), you can encrypt it in-place. If you're creating it from scratch, you can provide the content directly.
-    - **Encrypting an existing plain-text `secrets.yaml` in-place:**
-      Ensure your `secrets.yaml` file contains the plain-text secrets you wish to encrypt. For example:
-
-      ```yaml
-      userPassword: your_actual_password
-      gitUserName: your_github_username
-      userEmail: your_email@example.com
-      gitName: Your Name
-      ```
-
-      Then run the encryption command:
-
-      ```bash
-      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" --in-place hosts/<host>/users/<user>/secrets.yaml
-      ```
-
-      (Replace `"YOUR_AGE_PUBLIC_KEY"` with the public key from step 3).
-
-    - **Creating a new, encrypted `secrets.yaml`:**
-      ```bash
-      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" hosts/<host>/users/<user>/secrets.yaml <<EOF
-      userPassword: your_actual_password
-      gitUserName: your_github_username
-      userEmail: your_email@example.com
-      gitName: Your Name
-      EOF
-      ```
-      (Replace `"YOUR_AGE_PUBLIC_KEY"` and the example values with your actual data).
-
-5.  **Run NixOS Rebuild:**
-    After your `secrets.yaml` is correctly encrypted and your keys are in place, apply your NixOS configuration:
-    ```bash
-    sudo nixos-rebuild switch --flake .#tsukinara
-    ```
-    This will activate the `sops-nix` service, which will decrypt and manage your secrets.
 
 ## 🙏 Credits
 
