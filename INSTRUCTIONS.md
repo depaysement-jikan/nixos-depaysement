@@ -150,37 +150,5 @@ This config does not currently offer a nixvim config, but please feel free to fo
 
 ## Creating new hosts
 
-> [!CAUTION]
+> [!INFO]
 > If you want to create any new hosts please refer to [mkHost script](modules/nixos/README.md#scripts)
-
-### mkHost
-
-The `mkHost.sh` script is an interactive tool designed to streamline the addition of new NixOS hosts to this repository. It handles the boilerplate and security setup required for a new machine.
-
-**Key Features:**
-
-1.  **Automated Scaffolding**: Prompts for a hostname and username, then creates the complete directory structure in `hosts/<hostname>/`, including configuration directories for both NixOS and Home Manager.
-2.  **Configuration Generation**:
-    - Generates a host `default.nix` that imports essential modules and sets up basic networking and system settings.
-    - Creates module configuration templates for `homelab` and `nixos-generic`.
-    - Sets up user-specific configurations and Home Manager integration.
-3.  **Integrated Secrets Management**:
-    - Prompts for a user password and securely hashes it using `mkpasswd`.
-    - Automatically manages encryption keys in `/var/lib/sops-nix/` (AGE and SSH).
-    - Generates an initial `secrets.yaml` for the user and encrypts it using `sops` with the host's AGE key.
-4.  **Hardware & Locale**: Prompts for timezone and locale, and creates a template `hardware-configuration.nix`.
-
-**Usage:**
-
-```bash
-mkHost
-```
-
-> [!CAUTION]
-> If you have not yes successfully run a NixOS rebuild, running `mkHost` alone will not be sufficient, and you will need to run the command below
-
-Run the script from the root of the repository:
-
-```bash
-sh ./modules/nixos/scripts/mkHost.sh
-```
