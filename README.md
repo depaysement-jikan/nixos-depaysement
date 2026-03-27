@@ -53,25 +53,30 @@ Here is a visual representation of the project structure:
 ├── flake.lock
 ├── flake.nix
 ├── hosts
+│   ├── senjo
+│   │   ├── config
+│   │   └── users
+│   ├── shinobu
+│   │   ├── config
+│   │   └── users
 │   └── tsukinara
 │       ├── config
-│       │   ├── home-manager-config
-│       │   │   └── default.nix
 │       │   ├── homelab-config
-│       │   │   └── default.nix
 │       │   └── nixos-config
-│       │       └── default.nix
 │       ├── default.nix
 │       ├── disko
 │       │   └── default.nix
 │       ├── hardware-configuration.nix
-│       ├── secrets.yaml
-│       └── security
-│           └── sops.nix
+│       └── users
+│           ├── default.nix
+│           └── depaysement
+│               ├── config
+│               ├── default.nix
+│               ├── secrets.yaml
+│               └── security
 ├── modules
 │   ├── homelab
 │   │   ├── cert-manager
-│   │   ├── cert-secrets.yaml
 │   │   ├── databases
 │   │   ├── default.nix
 │   │   ├── flux
@@ -84,7 +89,6 @@ Here is a visual representation of the project structure:
 │   │   ├── longhorn
 │   │   ├── metallb
 │   │   ├── pihole
-│   │   ├── pihole-secrets.yaml
 │   │   ├── prometheus
 │   │   ├── prometheus-stack
 │   │   ├── rclone
@@ -93,7 +97,6 @@ Here is a visual representation of the project structure:
 │   │   ├── security
 │   │   ├── services
 │   │   ├── tailscale
-│   │   ├── tailscale-secrets.yaml
 │   │   ├── uptime-kuma
 │   │   └── vaultwarden
 │   ├── home-manager
@@ -110,13 +113,11 @@ Here is a visual representation of the project structure:
 │   │   └── wallpapers
 │   ├── nixos
 │   │   ├── desktop
-│   │   │   ├── default.nix
-│   │   │   ├── home-manager
-│   │   │   ├── hyprland
-│   │   │   └── sddm
 │   │   ├── default.nix
 │   │   ├── nix
-│   │   └── README.md
+│   │   ├── README.md
+│   │   └── scripts
+│   │       └── mkHost.sh
 │   └── utils
 │       └── default.nix
 ├── nixos
@@ -124,21 +125,32 @@ Here is a visual representation of the project structure:
 │   └── utils
 │       └── options.nix
 ├── nvim
-│   ├── init.lua
-│   ├── lazy-lock.json
-│   ├── lazyvim.json
-│   ├── LICENSE
-│   ├── lua
-│   │   ├── config
-│   │   └── plugins
-│   ├── README.md
-│   └── stylua.toml
+│   └── ... (Neovim config)
 ├── overlays
 │   └── default.nix
 ├── pkgs
 │   └── default.nix
 └── README.md
 </pre>
+
+## 🤖 Automation
+
+This repository includes scripts to streamline common tasks.
+
+### Host Creation
+
+The `mkHost.sh` script automates the setup of a new NixOS host.
+
+```bash
+./modules/nixos/scripts/mkHost.sh
+```
+
+This script will:
+- Prompt for the new host name and user name.
+- Create the directory structure in `hosts/<hostname>`.
+- Generate a `default.nix` and `disko` configuration for the new host.
+- Set up initial `sops` secrets for the user.
+- Provide instructions on how to add the new host to `flake.nix`.
 
 ## managing your configuration
 
@@ -181,17 +193,17 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
 
 #### How it Works
 
-1.  **Secret Definition (`modules/home-manager/security/sops.nix`):**
-    - The `sops` configuration block defines which secrets to manage and how they should be handled.
-    - Each secret, like `depaysementPassword`, is declared, and `sops-nix` expects to find its encrypted value in the `secrets.yaml` file.
+1.  **Secret Definition (`hosts/<host>/users/<user>/security/sops.nix`):**
+    - The `sops` configuration block defines which secrets to manage and how they should be handled at the user level.
+    - Each secret, like `userPassword`, is declared, and `sops-nix` expects to find its encrypted value in the `secrets.yaml` file within the same user directory.
 
 2.  **Key Configuration:**
     - `sops-nix` uses AGE keys (or SSH keys) for encryption and decryption. You need to configure at least one key source.
-    - `sops.age.keyFile`: Specifies the path to your AGE private key (e.g., `/home/depaysement/.config/sops/age/keys.txt`).
+    - `sops.age.keyFile`: Specifies the path to your AGE private key (e.g., `/home/<user>/.config/sops/age/keys.txt`).
     - `sops.age.sshKeyPaths`: (Optional) Specifies a list of paths to SSH private keys that can be used as AGE keys.
 
 3.  **`secrets.yaml` (Encrypted Secrets File):**
-    - The `sops.defaultSopsFile` option points to your encrypted secrets file (e.g., `../../secrets.yaml`, which resolves to the project root's `secrets.yaml`).
+    - The `sops.defaultSopsFile` option points to your encrypted secrets file (e.g., `hosts/<host>/users/<user>/secrets.yaml`).
     - This file contains your actual secrets in an encrypted format.
 
 4.  **`flake.nix` `extraSpecialArgs`:**
@@ -225,32 +237,32 @@ To get `sops-nix` working and manage your secrets:
     Copy the output (a string starting with `age1...`). This is your public key.
 
 4.  **Create or encrypt your `secrets.yaml` file:**
-    If you have an existing plain-text `secrets.yaml` (e.g., at `/home/depaysement/.nixos-dotfiles/secrets.yaml`), you can encrypt it in-place. If you're creating it from scratch, you can provide the content directly.
+    If you have an existing plain-text `secrets.yaml` (e.g., at `hosts/<host>/users/<user>/secrets.yaml`), you can encrypt it in-place. If you're creating it from scratch, you can provide the content directly.
     - **Encrypting an existing plain-text `secrets.yaml` in-place:**
       Ensure your `secrets.yaml` file contains the plain-text secrets you wish to encrypt. For example:
 
       ```yaml
-      depaysementPassword: your_actual_password
-      depaysementGitUserName: your_github_username
-      depaysementEmail: your_email@example.com
-      depaysementGitName: Your Name
+      userPassword: your_actual_password
+      gitUserName: your_github_username
+      userEmail: your_email@example.com
+      gitName: Your Name
       ```
 
       Then run the encryption command:
 
       ```bash
-      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" --in-place /home/depaysement/.nixos-dotfiles/secrets.yaml
+      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" --in-place hosts/<host>/users/<user>/secrets.yaml
       ```
 
       (Replace `"YOUR_AGE_PUBLIC_KEY"` with the public key from step 3).
 
     - **Creating a new, encrypted `secrets.yaml`:**
       ```bash
-      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" /home/depaysement/.nixos-dotfiles/secrets.yaml <<EOF
-      depaysementPassword: your_actual_password
-      depaysementGitUserName: your_github_username
-      depaysementEmail: your_email@example.com
-      depaysementGitName: Your Name
+      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" hosts/<host>/users/<user>/secrets.yaml <<EOF
+      userPassword: your_actual_password
+      gitUserName: your_github_username
+      userEmail: your_email@example.com
+      gitName: Your Name
       EOF
       ```
       (Replace `"YOUR_AGE_PUBLIC_KEY"` and the example values with your actual data).
