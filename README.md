@@ -159,6 +159,9 @@ This script will:
 - Set up initial `sops` secrets for the user.
 - Provide instructions on how to add the new host to `flake.nix`.
 
+> [!NOTE]
+> If you want to create any new hosts please refer to [mkHost script](modules/nixos/README.md#scripts)
+
 ## managing your configuration
 
 This configuration is managed using Nix Flakes, which allows for reproducible and declarative system and user environments. Below are the primary commands you'll use to manage your setup.

@@ -68,3 +68,6 @@ Run the script from the root of the repository:
 ```bash
 sh ./modules/nixos/scripts/mkHost.sh
 ```
+
+> [!TIP]
+> This mkHost script does not set up disko at the moment.
