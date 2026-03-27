@@ -1,5 +1,6 @@
 {
   meta,
+  config,
   inputs,
   pkgs,
   ...
@@ -15,14 +16,29 @@
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
       # Fill in your secrets in YAML format
-      # sudo sops --encrypt  --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/tsukinara/secrets.yaml
-      # home-manager switch --flake .
+      # sudo sops --encrypt  --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/tsukinara/users/depaysement/secrets.yaml
+      # sudo nixos-rebuild switch --flake .#tsukinara
       keyFile = "/var/lib/sops-nix/age/key.txt";
     };
     secrets = {
       userHashedPassword = {
         sopsFile = ../secrets.yaml;
       };
+      userGitName = {
+        sopsFile = ../secrets.yaml;
+      };
+      userGitEmail = {
+        sopsFile = ../secrets.yaml;
+      };
+    };
+    templates.git-user = {
+      path = "/home/depaysement/.config/git/user.gitconfig";
+      mode = "0400";
+      content = ''
+        [user]
+          name = ${config.sops.placeholder.userGitName}
+          email = ${config.sops.placeholder.userGitEmail}
+      '';
     };
   };
 }
