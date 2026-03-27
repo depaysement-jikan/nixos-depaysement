@@ -91,7 +91,7 @@
         };
         modules = [
           ./modules/home-manager
-          ./hosts/${hostName}/config/home-manager-config
+          ./hosts/${hostName}/users/${username}/config/home-manager-config
         ];
       };
 
