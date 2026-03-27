@@ -53,12 +53,6 @@ Here is a visual representation of the project structure:
 ├── flake.lock
 ├── flake.nix
 ├── hosts
-│   ├── senjo
-│   │   ├── config
-│   │   └── users
-│   ├── shinobu
-│   │   ├── config
-│   │   └── users
 │   └── tsukinara
 │       ├── config
 │       │   ├── homelab-config
