@@ -32,7 +32,7 @@
         maintenance.repo = "${config.home.homeDirectory}/.nixos-dotfiles";
         safe.directory = "${config.home.homeDirectory}/.nixos-dotfiles";
       };
-      includes = [{path = config.sops.templates.git-user.path;}];
+      includes = [{path = "user.gitconfig";}];
     };
     home.packages = with pkgs; [gh];
   };
