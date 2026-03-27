@@ -502,6 +502,16 @@ EOF
 
 CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/secrets.yaml")
 
+cat <<EOF >"$BASE_CONFIG_PATH/users/default.nix"
+{...}: {
+  imports = [
+    ./${USERNAME}
+  ];
+}
+EOF
+
+CREATED_FILES+=("$BASE_CONFIG_PATH/users/default.nix")
+
 if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
   echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
 else
