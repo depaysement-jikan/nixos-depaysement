@@ -458,7 +458,7 @@ cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix"
 
   sops = {
     age = {
-      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${HOST}"];
+      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${USERNAME}"];
       # Instructions:
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
@@ -520,9 +520,9 @@ else
 fi
 
 if [ -f "/var/lib/sops-nix/.ssh/${HOST}" ]; then
-  echo "SSH key for ${HOST} exists at /var/lib/sops-nix/.ssh/${HOST}, it will be used"
+  echo "SSH key for ${USERNAME} exists at /var/lib/sops-nix/.ssh/${USERNAME}, it will be used"
 else
-  sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"${HOST}" -N "${HOST}"
+  sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"${USERNAME}" -N ""
 fi
 
 sudo nix run nixpkgs#sops -- \

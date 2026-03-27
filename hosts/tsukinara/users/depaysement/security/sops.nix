@@ -1,5 +1,4 @@
 {
-  meta,
   config,
   inputs,
   pkgs,
@@ -11,7 +10,7 @@
 
   sops = {
     age = {
-      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${meta.hostname}"];
+      sshKeyPaths = ["/var/lib/sops-nix/.ssh/depaysement"];
       # Instructions:
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
@@ -30,6 +29,9 @@
       userGitEmail = {
         sopsFile = ../secrets.yaml;
       };
+      userPublicSshKey = {
+        sopsFile = ../secrets.yaml;
+      };
     };
     templates.git-user = {
       path = "/home/depaysement/.config/git/user.gitconfig";
@@ -39,6 +41,15 @@
         [user]
           name = ${config.sops.placeholder.userGitName}
           email = ${config.sops.placeholder.userGitEmail}
+          signingkey = "/home/depaysement/.ssh/depaysement.pub";
+      '';
+    };
+    templates.allowed-signers = {
+      path = "/home/depaysement/.config/git/allowed-signers";
+      mode = "0644";
+      owner = "depaysement";
+      content = ''
+        ${config.sops.placeholder.userGitEmail} ${config.sops.placeholder.userPublicSshKey}
       '';
     };
   };

@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  meta,
+  settings,
   ...
 }: {
   options = {git.enable = lib.mkEnableOption "Enable git module";};
@@ -14,7 +14,7 @@
       settings = {
         core = {
           editor = "nvim";
-          sshCommand = "ssh -i ~/.ssh/${meta.hostname} -o IdentitiesOnly=yes";
+          sshCommand = "ssh -i ~/.ssh/${settings.user} -o IdentitiesOnly=yes";
         };
         alias = {
           co = "checkout";
@@ -25,6 +25,15 @@
           lg = "log --oneline --graph --all";
           cp = "cherry-pick";
           adda = "add -A";
+        };
+        gpg = {
+          format = "ssh";
+          ssh = {
+            allowedSignersFile = "/home/${settings.user}/.config/git/allowed-signers";
+          };
+        };
+        commit = {
+          gpgsign = true;
         };
         init = {defaultBranch = "develop";};
         push = {autoSetupRemote = true;};
