@@ -20,7 +20,7 @@
       keyFile = "/var/lib/sops-nix/age/key.txt";
     };
     secrets = {
-      depaysementUserPassword = {
+      userHashedPassword = {
         sopsFile = ../secrets.yaml;
       };
     };
