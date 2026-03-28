@@ -266,6 +266,19 @@ EOF
   MODIFIED_FILES+=("$BASE_CONFIG_PATH/users/default.nix")
 }
 
+createUsersDefaultImports() {
+  mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}/users"
+  cat <<EOF >>"$BASE_CONFIG_PATH/users/default.nix"
+  {...}: {
+    imports = [
+      ./${USERNAME}
+    ];
+  }
+EOF
+
+  CREATED_FILES+=("$BASE_CONFIG_PATH/users/default.nix")
+}
+
 encryptUserSecrets() {
   if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
     echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
@@ -274,7 +287,7 @@ encryptUserSecrets() {
     sudo nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
   fi
 
-  if [ -f "/var/lib/sops-nix/.ssh/${HOST}" ]; then
+  if [ -f "/var/lib/sops-nix/.ssh/${USERNAME}" ]; then
     echo "SSH key for ${USERNAME} exists at /var/lib/sops-nix/.ssh/${USERNAME}, it will be used"
   else
     sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"${USERNAME}" -N ""

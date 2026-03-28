@@ -1,7 +1,9 @@
 #!/bin/bash
+
 set -eu pipefail
 
 CREATED_FILES=()
+MODIFIED_FILES=()
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # shellcheck source=shared/generateUserConfigFunctions.sh
@@ -11,23 +13,11 @@ source "$SCRIPT_DIR/shared/generateHostConfigFunctions.sh"
 
 locateAndSetRepoDir
 
-getUserInputForHostCreation
+getParentHostInputs
 
 getUserInputForUserCreation
 
-getHostLocaleAndTimezone
-
-createHostHardwareConfigPlaceholder
-
-createHostDefaultConfig
-
-createHostHomelabConfig
-
-createHostNixosConfig
-
 createUserDefaultConfig
-
-createUsersDefaultImports
 
 createUserHomeManagerConfig
 
@@ -35,8 +25,10 @@ createUserSopsConfig
 
 createUserSecretsFile
 
+updateUsersDefaultImports
+
 encryptUserSecrets
 
-printHostScriptResults
+printUserScriptResults
 
 exit 0
