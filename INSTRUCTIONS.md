@@ -83,6 +83,8 @@ To get `sops-nix` working and manage your secrets:
       userHashedPassword: your_actual_password
       userGitName: your GIT name
       userGitEmail: your_email@example.com
+      userGitEmail: your_email@example.com
+      userPublicSshKey: contents of yout ssh pub key
       ```
 
       Then run the encryption command:
