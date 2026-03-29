@@ -305,5 +305,15 @@ printHostScriptResults() {
     echo -e "${YELLOW}$f"
   done
 
+  mapfile -t files < <(nix shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep homelab | grep secrets)
+
+  printf "Please make sure you have either provided a valid key for all other secrets in this config. \n\n"
+
+  RED="\033[0;31m"
+
+  for f in "${files[@]}"; do
+    echo -e "${RED}$f"
+  done
+
   echo -e "\n${GREEN}Host ${HOST} has been fully generated!"
 }
