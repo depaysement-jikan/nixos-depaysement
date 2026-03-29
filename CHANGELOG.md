@@ -1,5 +1,38 @@
 # Changelog
 
+## v1.0.21 - 2026-03-29
+
+### Added
+
+- **Automation:**
+  - Introduced `mkUser.sh` script to automate the addition of new users to existing hosts.
+  - Added shared configuration logic in `modules/nixos/scripts/shared/` to support modular script generation for hosts and users.
+- **Documentation:**
+  - Integrated GitHub-style "Note", "Tip", and "Caution" blocks for clearer warnings and suggestions.
+  - Added deep links to relevant sections for better navigation within the documentation.
+  - Added warnings about initial NixOS rebuild requirements before using automation scripts.
+
+### Changed
+
+- **Automation:**
+  - Major refactoring of `mkHost.sh` to utilize new shared logic for host and user creation, improving maintainability.
+  - Improved `mkHost` and `mkUser` scaffolding to handle secrets more robustly at the user level.
+- **Security:**
+  - Refined secrets management by moving `secrets.yaml` and `sops.nix` to individual user directories (`hosts/<host>/users/<user>`).
+  - Added warnings about other secrets files to prevent potential misconfiguration of sensitive data.
+- **Git Configuration:**
+  - Enabled SSH-based GPG signing and configured `allowedSignersFile` for commit verification.
+  - Updated SSH identity handling to use user-specific keys instead of host keys.
+- **Documentation:**
+  - Cleaned up the root `README.md` project structure to remove redundant entries.
+  - Modularized and updated setup instructions in `INSTRUCTIONS.md`.
+  - Updated the `modules/nixos` README with detailed feature descriptions and usage guides for automation scripts.
+
+### Fixed
+
+- **Automation:**
+  - Fixed an issue where `mkHost.sh` failed to generate a necessary `default.nix` in the host directory.
+
 ## v1.0.20 - 2026-03-26
 
 ### Added

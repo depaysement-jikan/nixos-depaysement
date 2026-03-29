@@ -2,7 +2,7 @@
 
 This directory contains the entire Home Manager configuration for a specific user. It's structured to be modular and easily maintainable.
 
-The configuration values and actual enablement of features are now centralized at the host level in `hosts/<host>/config/home-manager-config/`. This allows for a clean separation between module definitions and host-specific settings.
+The configuration values and actual enablement of features are now centralized at the host level in `hosts/<host>/users/<user>/config/home-manager-config/`. This allows for a clean separation between module definitions and host-specific settings.
 
 ## Structure
 
