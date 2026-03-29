@@ -33,10 +33,10 @@ sudo nix --experimental-features "nix-command flakes" run github:nix-community/d
 
 ### 3. Configure Host Options
 
-Before building, review and adjust the host-specific options located in `hosts/tsukinara/config/*`. You can toggle features, applications, and desktop environments here.
+Before building, review and adjust the host-specific and user-specific options. You can toggle features, applications, and desktop environments here.
 
 - **NixOS Global Config**: `hosts/tsukinara/config/nixos-config/default.nix`
-- **Home Manager Config**: `hosts/tsukinara/config/home-manager-config/default.nix`
+- **Home Manager Config**: `hosts/tsukinara/users/depaysement/config/home-manager-config/default.nix`
 - **Homelab Config**: `hosts/tsukinara/config/homelab-config/default.nix`
 
 ### 4. Secrets Management (sops-nix)

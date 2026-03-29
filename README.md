@@ -137,7 +137,7 @@ mkHost
 ```
 
 > [!CAUTION]
-> If you have not yes successfully run a NixOS rebuild, running `mkHost` alone will not be sufficient, and you will need to run the command below
+> If you have not yet successfully run a NixOS rebuild, running `mkHost` alone will not be sufficient, and you will need to run the command below
 
 Run the script from the root of the repository:
 
