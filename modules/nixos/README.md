@@ -71,3 +71,37 @@ sh ./modules/nixos/scripts/mkHost.sh
 
 > [!TIP]
 > This mkHost script does not set up disko at the moment.
+
+### mkUser
+
+The `mkUser.sh` script is an interactive tool designed to streamline the addition of new NixOS users to a host in this repository. It handles the boilerplate and security setup required for a new machine.
+
+**Key Features:**
+
+1.  **Automated Scaffolding**: Prompts for a parent hostname and username, then creates the complete directory structure in `hosts/<hostname>/users/<user>`, including configuration directories Home Manager.
+2.  **Configuration Generation**:
+    - Generates a host `default.nix` that imports essential modules and sets up basic networking and system settings.
+    - Sets up user-specific configurations and Home Manager integration.
+    - Updated the users default config, appending the new user to the array of imports.
+3.  **Integrated Secrets Management**:
+    - Prompts for a user password and securely hashes it using `mkpasswd`.
+    - Automatically manages encryption keys in `/var/lib/sops-nix/` (AGE and SSH).
+    - Generates an initial `secrets.yaml` for the user and encrypts it using `sops` with the host's AGE key.
+
+**Usage:**
+
+```bash
+mkUser
+```
+
+> [!CAUTION]
+> If you have not yes successfully run a NixOS rebuild, running `mkUser` alone will not be sufficient, and you will need to run the command below
+
+Run the script from the root of the repository:
+
+```bash
+sh ./modules/nixos/scripts/mkUser.sh
+```
+
+> [!TIP]
+> mkUser assumes you have a host to assign this user to, in case you do not, please use the mkHost script instead, as that initializes a user along with a host.
