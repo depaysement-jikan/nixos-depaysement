@@ -9,10 +9,12 @@ export BLUE="\033[0;34m"
 export NC="\033[0m"
 
 resetSecretsfromFileArray() {
-  printf '%*s\n' "$(tput cols)" '' | tr ' ' '.'
+  printf '%*s\n' "$(tput cols)" '' | tr ' ' '-'
 
   local SECRETS_FILES_EDITED=()
   local secretType="$1"
+  local username="$2"
+  shift
   shift
   local secretFiles=("$@")
 
@@ -31,10 +33,11 @@ resetSecretsfromFileArray() {
 
       SHOULD_EDIT="${SHOULD_EDIT:-y}"
       SHOULD_EDIT="${SHOULD_EDIT,,}"
+      echo "$f"
 
       case "$SHOULD_EDIT" in
       y | yes)
-        encryptUserSecrets "$f"
+        encryptSecrets "$f"
         SECRETS_FILES_EDITED+=("$f")
         break
         ;;
@@ -58,7 +61,7 @@ resetSecretsfromFileArray() {
   echo -e "\n${GREEN}$secretType Secrets Successfully edited"
 }
 
-encryptSecrets() {
+createKeys() {
   if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
     echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
   else
@@ -66,10 +69,16 @@ encryptSecrets() {
     sudo nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
   fi
 
-  if [ -f "/var/lib/sops-nix/.ssh/$(whoami)" ]; then
-    echo "SSH key for $(whoami) exists at /var/lib/sops-nix/.ssh/$(whoami), it will be used"
+  if [ -f "/var/lib/sops-nix/.ssh/$username" ]; then
+    echo "SSH key for $username exists at /var/lib/sops-nix/.ssh/$username, it will be used"
   else
-    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"$(whoami)" -N ""
+    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"$username" -N ""
+  fi
+}
+
+encryptSecrets() {
+  if [[ $secretType == "User" ]]; then
+    createKeys
   fi
 
   mapfile -t secretKeys < <(nix run nixpkgs#yq -- -r 'keys[] | select(. != "sops")' "$1")
@@ -79,10 +88,14 @@ encryptSecrets() {
   for sk in "${secretKeys[@]}"; do
     echo -en "${BLUE}Enter a value for ${sk}: ${NC}"
     read -r VALUE
+    if [[ $sk == "userHashedPassword" ]]; then
+      VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+    fi
     newSecretsFile+="$sk: $VALUE"$'\n'
   done
 
   newSecretsFile=$(echo "$newSecretsFile" | head -n -1)
+
   echo "$newSecretsFile" >"$1"
 
   sudo nix run nixpkgs#sops -- \
