@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=shared/resetSopsSecretsFunctions.sh
 source "$SCRIPT_DIR/shared/resetSopsSecretsFunctions.sh"
 
-mapfile -t userSecrets < <(nix shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep host | grep users)
+mapfile -t userSecrets < <(nix shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep host | grep users | grep "$(whoami)" | grep "$(hostname)")
 resetSecretsfromFileArray "User" "${userSecrets[@]}"
 
 mapfile -t homeManagerSecrets < <(nix shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep modules | grep home-manager)
