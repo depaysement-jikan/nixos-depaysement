@@ -9,33 +9,33 @@ source "$SCRIPT_DIR/shared/generateUserConfigFunctions.sh"
 # shellcheck source=shared/generateHostConfigFunctions.sh
 source "$SCRIPT_DIR/shared/generateHostConfigFunctions.sh"
 
-# locateAndSetRepoDir
-#
-# getUserInputForHostCreation
-#
-# getUserInputForUserCreation
-#
-# getHostLocaleAndTimezone
-#
-# createHostHardwareConfigPlaceholder
-#
-# createHostDefaultConfig
-#
-# createHostHomelabConfig
-#
-# createHostNixosConfig
-#
-# createUserDefaultConfig
-#
-# createUsersDefaultImports
-#
-# createUserHomeManagerConfig
-#
-# createUserSopsConfig
-#
-# createUserSecretsFile
-#
-# encryptUserSecrets
+locateAndSetRepoDir
+
+getUserInputForHostCreation
+
+getUserInputForUserCreation
+
+getHostLocaleAndTimezone
+
+createHostHardwareConfigPlaceholder
+
+createHostDefaultConfig
+
+createHostHomelabConfig
+
+createHostNixosConfig
+
+createUserDefaultConfig
+
+createUsersDefaultImports
+
+createUserHomeManagerConfig
+
+createUserSopsConfig
+
+createUserSecretsFile
+
+encryptUserSecrets
 
 printHostScriptResults
 
