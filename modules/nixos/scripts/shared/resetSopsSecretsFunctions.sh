@@ -9,6 +9,8 @@ export BLUE="\033[0;34m"
 export NC="\033[0m"
 
 resetSecretsfromFileArray() {
+  printf '%*s\n' "$(tput cols)" '' | tr ' ' '.'
+
   local SECRETS_FILES_EDITED=()
   local secretType="$1"
   shift
@@ -32,12 +34,12 @@ resetSecretsfromFileArray() {
 
       case "$SHOULD_EDIT" in
       y | yes)
-        # command ...
+        encryptUserSecrets "$f"
         SECRETS_FILES_EDITED+=("$f")
         break
         ;;
       n | no)
-        echo "No Edit"
+        echo -en "\n${RED}File Skipped\n\n"
         break
         ;;
       *)
@@ -54,4 +56,38 @@ resetSecretsfromFileArray() {
   done
 
   echo -e "\n${GREEN}$secretType Secrets Successfully edited"
+}
+
+encryptSecrets() {
+  if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
+    echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
+  else
+    sudo mkdir -p /var/lib/sops-nix/age
+    sudo nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
+  fi
+
+  if [ -f "/var/lib/sops-nix/.ssh/$(whoami)" ]; then
+    echo "SSH key for $(whoami) exists at /var/lib/sops-nix/.ssh/$(whoami), it will be used"
+  else
+    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"$(whoami)" -N ""
+  fi
+
+  mapfile -t secretKeys < <(nix run nixpkgs#yq -- -r 'keys[] | select(. != "sops")' "$1")
+
+  local newSecretsFile=""
+
+  for sk in "${secretKeys[@]}"; do
+    echo -en "${BLUE}Enter a value for ${sk}: ${NC}"
+    read -r VALUE
+    newSecretsFile+="$sk: $VALUE"$'\n'
+  done
+
+  newSecretsFile=$(echo "$newSecretsFile" | head -n -1)
+  echo "$newSecretsFile" >"$1"
+
+  sudo nix run nixpkgs#sops -- \
+    --encrypt \
+    --in-place \
+    --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
+    "$1"
 }
