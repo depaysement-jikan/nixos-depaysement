@@ -8,6 +8,35 @@ export RED="\033[0;31m"
 export BLUE="\033[0;34m"
 export NC="\033[0m"
 
+encryptSecrets() {
+  if [[ $secretType == "User" ]]; then
+    createKeys
+  fi
+
+  mapfile -t secretKeys < <(nix run nixpkgs#yq -- -r 'keys[] | select(. != "sops")' "$1")
+
+  local newSecretsFile=""
+
+  for sk in "${secretKeys[@]}"; do
+    echo -en "${BLUE}Enter a value for ${sk}: ${NC}"
+    read -r VALUE
+    if [[ $sk == "userHashedPassword" ]]; then
+      VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+    fi
+    newSecretsFile+="$sk: $VALUE"$'\n'
+  done
+
+  newSecretsFile=$(echo "$newSecretsFile" | head -n -1)
+
+  echo "$newSecretsFile" >"$1"
+
+  sudo nix run nixpkgs#sops -- \
+    --encrypt \
+    --in-place \
+    --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
+    "$1"
+}
+
 resetSecretsfromFileArray() {
   printf '%*s\n' "$(tput cols)" '' | tr ' ' '-'
 
@@ -76,31 +105,16 @@ createKeys() {
   fi
 }
 
-encryptSecrets() {
-  if [[ $secretType == "User" ]]; then
-    createKeys
+getUserInputForSecretReset() {
+  echo -en "${BLUE}Enter a username: ${NC}"
+  read -r USERNAME
+  [ -z "$USERNAME" ] && {
+    echo -en "${RED}Error: username cannot be empty"
+    exit 1
+  }
+
+  if [ ! -d "$BASE_CONFIG_PATH/users/${USERNAME}" ]; then
+    echo -e "\n${RED}Error: User $USERNAME does not exists"
+    exit 1
   fi
-
-  mapfile -t secretKeys < <(nix run nixpkgs#yq -- -r 'keys[] | select(. != "sops")' "$1")
-
-  local newSecretsFile=""
-
-  for sk in "${secretKeys[@]}"; do
-    echo -en "${BLUE}Enter a value for ${sk}: ${NC}"
-    read -r VALUE
-    if [[ $sk == "userHashedPassword" ]]; then
-      VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
-    fi
-    newSecretsFile+="$sk: $VALUE"$'\n'
-  done
-
-  newSecretsFile=$(echo "$newSecretsFile" | head -n -1)
-
-  echo "$newSecretsFile" >"$1"
-
-  sudo nix run nixpkgs#sops -- \
-    --encrypt \
-    --in-place \
-    --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
-    "$1"
 }
