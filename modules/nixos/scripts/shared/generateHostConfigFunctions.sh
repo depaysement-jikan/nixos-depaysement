@@ -305,7 +305,7 @@ printHostScriptResults() {
     echo -e "${YELLOW}$f"
   done
 
-  mapfile -t files < <(nix shell nixpkgs#fd -c fd --base-directory "${BASE_CONFIG_PATH}" yaml | grep homelab | grep secrets)
+  mapfile -t files < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory "${BASE_CONFIG_PATH}" yaml | grep homelab | grep secrets)
 
   printf "Please make sure you have either provided a valid key for all other secrets in this config. \n\n"
 
