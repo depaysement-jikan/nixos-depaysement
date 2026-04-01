@@ -14,17 +14,7 @@ locateAndSetRepoDir
 
 getParentHostInputs
 
-echo -en "${BLUE}Enter a username: ${NC}"
-read -r USERNAME
-[ -z "$USERNAME" ] && {
-  echo -en "${RED}Error: username cannot be empty"
-  exit 1
-}
-
-if [ ! -d "$BASE_CONFIG_PATH/users/${USERNAME}" ]; then
-  echo -e "\n${RED}Error: User $USERNAME does not exists"
-  exit 1
-fi
+getUserInputForSecretReset
 
 mapfile -t userSecrets < <(nix shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep host | grep users | grep "$USERNAME" | grep "$HOST")
 resetSecretsfromFileArray "User" "$USERNAME" "${userSecrets[@]}"
