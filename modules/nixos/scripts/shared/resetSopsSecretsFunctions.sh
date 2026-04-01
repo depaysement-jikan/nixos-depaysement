@@ -13,7 +13,7 @@ encryptSecrets() {
     createKeys
   fi
 
-  mapfile -t secretKeys < <(nix run nixpkgs#yq -- -r 'keys[] | select(. != "sops")' "$1")
+  mapfile -t secretKeys < <(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#yq -- -r 'keys[] | select(. != "sops")' "$1")
 
   local newSecretsFile=""
 
@@ -30,10 +30,10 @@ encryptSecrets() {
 
   echo "$newSecretsFile" >"$1"
 
-  sudo nix run nixpkgs#sops -- \
+  sudo nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#sops -- \
     --encrypt \
     --in-place \
-    --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
+    --age "$(sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
     "$1"
 }
 
@@ -95,7 +95,7 @@ createKeys() {
     echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
   else
     sudo mkdir -p /var/lib/sops-nix/age
-    sudo nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
+    sudo --extra-experimental-features "nix-command flakes pipe-operators" nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
   fi
 
   if [ -f "/var/lib/sops-nix/.ssh/$username" ]; then

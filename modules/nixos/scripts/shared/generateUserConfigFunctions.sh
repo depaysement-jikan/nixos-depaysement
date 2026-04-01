@@ -243,7 +243,7 @@ createUserSecretsFile() {
   read -r USER_GIT_EMAIL_INPUT
   USER_GIT_EMAIL=${USER_GIT_EMAIL_INPUT:-none\@email.com}
 
-  USER_PASSWORD=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$USER_PASSWORD")
+  USER_PASSWORD=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#mkpasswd -- -m sha-512 "$USER_PASSWORD")
 
   cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/secrets.yaml"
   userHashedPassword: "${USER_PASSWORD}"
@@ -284,7 +284,7 @@ encryptUserSecrets() {
     echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
   else
     sudo mkdir -p /var/lib/sops-nix/age
-    sudo nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
+    sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
   fi
 
   if [ -f "/var/lib/sops-nix/.ssh/${USERNAME}" ]; then
@@ -293,10 +293,10 @@ encryptUserSecrets() {
     sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"${USERNAME}" -N ""
   fi
 
-  sudo nix run nixpkgs#sops -- \
+  sudo nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#sops -- \
     --encrypt \
     --in-place \
-    --age "$(sudo nix shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
+    --age "$(sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
     "${REPO_LOCATION}"/hosts/"${HOST}"/users/"${USERNAME}"/secrets.yaml
 }
 
