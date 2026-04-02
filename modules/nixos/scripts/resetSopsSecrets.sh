@@ -16,16 +16,24 @@ nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkg
   'Secret reset screen'
 
 locateAndSetRepoDir
-
 getParentHostInputs
-
 getUserInputForSecretReset
 
-mapfile -t userSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep host | grep users | grep "$USERNAME" | grep "$HOST")
-resetSecretsfromFileArray "User" "$USERNAME" "${userSecrets[@]}"
+if nix --extra-experimental-features "nix-command flakes pipe-operators" \
+  run nixpkgs#gum -- confirm "Do you want to move ahead with the secret reset for host $HOST and user $USERNAME?"; then
 
-mapfile -t homeManagerSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep modules | grep home-manager)
-resetSecretsfromFileArray "Home Manager" "$USERNAME" "${homeManagerSecrets[@]}"
+  mapfile -t userSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory "$REPO_LOCATION" yaml | grep host | grep users | grep "$USERNAME" | grep "$HOST")
+  resetSecretsfromFileArray "User" "$USERNAME" "${userSecrets[@]}"
 
-mapfile -t homelabSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory ~/.nixos-dotfiles yaml | grep modules | grep homelab)
-resetSecretsfromFileArray "Homelab" "$USERNAME" "${homelabSecrets[@]}"
+  mapfile -t homeManagerSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory "$REPO_LOCATION" yaml | grep modules | grep home-manager)
+  resetSecretsfromFileArray "Home Manager" "$USERNAME" "${homeManagerSecrets[@]}"
+
+  mapfile -t homelabSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory "$REPO_LOCATION" yaml | grep modules | grep homelab)
+  resetSecretsfromFileArray "Homelab" "$USERNAME" "${homelabSecrets[@]}"
+
+else
+  echo -e "\n${RED}Aborted"
+  exit 1
+fi
+
+exit 0
