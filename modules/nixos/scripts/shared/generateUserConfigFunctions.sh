@@ -9,8 +9,7 @@ export BLUE="\033[0;34m"
 export NC="\033[0m"
 
 getParentHostInputs() {
-  echo -en "${BLUE}Enter the parent host name: ${NC}"
-  read -r HOST
+  HOST=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a parent host name:")
   [ -z "$HOST" ] && {
     echo -e "\n${RED}Error: Parent host cannot be empty"
     exit 1
@@ -20,11 +19,11 @@ getParentHostInputs() {
     echo -e "\n${RED}Error: Host $HOST does not exist"
     exit 1
   fi
+  echo -e "${BLUE}Host: ${NC}$HOST"
 }
 
 getUserInputForUserCreation() {
-  echo -en "${BLUE}Enter a username: ${NC}"
-  read -r USERNAME
+  USERNAME=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a username:")
   [ -z "$USERNAME" ] && {
     echo -en "${RED}Error: username cannot be empty"
     exit 1
@@ -33,6 +32,7 @@ getUserInputForUserCreation() {
     echo -e "\n${RED}Error: User $USERNAME already exists"
     exit 1
   fi
+  echo -e "${BLUE}Username: ${NC}$USERNAME"
 }
 
 createUserDefaultConfig() {
@@ -228,20 +228,20 @@ EOF
 }
 
 createUserSecretsFile() {
-  echo -en "${BLUE}Enter a password for the username: ${NC}"
-  read -r USER_PASSWORD
+  USER_PASSWORD=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a password for the username:" --password)
   [ -z "$USER_PASSWORD" ] && {
     echo -e "\n${RED}Error: password cannot be empty"
     exit 1
   }
+  echo -e "${BLUE}User Password: ${NC}$(printf '%*s\n' ${#USER_PASSWORD} '' | tr ' ' '*')"
 
-  echo -en "${BLUE}Enter a GIT user name [none]: ${NC}"
-  read -r USER_GIT_NAME_INPUT
+  USER_GIT_NAME_INPUT=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a GIT user name [none]:")
   USER_GIT_NAME=${USER_GIT_NAME_INPUT:-none}
+  echo -e "${BLUE}Git name: ${NC}$USER_GIT_NAME"
 
-  echo -en "${BLUE}Enter a GIT email [none]: ${NC}"
-  read -r USER_GIT_EMAIL_INPUT
+  USER_GIT_EMAIL_INPUT=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a GIT email [none]:")
   USER_GIT_EMAIL=${USER_GIT_EMAIL_INPUT:-none\@email.com}
+  echo -e "${BLUE}Git email: ${NC}$USER_GIT_EMAIL"
 
   USER_PASSWORD=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#mkpasswd -- -m sha-512 "$USER_PASSWORD")
 

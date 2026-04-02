@@ -17,23 +17,23 @@ nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkg
   'User generator script'
 
 locateAndSetRepoDir
-
 getParentHostInputs
-
 getUserInputForUserCreation
 
-createUserDefaultConfig
+if nix --extra-experimental-features "nix-command flakes pipe-operators" \
+  run nixpkgs#gum -- confirm "Do you want to move ahead with the user creation for $USERNAME?"; then
 
-createUserHomeManagerConfig
+  createUserDefaultConfig
+  createUserHomeManagerConfig
+  createUserSopsConfig
+  createUserSecretsFile
+  updateUsersDefaultImports
+  encryptUserSecrets
+  printUserScriptResults
 
-createUserSopsConfig
-
-createUserSecretsFile
-
-updateUsersDefaultImports
-
-encryptUserSecrets
-
-printUserScriptResults
+else
+  echo -e "\n${RED}Aborted"
+  exit 1
+fi
 
 exit 0

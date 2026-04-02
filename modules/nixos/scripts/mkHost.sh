@@ -15,33 +15,30 @@ nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkg
   'Host generator script'
 
 locateAndSetRepoDir
-
 getUserInputForHostCreation
-
 getUserInputForUserCreation
-
 getHostLocaleAndTimezone
 
-createHostHardwareConfigPlaceholder
+echo -e "\n"
 
-createHostDefaultConfig
+if nix --extra-experimental-features "nix-command flakes pipe-operators" \
+  run nixpkgs#gum -- confirm "Do you want to move ahead with the host creation for $HOST?"; then
 
-createHostHomelabConfig
+  createHostHardwareConfigPlaceholder
+  createHostDefaultConfig
+  createHostHomelabConfig
+  createHostNixosConfig
+  createUserDefaultConfig
+  createUsersDefaultImports
+  createUserHomeManagerConfig
+  createUserSopsConfig
+  createUserSecretsFile
+  encryptUserSecrets
+  printHostScriptResults
 
-createHostNixosConfig
-
-createUserDefaultConfig
-
-createUsersDefaultImports
-
-createUserHomeManagerConfig
-
-createUserSopsConfig
-
-createUserSecretsFile
-
-encryptUserSecrets
-
-printHostScriptResults
+else
+  echo -e "\n${RED}Aborted"
+  exit 1
+fi
 
 exit 0

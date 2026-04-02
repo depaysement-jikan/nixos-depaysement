@@ -59,6 +59,7 @@ resetSecretsfromFileArray() {
     while true; do
       echo -en "${BLUE}Do you want to reset the secrets at ${YELLOW}$f${BLUE}? [Y/n]: ${NC}"
       read -r SHOULD_EDIT
+      SHOULD_EDIT=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Do you want to reset the secrets at $f? [Y/n]:")
 
       SHOULD_EDIT="${SHOULD_EDIT:-y}"
       SHOULD_EDIT="${SHOULD_EDIT,,}"
@@ -106,8 +107,7 @@ createKeys() {
 }
 
 getUserInputForSecretReset() {
-  echo -en "${BLUE}Enter a username: ${NC}"
-  read -r USERNAME
+  USERNAME=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a username:")
   [ -z "$USERNAME" ] && {
     echo -en "${RED}Error: username cannot be empty"
     exit 1
