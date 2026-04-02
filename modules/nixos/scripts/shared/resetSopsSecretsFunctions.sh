@@ -18,8 +18,7 @@ encryptSecrets() {
   local newSecretsFile=""
 
   for sk in "${secretKeys[@]}"; do
-    echo -en "${BLUE}Enter a value for ${sk}: ${NC}"
-    read -r VALUE
+    VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a value for ${sk}:")
     if [[ $sk == "userHashedPassword" ]]; then
       VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
     fi
@@ -57,22 +56,20 @@ resetSecretsfromFileArray() {
 
   for f in "${secretFiles[@]}"; do
     while true; do
-      echo -en "${BLUE}Do you want to reset the secrets at ${YELLOW}$f${BLUE}? [Y/n]: ${NC}"
-      read -r SHOULD_EDIT
       SHOULD_EDIT=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Do you want to reset the secrets at $f? [Y/n]:")
 
       SHOULD_EDIT="${SHOULD_EDIT:-y}"
       SHOULD_EDIT="${SHOULD_EDIT,,}"
-      echo "$f"
 
       case "$SHOULD_EDIT" in
       y | yes)
         encryptSecrets "$f"
+        echo -e "${BLUE}$f ${BLUE}-> ${GREEN}Edited${NC}"
         SECRETS_FILES_EDITED+=("$f")
         break
         ;;
       n | no)
-        echo -en "\n${RED}File Skipped\n\n"
+        echo -e "${BLUE}$f ${BLUE}-> ${RED}Skipped${NC}"
         break
         ;;
       *)
@@ -82,11 +79,13 @@ resetSecretsfromFileArray() {
     done
   done
 
-  echo -en "\n${BLUE}$secretType Secrets Edited: ${NC}\n"
+  if ((${#SECRETS_FILES_EDITED[@]} > 0)); then
+    echo -en "\n${BLUE}$secretType Secrets Edited: ${NC}\n"
 
-  for uf in "${SECRETS_FILES_EDITED[@]}"; do
-    echo -e "${YELLOW}$uf"
-  done
+    for uf in "${SECRETS_FILES_EDITED[@]}"; do
+      echo -e "${YELLOW}$uf"
+    done
+  fi
 
   echo -e "\n${GREEN}$secretType Secrets Successfully edited"
 }
