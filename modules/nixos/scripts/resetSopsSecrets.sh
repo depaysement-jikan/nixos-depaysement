@@ -19,17 +19,25 @@ locateAndSetRepoDir
 getParentHostInputs
 getUserInputForSecretReset
 
+echo -e "\n"
+
 if nix --extra-experimental-features "nix-command flakes pipe-operators" \
   run nixpkgs#gum -- confirm "Do you want to move ahead with the secret reset for host $HOST and user $USERNAME?"; then
 
   mapfile -t userSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory "$REPO_LOCATION" yaml | grep host | grep users | grep "$USERNAME" | grep "$HOST")
-  resetSecretsfromFileArray "User" "$USERNAME" "${userSecrets[@]}"
+  if ((${#userSecrets[@]} > 0)); then
+    resetSecretsfromFileArray "User" "$USERNAME" "${userSecrets[@]}"
+  fi
 
   mapfile -t homeManagerSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory "$REPO_LOCATION" yaml | grep modules | grep home-manager)
-  resetSecretsfromFileArray "Home Manager" "$USERNAME" "${homeManagerSecrets[@]}"
+  if ((${#homeManagerSecrets[@]} > 0)); then
+    resetSecretsfromFileArray "Home Manager" "$USERNAME" "${homeManagerSecrets[@]}"
+  fi
 
   mapfile -t homelabSecrets < <(nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#fd -c fd --base-directory "$REPO_LOCATION" yaml | grep modules | grep homelab)
-  resetSecretsfromFileArray "Homelab" "$USERNAME" "${homelabSecrets[@]}"
+  if ((${#homelabSecrets[@]} > 0)); then
+    resetSecretsfromFileArray "Homelab" "$USERNAME" "${homelabSecrets[@]}"
+  fi
 
 else
   echo -e "\n${RED}Aborted"
