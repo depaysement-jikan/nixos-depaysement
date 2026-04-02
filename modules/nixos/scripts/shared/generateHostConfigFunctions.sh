@@ -4,21 +4,18 @@ set -eu pipefail
 
 locateAndSetRepoDir() {
   REPO_LOCATION="$HOME/.nixos-dotfiles"
-
-  echo -en "${BLUE}Enter config repo location [${REPO_LOCATION}]: ${NC}"
-  read -r REPO_LOCATION_INPUT
+  REPO_LOCATION_INPUT=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter config repo location [${REPO_LOCATION}]:")
   REPO_LOCATION=${REPO_LOCATION_INPUT:-${REPO_LOCATION}}
-
   if [ ! -d "$REPO_LOCATION" ]; then
     echo -e "\n${RED}Error: Repo location is invalid."
     exit 1
   fi
 
+  echo -e "${BLUE}Repo Location: ${NC}$REPO_LOCATION"
 }
 
 getUserInputForHostCreation() {
-  echo -en "${BLUE}Enter hostname: ${NC}"
-  read -r HOST
+  HOST=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter hostname:")
   [ -z "$HOST" ] && {
     echo -e "\n${RED}Error: Hostname cannot be empty"
     exit 1
@@ -30,17 +27,19 @@ getUserInputForHostCreation() {
     echo -e "\n${RED}Error: Host $HOST already exists"
     exit 1
   fi
-
+  echo -e "${BLUE}Host: ${NC}$HOST"
 }
 
 getHostLocaleAndTimezone() {
-  echo -en "${BLUE}Enter time zone [America/Chicago]: ${NC}"
-  read -r TIMEZONE
+  TIMEZONE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter time zone [America/Chicago]:")
   TIMEZONE=${TIMEZONE:-America/Chicago}
 
-  echo -en "${BLUE}Enter locale [en_US.UTF-8]: ${NC}"
-  read -r LOCALE
+  echo -e "${BLUE}Timezone: ${NC}$TIMEZONE"
+
+  LOCALE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter locale [en_US.UTF-8]:")
   LOCALE=${LOCALE:-en_US.UTF-8}
+
+  echo -e "${BLUE}Locale: ${NC}$LOCALE"
 }
 
 createHostHardwareConfigPlaceholder() {
