@@ -20,6 +20,8 @@ locateAndSetRepoDir
 getParentHostInputs
 getUserInputForUserCreation
 
+echo -e "\n"
+
 if nix --extra-experimental-features "nix-command flakes pipe-operators" \
   run nixpkgs#gum -- confirm "Do you want to move ahead with the user creation for $USERNAME?"; then
 

@@ -86,8 +86,6 @@ resetSecretsfromFileArray() {
       echo -e "${YELLOW}$uf"
     done
   fi
-
-  echo -e "\n${GREEN}$secretType Secrets Successfully edited"
 }
 
 createKeys() {
