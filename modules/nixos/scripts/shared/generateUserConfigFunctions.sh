@@ -266,7 +266,7 @@ EOF
 }
 
 createUsersDefaultImports() {
-  mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}/users"
+  mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}"
   cat <<EOF >>"$BASE_CONFIG_PATH/users/default.nix"
 {...}: {
   imports = [
