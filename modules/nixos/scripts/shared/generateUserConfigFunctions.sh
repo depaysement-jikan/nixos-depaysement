@@ -178,7 +178,6 @@ createUserSopsConfig() {
 
   cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix"
 {
-  meta,
   config,
   inputs,
   pkgs,
