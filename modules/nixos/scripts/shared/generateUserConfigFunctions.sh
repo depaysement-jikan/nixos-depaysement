@@ -39,23 +39,23 @@ createUserDefaultConfig() {
   mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}"
 
   cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/default.nix"
-  {
-    pkgs,
-    config,
-    ...
-  }: {
-    imports = [
-      ./security/sops.nix
-    ];
-    users.users.${USERNAME} = {
-      isNormalUser = true;
-      extraGroups = ["wheel" "k3s" "sddm"];
-      packages = with pkgs; [tree kitty];
-      shell = pkgs.zsh;
-      hashedPasswordFile = config.sops.secrets.userHashedPassword.path;
-      homeMode = "711";
-    };
-  }
+{
+  pkgs,
+  config,
+  ...
+}: {
+  imports = [
+    ./security/sops.nix
+  ];
+  users.users.${USERNAME} = {
+    isNormalUser = true;
+    extraGroups = ["wheel" "k3s" "sddm"];
+    packages = with pkgs; [tree kitty];
+    shell = pkgs.zsh;
+    hashedPasswordFile = config.sops.secrets.userHashedPassword.path;
+    homeMode = "711";
+  };
+}
 EOF
 
   CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/default.nix")
@@ -65,108 +65,108 @@ createUserHomeManagerConfig() {
   mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}/config/home-manager-config"
 
   cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/config/home-manager-config/default.nix"
-  {lib, ...}: {
-    options.homeManager.enable = lib.mkEnableOption "Enable home manager module";
-    config = {
-      homeManager = {
+{lib, ...}: {
+  options.homeManager.enable = lib.mkEnableOption "Enable home manager module";
+  config = {
+    homeManager = {
+      enable = true;
+      apps = {
         enable = true;
-        apps = {
+        browsers = {
           enable = true;
-          browsers = {
-            enable = true;
-            zen.enable = true;
-            firefox.enable = true;
-            floorp.enable = true;
-          };
-          social = {
-            enable = true;
-            discord.enable = true;
-            whatsapp.enable = true;
-            spotify.enable = true;
-          };
-          gaming = {
-            enable = true;
-            steam.enable = true;
-            gamescope.enable = true;
-          };
-          productivity = {
-            enable = true;
-            obsidian.enable = true;
-            sioyek.enable = true;
-          };
-          development = {
-            enable = true;
-            terminal = {
-              enable = true;
-              yazi.enable = true;
-              zsh.enable = true;
-              nushell.enable = true;
-              tmux.enable = true;
-              git.enable = true;
-              ghostty.enable = true;
-              neovim.enable = true;
-              starship.enable = true;
-            };
-            api-clients = {
-              enable = true;
-              yaak.enable = true;
-            };
-            languages = {
-              enable = true;
-              go.enable = true;
-              node.enable = true;
-              markdown.enable = true;
-              nix-lang.enable = true;
-              sh.enable = true;
-              c.enable = true;
-              typescript.enable = true;
-              lua.enable = true;
-              python.enable = true;
-              rust.enable = true;
-              json.enable = true;
-            };
-            ai = {
-              enable = true;
-              crush.enable = true;
-            };
-            db = {
-              enable = true;
-              postgres.enable = true;
-            };
-            package-managers = {
-              enable = true;
-            };
-          };
+          zen.enable = true;
+          firefox.enable = true;
+          floorp.enable = true;
         };
-        desktop = {
+        social = {
           enable = true;
-          rofi.enable = false;
-          wofi.enable = true;
-          hyprland.enable = true;
-          hyprlock.enable = true;
-          waybar.enable = true;
+          discord.enable = true;
+          whatsapp.enable = true;
+          spotify.enable = true;
         };
-        system = {
+        gaming = {
           enable = true;
-          fonts.enable = true;
-          themes = {
+          steam.enable = true;
+          gamescope.enable = true;
+        };
+        productivity = {
+          enable = true;
+          obsidian.enable = true;
+          sioyek.enable = true;
+        };
+        development = {
+          enable = true;
+          terminal = {
             enable = true;
-            catppuccin.enable = false;
-            stylix.enable = true;
+            yazi.enable = true;
+            zsh.enable = true;
+            nushell.enable = true;
+            tmux.enable = true;
+            git.enable = true;
+            ghostty.enable = true;
+            neovim.enable = true;
+            starship.enable = true;
           };
-          clipboard.enable = true;
-        };
-        hardware = {
-          enable = true;
-          qmk.enable = true;
-        };
-        misc = {
-          enable = true;
-          cli.enable = true;
+          api-clients = {
+            enable = true;
+            yaak.enable = true;
+          };
+          languages = {
+            enable = true;
+            go.enable = true;
+            node.enable = true;
+            markdown.enable = true;
+            nix-lang.enable = true;
+            sh.enable = true;
+            c.enable = true;
+            typescript.enable = true;
+            lua.enable = true;
+            python.enable = true;
+            rust.enable = true;
+            json.enable = true;
+          };
+          ai = {
+            enable = true;
+            crush.enable = true;
+          };
+          db = {
+            enable = true;
+            postgres.enable = true;
+          };
+          package-managers = {
+            enable = true;
+          };
         };
       };
+      desktop = {
+        enable = true;
+        rofi.enable = false;
+        wofi.enable = true;
+        hyprland.enable = true;
+        hyprlock.enable = true;
+        waybar.enable = true;
+      };
+      system = {
+        enable = true;
+        fonts.enable = true;
+        themes = {
+          enable = true;
+          catppuccin.enable = false;
+          stylix.enable = true;
+        };
+        clipboard.enable = true;
+      };
+      hardware = {
+        enable = true;
+        qmk.enable = true;
+      };
+      misc = {
+        enable = true;
+        cli.enable = true;
+      };
     };
-  }
+  };
+}
 EOF
 
   CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/config/home-manager-config/default.nix")
@@ -177,51 +177,51 @@ createUserSopsConfig() {
   mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}/security"
 
   cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix"
-  {
-    meta,
-    config,
-    inputs,
-    pkgs,
-    ...
-  }: {
-    imports = [inputs.sops-nix.nixosModules.sops];
+{
+  meta,
+  config,
+  inputs,
+  pkgs,
+  ...
+}: {
+  imports = [inputs.sops-nix.nixosModules.sops];
 
-    environment.systemPackages = builtins.attrValues {inherit (pkgs) age sops;};
+  environment.systemPackages = builtins.attrValues {inherit (pkgs) age sops;};
 
-    sops = {
-      age = {
-        sshKeyPaths = ["/var/lib/sops-nix/.ssh/${USERNAME}"];
-        # Instructions:
-        # mkdir -p /var/lib/sops-nix/age
-        # age-keygen -o /var/lib/sops-nix/age/keys.txt
-        # Fill in your secrets in YAML format
-        # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) "${BASE_CONFIG_PATH}"/hosts/${HOST}/users/${USERNAME}/secrets.yaml
-        # sudo nixos-rebuild switch --flake .#tsukinara
-        keyFile = "/var/lib/sops-nix/age/key.txt";
+  sops = {
+    age = {
+      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${USERNAME}"];
+      # Instructions:
+      # mkdir -p /var/lib/sops-nix/age
+      # age-keygen -o /var/lib/sops-nix/age/keys.txt
+      # Fill in your secrets in YAML format
+      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) "${BASE_CONFIG_PATH}"/hosts/${HOST}/users/${USERNAME}/secrets.yaml
+      # sudo nixos-rebuild switch --flake .#tsukinara
+      keyFile = "/var/lib/sops-nix/age/key.txt";
+    };
+    secrets = {
+      userHashedPassword = {
+        sopsFile = ../secrets.yaml;
       };
-      secrets = {
-        userHashedPassword = {
-          sopsFile = ../secrets.yaml;
-        };
-        userGitName = {
-          sopsFile = ../secrets.yaml;
-        };
-        userGitEmail = {
-          sopsFile = ../secrets.yaml;
-        };
+      userGitName = {
+        sopsFile = ../secrets.yaml;
       };
-      templates.git-user = {
-        path = "/home/${USERNAME}/.config/git/user.gitconfig";
-        mode = "0644";
-        owner = "${USERNAME}";
-        content = ''
-          [user]
-            name = \${config.sops.placeholder.userGitName}
-            email = \${config.sops.placeholder.userGitEmail}
-        '';
+      userGitEmail = {
+        sopsFile = ../secrets.yaml;
       };
     };
-  }
+    templates.git-user = {
+      path = "/home/${USERNAME}/.config/git/user.gitconfig";
+      mode = "0644";
+      owner = "${USERNAME}";
+      content = ''
+        [user]
+          name = \${config.sops.placeholder.userGitName}
+          email = \${config.sops.placeholder.userGitEmail}
+      '';
+    };
+  };
+}
 EOF
 
   CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix")
@@ -269,11 +269,11 @@ EOF
 createUsersDefaultImports() {
   mkdir -p "$BASE_CONFIG_PATH/users/${USERNAME}/users"
   cat <<EOF >>"$BASE_CONFIG_PATH/users/default.nix"
-  {...}: {
-    imports = [
-      ./${USERNAME}
-    ];
-  }
+{...}: {
+  imports = [
+    ./${USERNAME}
+  ];
+}
 EOF
 
   CREATED_FILES+=("$BASE_CONFIG_PATH/users/default.nix")
