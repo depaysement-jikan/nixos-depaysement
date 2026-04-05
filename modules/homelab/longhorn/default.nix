@@ -16,7 +16,7 @@
       default = "longhorn.home";
     };
   };
-  config.services.k3s = lib.mkIf config.homelab.longhorn.enable {
+  config.services.k3s = lib.mkIf (config.homelab.longhorn.enable && config.homelab.enable) {
     autoDeployCharts.longhorn = {
       name = "longhorn";
       repo = "https://charts.longhorn.io";

@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.longhorn.enable {
+  config = lib.mkIf (config.homelab.longhorn.enable && config.homelab.enable) {
     services.openiscsi = {
       enable = true;
       name = "${config.networking.hostName}-initiatorhost";

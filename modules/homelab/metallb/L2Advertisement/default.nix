@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.metallb.enable {
+  config = lib.mkIf (config.homelab.metallb.enable && config.homelab.enable) {
     services.k3s.manifests."metallb-L2Advertisement".content = [
       {
         apiVersion = "metallb.io/v1beta1";

@@ -17,7 +17,7 @@
       default = [];
     };
   };
-  config.services.k3s = lib.mkIf config.homelab.metallb.enable {
+  config.services.k3s = lib.mkIf (config.homelab.metallb.enable && config.homelab.enable) {
     autoDeployCharts.metallb = {
       name = "metallb";
       repo = "https://metallb.github.io/metallb";
