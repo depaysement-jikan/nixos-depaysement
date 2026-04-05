@@ -53,6 +53,15 @@ Here is a visual representation of the project structure:
 ├── flake.lock
 ├── flake.nix
 ├── hosts
+│   ├── shinobu
+│   │   ├── config
+│   │   │   ├── homelab-config
+│   │   │   └── nixos-config
+│   │   ├── default.nix
+│   │   ├── hardware-configuration.nix
+│   │   └── users
+│   │       ├── default.nix
+│   │       └── kokoro
 │   └── tsukinara
 │       ├── config
 │       │   ├── homelab-config
@@ -127,7 +136,6 @@ Here is a visual representation of the project structure:
 ## 🤖 Automation
 
 This repository includes scripts to streamline common tasks.
-
 ### Host Creation
 
 The `mkHost.sh` script automates the setup of a new NixOS host.
@@ -136,22 +144,38 @@ The `mkHost.sh` script automates the setup of a new NixOS host.
 mkHost
 ```
 
-> [!CAUTION]
-> If you have not yet successfully run a NixOS rebuild, running `mkHost` alone will not be sufficient, and you will need to run the command below
+### User Creation
 
-Run the script from the root of the repository:
+The `mkUser.sh` script automates the setup of a new NixOS user to a host.
+
+```bash
+mkUser
+```
+
+### Secrets Reset
+
+The `resetSopsSecrets.sh` script allows for interactive resetting and re-encryption of SOPS secrets across various modules.
+
+```bash
+resetSopsSecrets
+```
+
+> [!CAUTION]
+> If you have not yet successfully run a NixOS rebuild, running these scripts alone will not be sufficient, and you will need to run the commands below
+
+Run the scripts from the root of the repository:
 
 ```bash
 sh ./modules/nixos/scripts/mkHost.sh
+sh ./modules/nixos/scripts/mkUser.sh
+sh ./modules/nixos/scripts/resetSopsSecrets.sh
 ```
 
 This script will:
 
-- Prompt for the new host name and user name.
-- Create the directory structure in `hosts/<hostname>`.
-- Generate a `default.nix` and `disko` configuration for the new host.
-- Set up initial `sops` secrets for the user.
-- Provide instructions on how to add the new host to `flake.nix`.
+- Prompt for the hostname and username.
+- Iterate through secrets files in `hosts/`, `modules/home-manager/`, and `modules/homelab/`.
+- Prompt for confirmation before editing and re-encrypting.
 
 > [!NOTE]
 > If you want to create any new hosts please refer to [mkHost script](modules/nixos/README.md#scripts)

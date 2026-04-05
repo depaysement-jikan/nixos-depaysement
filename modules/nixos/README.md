@@ -78,7 +78,7 @@ The `mkUser.sh` script is an interactive tool designed to streamline the additio
 
 **Key Features:**
 
-1.  **Automated Scaffolding**: Prompts for a parent hostname and username, then creates the complete directory structure in `hosts/<hostname>/users/<user>`, including configuration directories Home Manager.
+1.  **Automated Scaffolding**: Prompts for a parent hostname and username, then creates the complete directory structure in `hosts/<hostname>/users/<user>`, including configuration directories for Home Manager.
 2.  **Configuration Generation**:
     - Generates a host `default.nix` that imports essential modules and sets up basic networking and system settings.
     - Sets up user-specific configurations and Home Manager integration.
@@ -105,3 +105,29 @@ sh ./modules/nixos/scripts/mkUser.sh
 
 > [!TIP]
 > mkUser assumes you have a host to assign this user to, in case you do not, please use the mkHost script instead, as that initializes a user along with a host.
+
+### resetSopsSecrets
+
+The `resetSopsSecrets.sh` script is an interactive tool designed to facilitate the resetting and re-encryption of secrets for a specific user and host across the repository.
+
+**Key Features:**
+
+1.  **Selective Reset**: Allows the user to choose which secrets file to reset (Host-level, Home-Manager, or Homelab).
+2.  **Interactive Value Entry**: Prompts the user for new values for each secret key in the file.
+3.  **Automatic Key Handling**: Reuses or creates AGE and SSH keys as needed for encryption.
+4.  **Automatic Re-encryption**: Uses `sops` to encrypt the file in-place with the updated values.
+
+**Usage:**
+
+```bash
+resetSopsSecrets
+```
+
+> [!CAUTION]
+> If you have not yet successfully run a NixOS rebuild, running `resetSopsSecrets` alone will not be sufficient, and you will need to run the command below
+
+Run the script from the root of the repository:
+
+```bash
+sh ./modules/nixos/scripts/resetSopsSecrets.sh
+```
