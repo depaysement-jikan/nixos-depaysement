@@ -20,7 +20,7 @@
     };
   };
 
-  config.services.k3s = lib.mkIf config.homelab.forgejo.enable {
+  config.services.k3s = lib.mkIf (config.homelab.forgejo.enable && config.homelab.enable) {
     autoDeployCharts.forgejo = {
       name = "forgejo";
       repo = "oci://code.forgejo.org/forgejo-helm/forgejo";
