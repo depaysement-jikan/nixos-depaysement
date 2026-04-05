@@ -18,7 +18,7 @@
     };
   };
 
-  config = lib.mkIf config.homelab.tailscale.enable {
+  config = lib.mkIf (config.homelab.tailscale.enable && config.homelab.enable) {
     environment = {
       systemPackages = [pkgs.tailscale];
     };
