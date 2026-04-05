@@ -93,12 +93,13 @@ createKeys() {
     echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
   else
     sudo mkdir -p /var/lib/sops-nix/age
-    sudo --extra-experimental-features "nix-command flakes pipe-operators" nix shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
+    sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
   fi
 
   if [ -f "/var/lib/sops-nix/.ssh/$username" ]; then
     echo "SSH key for $username exists at /var/lib/sops-nix/.ssh/$username, it will be used"
   else
+    sudo mkdir -p /var/lib/sops-nix/.ssh
     sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"$username" -N ""
   fi
 }
