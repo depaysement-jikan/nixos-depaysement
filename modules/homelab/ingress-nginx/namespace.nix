@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.ingress.enable {
+  config = lib.mkIf (config.homelab.ingress.enable && config.homelab.enable) {
     services.k3s.manifests.ingress-nginx-namespace.content = [
       {
         apiVersion = "v1";

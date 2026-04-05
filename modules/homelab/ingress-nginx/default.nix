@@ -18,7 +18,7 @@
     };
   };
 
-  config = lib.mkIf config.homelab.ingress.enable {
+  config = lib.mkIf (config.homelab.ingress.enable && config.homelab.enable) {
     services.k3s.autoDeployCharts.ingress-nginx = {
       name = "ingress-nginx";
       repo = "https://kubernetes.github.io/ingress-nginx";
