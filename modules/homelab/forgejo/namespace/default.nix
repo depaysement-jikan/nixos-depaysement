@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.forgejo.enable {
+  config = lib.mkIf (config.homelab.forgejo.enable && config.homelab.enable) {
     services.k3s.manifests."forgejo-namespace".content = [
       {
         apiVersion = "v1";
