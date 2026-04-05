@@ -13,5 +13,16 @@ _: {
         };
       };
     };
+    shinobu = {
+      system = "x86_64-linux";
+      profile = "desktop";
+      platform = "nixos";
+      users = {
+        kokoro = {
+          root.enable = true;
+          shell = "zsh";
+        };
+      };
+    };
   };
 }
