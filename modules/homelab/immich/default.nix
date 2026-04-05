@@ -30,7 +30,7 @@
       };
     };
   };
-  config.services.k3s = lib.mkIf config.homelab.immich.enable {
+  config.services.k3s = lib.mkIf (config.homelab.immich.enable && config.homelab.enable) {
     autoDeployCharts.immich = {
       name = "immich";
       repo = "https://immich-app.github.io/immich-charts";

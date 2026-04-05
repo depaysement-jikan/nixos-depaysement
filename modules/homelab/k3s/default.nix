@@ -1,7 +1,11 @@
 # Emergency reset
 # sudo rm -rf /var/lib/rancher && sudo rm -rf /etc/k3s
-{config, ...}: {
-  config = {
+{
+  config,
+  lib,
+  ...
+}: {
+  config = lib.mkIf config.homelab.enable {
     systemd.services.k3s = {
       after = ["network-online.target"];
       wants = ["network-online.target"];

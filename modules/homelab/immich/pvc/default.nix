@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.immich.enable {
+  config = lib.mkIf (config.homelab.immich.enable && config.homelab.enable) {
     services.k3s.manifests."immich-library-pvc".content = [
       {
         apiVersion = "v1";
