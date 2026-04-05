@@ -14,7 +14,7 @@
     };
   };
 
-  config.services.k3s = lib.mkIf config.homelab.prometheus.enable {
+  config.services.k3s = lib.mkIf (config.homelab.prometheus.enable && config.homelab.enable) {
     autoDeployCharts.prometheus = {
       name = "prometheus";
       repo = "https://prometheus-community.github.io/helm-charts";

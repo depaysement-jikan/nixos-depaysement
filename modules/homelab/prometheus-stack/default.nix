@@ -25,7 +25,7 @@
     };
   };
 
-  config.services.k3s = lib.mkIf config.homelab.prometheus-stack.enable {
+  config.services.k3s = lib.mkIf (config.homelab.prometheus-stack.enable && config.homelab.enable) {
     autoDeployCharts.prometheus-stack = {
       name = "kube-prometheus-stack";
       repo = "oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack";
