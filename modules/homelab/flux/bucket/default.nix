@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  config = lib.mkIf config.homelab.flux.enable {
+  config = lib.mkIf (config.homelab.flux.enable && config.homelab.enable) {
     services.k3s = {
       secrets = [
         {

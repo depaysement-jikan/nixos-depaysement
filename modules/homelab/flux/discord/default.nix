@@ -5,7 +5,7 @@
 }: let
   cfg = config.homelab.flux;
 in {
-  config = lib.mkIf config.homelab.flux.enable {
+  config = lib.mkIf (config.homelab.flux.enable && config.homelab.enable) {
     services.k3s = {
       manifests."flux-discord-provider" = {
         enable = cfg.webhook != null;
