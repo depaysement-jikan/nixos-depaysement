@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.pihole.enable {
+  config = lib.mkIf (config.homelab.pihole.enable && config.homelab.enable) {
     services.k3s = {
       manifests."pihole-cert".content = [
         # --- Self-signed ClusterIssuer

@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  config = lib.mkIf config.homelab.pihole.enable {
+  config = lib.mkIf (config.homelab.pihole.enable && config.homelab.enable) {
     services.k3s.manifests.external-dns-endpoints-rbac.content = [
       {
         apiVersion = "rbac.authorization.k8s.io/v1";
