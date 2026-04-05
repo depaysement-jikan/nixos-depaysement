@@ -4,7 +4,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.databases.enable {
+  config = lib.mkIf (config.homelab.databases.enable && config.homelab.enable) {
     services.k3s.manifests = {
       cnpg = {
         inherit (config.homelab.databases.cloudnative-pg) enable;
