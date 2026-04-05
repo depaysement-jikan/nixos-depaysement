@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.uptime-kuma.enable {
+  config = lib.mkIf (config.homelab.uptime-kuma.enable && config.homelab.enable) {
     services.k3s = {
       manifests."uptime-kuma-cert".content = [
         # --- Self-signed ClusterIssuer
