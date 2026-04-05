@@ -1,5 +1,30 @@
 # Changelog
 
+## v1.0.22 - 2026-04-04
+
+### Added
+
+- **Automation:**
+  - Introduced `resetSopsSecrets.sh` to facilitate interactive secret resetting and re-encryption for hosts, Home Manager, and homelab modules.
+  - Added `shared/resetSopsSecretsFunctions.sh` to centralize secret management logic.
+  - Integrated `gum` into automation scripts (`mkHost.sh`, `mkUser.sh`, `resetSopsSecrets.sh`) for a more interactive and visually appealing CLI experience.
+- **Infrastructure:**
+  - Added a new host `shinobu` and user `kokoro`.
+
+### Changed
+
+- **Automation:**
+  - Improved `mkHost.sh` and `mkUser.sh` with enhanced UI using `gum`, including confirmation prompts and stylized headers.
+  - Refactored internal script logic to use `REPO_LOCATION` variables for better portability.
+  - Fixed an issue where scripts were not correctly compiled into the NixOS system environment.
+  - Enhanced script robustness by adding more conditional checks and improving shell script formatting/tabbing.
+- **Infrastructure:**
+  - Simplified user directory structure by removing redundant nested folders, promoting a flatter and more intuitive hierarchy.
+
+### Fixed
+
+- **Automation:** Resolved issues with incorrect tabbing in generated Nix files and improved overall script reliability.
+
 ## v1.0.21 - 2026-03-29
 
 ### Added
