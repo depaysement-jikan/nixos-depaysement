@@ -15,7 +15,7 @@
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
       # Fill in your secrets in YAML format
-      # sudo sops --encrypt  --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) "/home/depaysement/.nixos-dotfiles/hosts/shinobu"/hosts/shinobu/users/kokoro/secrets.yaml
+      # sudo sops --encrypt  --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/shinobu/users/kokoro/secrets.yaml
       # sudo nixos-rebuild switch --flake .#tsukinara
       keyFile = "/var/lib/sops-nix/age/key.txt";
     };
