@@ -1,5 +1,4 @@
 {
-  meta,
   inputs,
   pkgs,
   ...
@@ -11,7 +10,7 @@
   sops = {
     defaultSopsFile = ../secrets.yaml;
     age = {
-      sshKeyPaths = ["/var/lib/sops-nix/.ssh/${meta.hostname}"];
+      sshKeyPaths = ["/var/lib/sops-nix/.ssh/homelab"];
       # Instructions:
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
