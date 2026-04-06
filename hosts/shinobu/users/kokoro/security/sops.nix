@@ -21,6 +21,7 @@
     };
     secrets = {
       userHashedPassword = {
+        neededForUsers = true;
         sopsFile = ../secrets.yaml;
       };
       userGitName = {
