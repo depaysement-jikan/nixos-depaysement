@@ -30,6 +30,9 @@
       userGitEmail = {
         sopsFile = ../secrets.yaml;
       };
+      userPublicSshKey = {
+        sopsFile = ../secrets.yaml;
+      };
     };
     templates.git-user = {
       path = "/home/kokoro/.config/git/user.gitconfig";
@@ -39,6 +42,15 @@
         [user]
           name = ${config.sops.placeholder.userGitName}
           email = ${config.sops.placeholder.userGitEmail}
+          signingkey = "/home/kokoro/.ssh/kokoro.pub"
+      '';
+    };
+    templates.allowed-signers = {
+      path = "/home/kokoro/.config/git/allowed-signers";
+      mode = "0644";
+      owner = "kokoro";
+      content = ''
+        ${config.sops.placeholder.userGitEmail} ${config.sops.placeholder.userPublicSshKey}
       '';
     };
   };
