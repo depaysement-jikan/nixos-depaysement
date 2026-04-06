@@ -14,5 +14,5 @@
     hashedPasswordFile = config.sops.secrets.userHashedPassword.path;
     homeMode = "711";
   };
-  users.mutableUsers = true;
+  users.mutableUsers = false;
 }
