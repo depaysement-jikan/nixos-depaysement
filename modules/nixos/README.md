@@ -13,6 +13,9 @@ The configuration for these modules is centralized at the host level in `hosts/<
 - **`nix/`**: Global Nix daemon settings, including flake support, garbage collection, and experimental features.
 - **`scripts/`**: Automation scripts for system maintenance and configuration.
   - **`mkHost.sh`**: A script to automate the creation of new NixOS host configurations.
+  - **`mkUser.sh`**: A script to automate the creation of new NixOS user configurations.
+  - **`resetSopsSecrets.sh`**: A script to facilitate the interactive resetting and re-encryption of SOPS secrets.
+  - **`shared/`**: Shared shell functions used by the automation scripts.
 
 ## Usage
 

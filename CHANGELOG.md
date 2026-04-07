@@ -1,5 +1,33 @@
 # Changelog
 
+## v1.0.23 - 2026-04-06
+
+### Added
+
+- **Infrastructure:**
+  - Added declarative disk partitioning with `disko` for the `shinobu` host.
+  - Implemented non-mutability for user accounts to enhance system security and reproducibility.
+- **Homelab:**
+  - Integrated a global `homelab.enable` toggle across all homelab modules, including `flux`, `cert-manager`, `grafana`, `forgejo`, `immich`, `ingress`, `k3s`, `pihole`, `metallb`, `longhorn`, `prometheus`, `prometheus-stack`, `rclone`, `tailscale`, `uptime-kuma`, and `vaultwarden`.
+
+### Changed
+
+- **Infrastructure:**
+  - Refactored project structure by moving `disko` configurations to the host level for improved modularity.
+- **Homelab:**
+  - Updated homelab SSH configuration to be host-agnostic, simplifying multi-host deployments.
+  - Updated secrets for `shinobu` and `depaysement`.
+- **Automation:**
+  - Refined automation scripts (`mkHost.sh`, `mkUser.sh`, `resetSopsSecrets.sh`) for better reliability and edge-case handling.
+- **Cleanup:**
+  - Removed deprecated SSH backup configurations.
+
+### Fixed
+
+- **System:**
+  - Resolved Wi-Fi connectivity issues.
+  - Fixed a password-related issue affecting user authentication.
+
 ## v1.0.22 - 2026-04-04
 
 ### Added

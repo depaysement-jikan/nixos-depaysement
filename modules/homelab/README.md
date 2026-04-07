@@ -2,7 +2,7 @@
 
 This directory contains the configuration for the homelab, which is built on top of a Kubernetes cluster managed by k3s. The entire setup is declarative, using Nix to define and configure all the services.
 
-Service enablement and host-specific values are now centralized in `hosts/<host>/config/homelab-config/`. This separation keeps the modules generic and reusable across different host environments.
+The entire homelab stack is now controlled by a global `homelab.enable` toggle. Service enablement and host-specific values are centralized in `hosts/<host>/config/homelab-config/`. This separation keeps the modules generic and reusable across different host environments.
 
 ## Architecture
 
