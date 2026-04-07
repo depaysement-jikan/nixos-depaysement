@@ -52,9 +52,12 @@ createUserDefaultConfig() {
     extraGroups = ["wheel" "k3s" "sddm"];
     packages = with pkgs; [tree kitty];
     shell = pkgs.zsh;
-    hashedPasswordFile = config.sops.secrets.userHashedPassword.path;
+    #TODO: this hashed password should only be used if there is certainty that the secrets are properly set and the key and ssh keys for sops are placed in the right spot
+    # hashedPasswordFile = config.sops.secrets.userHashedPassword.path;
+    password = "12345"
     homeMode = "711";
   };
+  users.mutableUsers = false;
 }
 EOF
 
@@ -194,18 +197,22 @@ createUserSopsConfig() {
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
       # Fill in your secrets in YAML format
-      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) "${BASE_CONFIG_PATH}"/hosts/${HOST}/users/${USERNAME}/secrets.yaml
+      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ${REPO_LOCATION}/hosts/${HOST}/users/${USERNAME}/secrets.yaml
       # sudo nixos-rebuild switch --flake .#tsukinara
       keyFile = "/var/lib/sops-nix/age/key.txt";
     };
     secrets = {
       userHashedPassword = {
+        neededForUsers = true;
         sopsFile = ../secrets.yaml;
       };
       userGitName = {
         sopsFile = ../secrets.yaml;
       };
       userGitEmail = {
+        sopsFile = ../secrets.yaml;
+      };
+      userPublicSshKey = {
         sopsFile = ../secrets.yaml;
       };
     };
@@ -217,6 +224,15 @@ createUserSopsConfig() {
         [user]
           name = \${config.sops.placeholder.userGitName}
           email = \${config.sops.placeholder.userGitEmail}
+          signingkey = "/home/kokoro/.ssh/kokoro.pub"
+      '';
+    };
+    templates.allowed-signers = {
+      path = "/home/${USERNAME}/.config/git/allowed-signers";
+      mode = "0644";
+      owner = "${USERNAME}";
+      content = ''
+        \${config.sops.placeholder.userGitEmail} \${config.sops.placeholder.userPublicSshKey}
       '';
     };
   };
@@ -224,6 +240,21 @@ createUserSopsConfig() {
 EOF
 
   CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/security/sops.nix")
+}
+
+createSshKeyAndAgeKey() {
+  if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
+    echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
+  else
+    sudo mkdir -p /var/lib/sops-nix/age
+    sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
+  fi
+
+  if [ -f "/var/lib/sops-nix/.ssh/${USERNAME}" ]; then
+    echo "SSH key for ${USERNAME} exists at /var/lib/sops-nix/.ssh/${USERNAME}, it will be used"
+  else
+    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"${USERNAME}" -N ""
+  fi
 }
 
 createUserSecretsFile() {
@@ -248,6 +279,7 @@ createUserSecretsFile() {
   userHashedPassword: "${USER_PASSWORD}"
   userGitName: "${USER_GIT_NAME}"
   userGitEmail: "${USER_GIT_EMAIL}"
+  userPublicSshKey: "$(sudo cat /var/lib/sops-nix/.ssh/"$USERNAME".pub)"
 EOF
 
   CREATED_FILES+=("$BASE_CONFIG_PATH/users/${USERNAME}/secrets.yaml")
@@ -279,19 +311,6 @@ EOF
 }
 
 encryptUserSecrets() {
-  if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
-    echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
-  else
-    sudo mkdir -p /var/lib/sops-nix/age
-    sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
-  fi
-
-  if [ -f "/var/lib/sops-nix/.ssh/${USERNAME}" ]; then
-    echo "SSH key for ${USERNAME} exists at /var/lib/sops-nix/.ssh/${USERNAME}, it will be used"
-  else
-    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"${USERNAME}" -N ""
-  fi
-
   sudo nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#sops -- \
     --encrypt \
     --in-place \
