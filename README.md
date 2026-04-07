@@ -19,6 +19,7 @@ If you want to use this configuration there are a couple of considerations to ta
 This NixOS configuration provides a comprehensive and reproducible environment with the following key features:
 
 - **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
+- **Non-mutable User Accounts:** Enhanced security and reproducibility through non-mutable user account configurations.
 - **Disko Integration:** Uses [Disko](https://github.com/nix-community/disko) for declarative disk partitioning and formatting, managing host storage configurations.
 - **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus Stack` for unified monitoring and visualization (replacing standalone modules, now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), `Forgejo` for a self-hosted Git service (now with HTTPS), and `rclone` for syncing Kubernetes manifests to an S3 bucket.
 - **CI/CD:** Automated flake health checks and reproducibility validation using GitHub Actions and [flake-checker](https://github.com/DeterminateSystems/flake-checker).
@@ -58,10 +59,16 @@ Here is a visual representation of the project structure:
 │   │   │   ├── homelab-config
 │   │   │   └── nixos-config
 │   │   ├── default.nix
+│   │   ├── disko
+│   │   │   └── default.nix
 │   │   ├── hardware-configuration.nix
 │   │   └── users
 │   │       ├── default.nix
 │   │       └── kokoro
+│   │           ├── config
+│   │           ├── default.nix
+│   │           ├── secrets.yaml
+│   │           └── security
 │   └── tsukinara
 │       ├── config
 │       │   ├── homelab-config
