@@ -8,9 +8,25 @@ export RED="\033[0;31m"
 export BLUE="\033[0;34m"
 export NC="\033[0m"
 
+createKeys() {
+  if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
+    echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
+  else
+    sudo mkdir -p /var/lib/sops-nix/age
+    sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
+  fi
+
+  if [ -f "/var/lib/sops-nix/.ssh/$username" ]; then
+    echo "SSH key for $username exists at /var/lib/sops-nix/.ssh/$username, it will be used"
+  else
+    sudo mkdir -p /var/lib/sops-nix/.ssh
+    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"$username" -N ""
+  fi
+}
+
 encryptSecrets() {
   if [[ $secretType == "User" ]]; then
-    createKeys
+    createSshKeyAndAgeKey
   fi
 
   mapfile -t secretKeys < <(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#yq -- -r 'keys[] | select(. != "sops")' "$1")
@@ -18,9 +34,13 @@ encryptSecrets() {
   local newSecretsFile=""
 
   for sk in "${secretKeys[@]}"; do
-    VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a value for ${sk}:")
     if [[ $sk == "userHashedPassword" ]]; then
       VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+    else
+      VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a value for ${sk}:")
+      if [[ $sk == "userHashedPassword" ]]; then
+        VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+      fi
     fi
     newSecretsFile+="$sk: $VALUE"$'\n'
   done
@@ -57,7 +77,6 @@ resetSecretsfromFileArray() {
   for f in "${secretFiles[@]}"; do
     while true; do
       SHOULD_EDIT=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Do you want to reset the secrets at $f? [Y/n]:")
-
       SHOULD_EDIT="${SHOULD_EDIT:-y}"
       SHOULD_EDIT="${SHOULD_EDIT,,}"
 
@@ -85,22 +104,6 @@ resetSecretsfromFileArray() {
     for uf in "${SECRETS_FILES_EDITED[@]}"; do
       echo -e "${YELLOW}$uf"
     done
-  fi
-}
-
-createKeys() {
-  if [ -f "/var/lib/sops-nix/age/key.txt" ]; then
-    echo "Age key exists at /var/lib/sops-nix/age/key.txt, it will be reused"
-  else
-    sudo mkdir -p /var/lib/sops-nix/age
-    sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -o /var/lib/sops-nix/age/key.txt
-  fi
-
-  if [ -f "/var/lib/sops-nix/.ssh/$username" ]; then
-    echo "SSH key for $username exists at /var/lib/sops-nix/.ssh/$username, it will be used"
-  else
-    sudo mkdir -p /var/lib/sops-nix/.ssh
-    sudo ssh-keygen -t ed25519 -f /var/lib/sops-nix/.ssh/"$username" -N ""
   fi
 }
 
