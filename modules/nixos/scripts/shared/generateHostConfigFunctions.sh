@@ -314,19 +314,24 @@ printHostScriptResults() {
     echo -e "${RED}$f"
   done
 
+  echo -e "\n${YELLOW}Modified files:\n"
+  for f in "${MODIFIED_FILES[@]}"; do
+    echo -e "${YELLOW}$f"
+  done
+
   echo -e "\n${GREEN}Host ${HOST} has been fully generated!"
 }
 
 updateConfigurationNixHosts() {
-  TEMP=$(head "$BASE_CONFIG_PATH"/nixos/configuration.nix -n -2)
-  printf "%s\n" "$TEMP" >"$BASE_CONFIG_PATH/nixos/configuration.nix"
-  cat <<EOF >>"$BASE_CONFIG_PATH/nixos/configuration.nix"
-    "$USERNAME" = {
+  TEMP=$(head "$REPO_LOCATION"/nixos/configuration.nix -n -2)
+  printf "%s\n" "$TEMP" >"$REPO_LOCATION/nixos/configuration.nix"
+  cat <<EOF >>"$REPO_LOCATION/nixos/configuration.nix"
+    $USERNAME = {
       system = "x86_64-linux";
       profile = "desktop";
       platform = "nixos";
       users = {
-        "$USERNAME" = {
+        $USERNAME = {
           root.enable = true;
           shell = "zsh";
         };
@@ -335,5 +340,5 @@ updateConfigurationNixHosts() {
   };
 }
 EOF
-  MODIFIED_FILES+=("$BASE_CONFIG_PATH/nixos/configuration.nix")
+  MODIFIED_FILES+=("$REPO_LOCATION/nixos/configuration.nix")
 }
