@@ -32,6 +32,7 @@ if nix --extra-experimental-features "nix-command flakes pipe-operators" \
   createUsersDefaultImports
   createUserHomeManagerConfig
   createUserSopsConfig
+  createSshKeyAndAgeKey
   createUserSecretsFile
   encryptUserSecrets
   updateConfigurationNixHosts
