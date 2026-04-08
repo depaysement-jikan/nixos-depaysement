@@ -316,3 +316,24 @@ printHostScriptResults() {
 
   echo -e "\n${GREEN}Host ${HOST} has been fully generated!"
 }
+
+updateConfigurationNixHosts() {
+  TEMP=$(head "$BASE_CONFIG_PATH"/nixos/configuration.nix -n -2)
+  printf "%s\n" "$TEMP" >"$BASE_CONFIG_PATH/nixos/configuration.nix"
+  cat <<EOF >>"$BASE_CONFIG_PATH/nixos/configuration.nix"
+    "$USERNAME" = {
+      system = "x86_64-linux";
+      profile = "desktop";
+      platform = "nixos";
+      users = {
+        "$USERNAME" = {
+          root.enable = true;
+          shell = "zsh";
+        };
+      };
+    };
+  };
+}
+EOF
+  MODIFIED_FILES+=("$BASE_CONFIG_PATH/nixos/configuration.nix")
+}

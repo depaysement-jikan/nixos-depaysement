@@ -34,6 +34,7 @@ if nix --extra-experimental-features "nix-command flakes pipe-operators" \
   createUserSopsConfig
   createUserSecretsFile
   encryptUserSecrets
+  updateConfigurationNixHosts
   printHostScriptResults
 
 else
