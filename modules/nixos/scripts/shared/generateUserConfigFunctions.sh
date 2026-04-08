@@ -324,7 +324,7 @@ printUserScriptResults() {
     echo -e "${YELLOW}$f"
   done
 
-  echo -e "\n${YELLOW}Created files:\n"
+  echo -e "\n${YELLOW}Modified files:\n"
   for f in "${MODIFIED_FILES[@]}"; do
     echo -e "${YELLOW}$f"
   done
