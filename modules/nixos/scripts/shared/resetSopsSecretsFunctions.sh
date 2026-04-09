@@ -118,4 +118,5 @@ getUserInputForSecretReset() {
     echo -e "\n${RED}Error: User $USERNAME does not exists"
     exit 1
   fi
+  echo -e "${BLUE}Username: ${NC}$USERNAME"
 }
