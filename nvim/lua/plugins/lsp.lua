@@ -143,5 +143,18 @@ return {
       on_attach = on_attach,
       filetypes = { "nix" },
     })
+
+    -- cucumber
+    lspconfig.cucumber_language_server.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "cucumber" },
+      settings = {
+        cucumber = {
+          features = { "features/**/*.feature" },
+          glue = { "**/features/step-definitions/*.steps.ts" },
+        },
+      },
+    })
   end,
 }
