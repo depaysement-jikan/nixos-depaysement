@@ -143,6 +143,7 @@ Here is a visual representation of the project structure:
 ## 🤖 Automation
 
 This repository includes scripts to streamline common tasks.
+
 ### Host Creation
 
 The `mkHost.sh` script automates the setup of a new NixOS host.
@@ -248,3 +249,8 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
 ## 🙏 Credits
 
 This configuration is inspired by the many amazing dotfiles repositories in the NixOS community.
+
+- [r0chd's nixconf](https://github.com/r0chd/nixconf)
+- [redyf's nixdots](https://github.com/redyf/nixdots)
+- [iaverage's dotfiles](https://github.com/iAverages/dotfiles)
+- [mysterio77's nix starter config](https://github.com/Misterio77/nix-starter-configs)
