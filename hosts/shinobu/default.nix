@@ -39,8 +39,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  hardware.alsa.enable = true;
-
   hardware.enableRedistributableFirmware = true;
   networking.hostName = "shinobu";
   networking.networkmanager.enable = true;
