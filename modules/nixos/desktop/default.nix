@@ -5,7 +5,7 @@
 }: let
   cfg = config.nixos-generic.desktop;
 in {
-  imports = [./sddm ./hyprland ./home-manager];
+  imports = [./sddm ./hyprland ./home-manager ./audio];
   options.nixos-generic.desktop = {
     enable = lib.mkEnableOption "Desktop environment";
   };
@@ -15,6 +15,7 @@ in {
       sddm.enable = lib.mkDefault true;
       hyprland.enable = lib.mkDefault true;
       homeManager.enable = lib.mkDefault true;
+      audio.enable = lib.mkDefault true;
     };
   };
 }

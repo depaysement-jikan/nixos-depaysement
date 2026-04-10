@@ -7,9 +7,9 @@
         enable = true;
         browsers = {
           enable = true;
-          zen.enable = true;
+          zen.enable = false;
           firefox.enable = true;
-          floorp.enable = true;
+          floorp.enable = false;
         };
         social = {
           enable = true;
@@ -24,8 +24,8 @@
         };
         productivity = {
           enable = true;
-          obsidian.enable = true;
-          sioyek.enable = true;
+          obsidian.enable = false;
+          sioyek.enable = false;
         };
         development = {
           enable = true;
