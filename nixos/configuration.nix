@@ -20,7 +20,7 @@ _: {
       users = {
         kokoro = {
           root.enable = true;
-          shell = "zsh";
+          shell = "nu";
         };
       };
     };

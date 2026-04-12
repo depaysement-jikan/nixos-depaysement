@@ -15,12 +15,12 @@
           enable = true;
           discord.enable = true;
           whatsapp.enable = true;
-          spotify.enable = true;
+          spotify.enable = false;
         };
         gaming = {
-          enable = true;
-          steam.enable = true;
-          gamescope.enable = true;
+          enable = false;
+          steam.enable = false;
+          gamescope.enable = false;
         };
         productivity = {
           enable = true;
