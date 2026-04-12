@@ -10,11 +10,15 @@
 
     "hyprland/workspaces" = {
       disable-scroll = true;
-      all-outputs = true;
+      all-outputs = false;
       warp-on-scroll = false;
       format = "{name}";
       persistent-workspaces = {
-        "*" = 5;
+        "1" = [];
+        "2" = [];
+        "3" = [];
+        "4" = [];
+        "5" = [];
       };
       cursor = true;
     };
