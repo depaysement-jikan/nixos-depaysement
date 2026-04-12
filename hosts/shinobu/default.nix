@@ -56,9 +56,9 @@
 
   time.timeZone = "America/Chicago";
 
-  environment.shells = with pkgs; [zsh git];
+  environment.shells = with pkgs; [nushell];
 
-  environment.systemPackages = with pkgs; [bind];
+  environment.systemPackages = with pkgs; [bind git];
   programs.zsh.enable = true;
 
   services.openssh = {enable = true;};
