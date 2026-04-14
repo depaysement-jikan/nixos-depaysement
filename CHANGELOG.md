@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.0.24 - 2026-04-13
+
+### Added
+* adding angular cli
+* add gemini cli to home manager
+* adding audio config for waybar compatibility
+* adding cucumber support
+* adding license
+* add missing key generation
+
+### Changed
+* minor configs t default shell shinobu
+* update credit section
+* add host generation fixes
+* doc update
+
+### Fixed
+* fix multimonitor setup, add script to switch between laptop and ext monitor
+* fix username not being printed
+* fix new host creation script
+* fix resetsopssecrets sh script
+* fix generate user script
+
 ## v1.0.23 - 2026-04-06
 
 ### Added
@@ -422,4 +445,3 @@ This session addressed multiple issues related to setting up `sops-nix` for secr
 - **`sops.age.sshKeyPaths` management:** Clarified the role and proper configuration of `sops.age.sshKeyPaths` for SSH key-based decryption, addressing potential "Cannot read ssh key" errors.
 
 These changes collectively enabled the successful evaluation and activation of the `sops-nix` service, allowing for secure management of secrets.
-
