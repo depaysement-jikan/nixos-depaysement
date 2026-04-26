@@ -6,6 +6,6 @@
 }: {
   options = {rust.enable = lib.mkEnableOption "Enable rust module";};
   config = lib.mkIf config.homeManager.apps.development.languages.rust.enable {
-    home.packages = with pkgs; [cargo dioxus-cli rustfmt rustc rust-analyzer rustup];
+    home.packages = with pkgs; [dioxus-cli rustc rustup];
   };
 }
