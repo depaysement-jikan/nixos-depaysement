@@ -30,6 +30,7 @@ in {
       enable = lib.mkEnableOption "productivity apps";
       obsidian.enable = lib.mkEnableOption "obsidian configuration";
       sioyek.enable = lib.mkEnableOption "sioyek configuration";
+      qbittorrent.enable = lib.mkEnableOption "qbittorrent configuration";
     };
     development = {
       enable = lib.mkEnableOption "development configuration";
