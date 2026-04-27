@@ -35,11 +35,11 @@ encryptSecrets() {
 
   for sk in "${secretKeys[@]}"; do
     if [[ $sk == "userHashedPassword" ]]; then
-      VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+      VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
     else
       VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a value for ${sk}:")
       if [[ $sk == "userHashedPassword" ]]; then
-        VALUE=$(nix run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+        VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
       fi
     fi
     newSecretsFile+="$sk: $VALUE"$'\n'
