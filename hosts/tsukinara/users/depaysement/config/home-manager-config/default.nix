@@ -26,6 +26,7 @@
           enable = true;
           obsidian.enable = true;
           sioyek.enable = true;
+          qbittorrent.enable = true;
         };
         development = {
           enable = true;
