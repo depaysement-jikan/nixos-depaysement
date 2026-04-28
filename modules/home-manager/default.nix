@@ -40,6 +40,7 @@
 
   programs = {
     wlogout.enable = true;
+    kitty.enable = true;
     home-manager.enable = config.homeManager.enable;
     bash.enable = true;
     nh = {enable = true;};
