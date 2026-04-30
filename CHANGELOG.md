@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.0.25 - 2026-04-29
+
+### Added
+*   Added qbittorrent configuration option to home-manager apps.
+*   Added several development packages for Rust (rustfmt, rustc, lld, rust-analyzer, dioxus-cli).
+
+### Changed
+*   Updated `modules/home-manager/README.md` to reflect Hyprland configuration tweaks.
+
+
+
 ## v1.0.24 - 2026-04-13
 
 ### Added
