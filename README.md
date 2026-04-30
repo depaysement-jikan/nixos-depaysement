@@ -32,7 +32,7 @@ This NixOS configuration provides a comprehensive and reproducible environment w
   - **Hardware:** Support for [QMK](https://qmk.fm/) for custom keyboard configuration.
 
 - **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
-- **Productivity & Social:** Includes [Spotify](https://www.spotify.com/) with Hyprland autostart and [Sioyek](https://sioyek.info/) for specialized technical PDF viewing.
+- **Productivity & Social:** Includes [Spotify](https://www.spotify.com/) with Hyprland autostart, [Sioyek](https://sioyek.info/) for specialized technical PDF viewing, and qbittorrent for managing downloads.
 - **Self-signed HTTPS:** Integrated self-signed certificate management for internal homelab services (Pi-hole, Immich, Prometheus Stack, Uptime Kuma) to enhance local network security.
 - **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
 - **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data at both the user (Home Manager) and host level.
