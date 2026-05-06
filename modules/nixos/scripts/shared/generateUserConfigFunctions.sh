@@ -110,6 +110,7 @@ createUserHomeManagerConfig() {
             ghostty.enable = true;
             neovim.enable = true;
             starship.enable = true;
+            certbot.enable = true;
           };
           api-clients = {
             enable = true;
