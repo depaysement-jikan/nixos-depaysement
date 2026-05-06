@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  imports = [./yazi ./zsh ./nushell ./tmux ./git ./ghostty ./nvim ./starship];
+  imports = [./yazi ./zsh ./nushell ./tmux ./git ./ghostty ./nvim ./starship ./certbot];
 
   options = {terminal.enable = lib.mkEnableOption "Enable terminal module";};
   config = lib.mkIf config.homeManager.apps.development.terminal.enable {
@@ -14,5 +14,6 @@
     git.enable = lib.mkDefault true;
     ghostty.enable = lib.mkDefault true;
     starship.enable = lib.mkDefault true;
+    certbot.enable = lib.mkDefault true;
   };
 }
