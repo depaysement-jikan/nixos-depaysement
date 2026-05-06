@@ -44,6 +44,7 @@ in {
         ghostty.enable = lib.mkEnableOption "ghostty configuration";
         neovim.enable = lib.mkEnableOption "ghostty configuration";
         starship.enable = lib.mkEnableOption "starship configuration";
+        certbot.enable = lib.mkEnableOption "certbot configuration";
       };
       api-clients = {
         enable = lib.mkEnableOption "api-clients configuration";
