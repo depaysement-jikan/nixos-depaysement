@@ -1,7 +1,16 @@
 # Changelog
 
-## v1.0.25 - 2026-04-29
-
++## v1.0.26 - 2026-05-06
++
++### Added
++*   Added Certbot module to Home Manager terminal apps.
++*   Added `gofumpt` and `air` to Go development environment.
++
++### Changed
++*   Enabled Certbot by default for users in `shinobu` and `tsukinara` hosts.
++*   Updated user configuration generation script to include Certbot enablement.
++
+ ## v1.0.25 - 2026-04-29
 ### Added
 *   Added qbittorrent configuration option to home-manager apps.
 *   Added several development packages for Rust (rustfmt, rustc, lld, rust-analyzer, dioxus-cli).
