@@ -34,13 +34,22 @@ encryptSecrets() {
   local newSecretsFile=""
 
   for sk in "${secretKeys[@]}"; do
+    echo "$sk"
     if [[ $sk == "userHashedPassword" ]]; then
-      VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+      echo -e "${YELLOW}[warning] Hashed password is now deprecated in this config${NC}"
+      echo -e "${YELLOW}[warning] It will be written into sops, but the existing hashedPassword/password will be used${NC}"
+      while true; do
+        VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --password --placeholder "Enter a password:")
+        CONFIRMED_VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --password --placeholder "Confirm the password:")
+        if [[ "$VALUE" != "$CONFIRMED_VALUE" ]]; then
+          echo -e "${RED}The passwords do not match, please try again..."
+          continue
+        fi
+        VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
+        break
+      done
     else
       VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#gum -- input --placeholder "Enter a value for ${sk}:")
-      if [[ $sk == "userHashedPassword" ]]; then
-        VALUE=$(nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#mkpasswd -- -m sha-512 "$VALUE")
-      fi
     fi
     newSecretsFile+="$sk: $VALUE"$'\n'
   done
@@ -52,7 +61,7 @@ encryptSecrets() {
   sudo nix --extra-experimental-features "nix-command flakes pipe-operators" run nixpkgs#sops -- \
     --encrypt \
     --in-place \
-    --age "$(sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt)" \
+    --age "$(sudo nix --extra-experimental-features "nix-command flakes pipe-operators" shell nixpkgs#age -c age-keygen -y /var/lib/sops-nix/age/key.txt | tail -n1)" \
     "$1"
 }
 
