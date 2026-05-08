@@ -52,8 +52,6 @@ createUserDefaultConfig() {
     extraGroups = ["wheel" "k3s" "sddm"];
     packages = with pkgs; [tree kitty];
     shell = pkgs.zsh;
-    #TODO: this hashed password should only be used if there is certainty that the secrets are properly set and the key and ssh keys for sops are placed in the right spot
-    # hashedPasswordFile = config.sops.secrets.userHashedPassword.path;
     password = "12345"
     homeMode = "711";
   };
