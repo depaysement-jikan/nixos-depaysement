@@ -5,6 +5,7 @@ return {
   },
   config = function()
     local lspconfig = require("lspconfig")
+    local lsp_util = require("lspconfig.util")
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     local on_attach = function(client, bufnr)
@@ -131,10 +132,16 @@ return {
     })
 
     -- graphql
+
     lspconfig.graphql.setup({
       capabilities = capabilities,
       on_attach = on_attach,
-      filetypes = { "graphql", "typescriptreact", "javascriptreact", "gql", "*.gql" },
+      filetypes = {
+        "graphql",
+        "typescriptreact",
+        "javascriptreact",
+      },
+      root_dir = lsp_util.root_pattern("graphql.config.js", ".graphqlrc", ".git", "go.mod"),
     })
 
     -- nix
