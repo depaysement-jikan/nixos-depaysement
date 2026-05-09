@@ -80,7 +80,7 @@ To get `sops-nix` working and manage your secrets:
       Ensure your `secrets.yaml` file contains the plain-text secrets you wish to encrypt. For example:
 
       ```yaml
-      userHashedPassword: your_actual_password
+      hashedPassword: your user password hashed using `mkpasswd -m sha-512 "password"`
       userGitName: your GIT name
       userGitEmail: your_email@example.com
       userGitEmail: your_email@example.com
