@@ -8,7 +8,7 @@ return {
     local lsp_util = require("lspconfig.util")
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    local on_attach = function(client, bufnr)
+    local on_attach = function(_, bufnr)
       -- Enable completion triggered by <c-x><c-o>
       vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -136,11 +136,13 @@ return {
     lspconfig.graphql.setup({
       capabilities = capabilities,
       on_attach = on_attach,
+
       filetypes = {
         "graphql",
         "typescriptreact",
         "javascriptreact",
       },
+
       root_dir = lsp_util.root_pattern("graphql.config.js", ".graphqlrc", ".git", "go.mod"),
     })
 
@@ -177,6 +179,14 @@ return {
           },
         },
       },
+    })
+
+    -- elixir
+    lspconfig.elixirls.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "elixir", "eelixir", "heex", "surface" },
+      cmd = { "elixir-ls" },
     })
   end,
 }
