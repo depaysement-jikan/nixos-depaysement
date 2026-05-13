@@ -59,6 +59,7 @@
             python.enable = true;
             rust.enable = true;
             json.enable = true;
+            elixir.enable = true;
           };
           ai = {
             enable = true;
