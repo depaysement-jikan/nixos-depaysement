@@ -15,6 +15,7 @@
     ./python
     ./rust
     ./json
+    ./elixir
   ];
 
   options = {
@@ -31,5 +32,6 @@
     lua.enable = lib.mkDefault true;
     python.enable = lib.mkDefault true;
     rust.enable = lib.mkDefault true;
+    elixir.enable = lib.mkDefault true;
   };
 }
