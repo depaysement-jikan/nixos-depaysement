@@ -63,6 +63,7 @@ in {
         python.enable = lib.mkEnableOption "python configuration";
         rust.enable = lib.mkEnableOption "rust configuration";
         json.enable = lib.mkEnableOption "json configuration";
+        elixir.enable = lib.mkEnableOption "elixir configuration";
       };
       ai = {
         enable = lib.mkEnableOption "ai configuration";
