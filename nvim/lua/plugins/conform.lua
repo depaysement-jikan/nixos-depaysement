@@ -19,6 +19,7 @@ return {
         scss = { "prettier" },
         python = { "black" },
         nix = { "alejandra" },
+        elixir = { "mix" },
       },
     }
   end,
