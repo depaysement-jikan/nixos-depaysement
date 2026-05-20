@@ -2,6 +2,7 @@ format = """
 $username\
 $hostname\
 $directory\
+$nix_shell\
 $git_branch\
 $git_state\
 $git_status\
@@ -38,3 +39,8 @@ format = "[$duration]($style) "
 
 [python]
 format = "[$virtualenv]($style) "
+
+[nix_shell]
+disabled = false
+format = '\([❄️ nix:$state]($style)\) '
+style = 'bold blue'
