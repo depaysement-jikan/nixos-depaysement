@@ -10,7 +10,7 @@
       shell = {enableZshIntegration = true;};
       sessionPath = ["$HOME/.local/share/pnpm"];
       sessionVariables = {PNPM_HOME = "$HOME/.local/share/pnpm";};
-      packages = with pkgs; [zoxide ripgrep fd fzf openssl];
+      packages = with pkgs; [zoxide ripgrep fd fzf openssl bat];
     };
     programs = {
       eza.enable = true;
