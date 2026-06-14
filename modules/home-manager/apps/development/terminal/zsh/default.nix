@@ -82,7 +82,7 @@
           alias cd='z'
           alias git-co='sh ~/.config/scripts/fuzzy-co.sh'
           alias k='kubectl'
-          alis g='git'
+          alias g='git'
 
           # Nuke starship if needed
           # sed -i '/starship/d' ~/.zshrc
