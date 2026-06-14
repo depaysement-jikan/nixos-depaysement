@@ -41,6 +41,7 @@
             neovim.enable = true;
             starship.enable = true;
             certbot.enable = true;
+            doppler.enable = true;
           };
           api-clients = {
             enable = true;
