@@ -13,6 +13,8 @@
       cargo
       rust-analyzer
       openssl.dev
+      cargo-watch
+      cargo-edit
       pkg-config
       (pkgs.rustPlatform.buildRustPackage {
         pname = "dioxus-cli";
