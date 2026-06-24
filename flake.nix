@@ -28,6 +28,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko.url = "github:nix-community/disko";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia/legacy-v4";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
