@@ -5,7 +5,7 @@
 }: let
   cfg = config.homeManager.desktop;
 in {
-  imports = [./rofi ./hyprland ./wofi ./hyprlock ./waybar];
+  imports = [./rofi ./hyprland ./wofi ./hyprlock ./waybar ./noctalia];
 
   options.homeManager.desktop = {
     enable = lib.mkEnableOption "Desktop environment";
@@ -14,6 +14,7 @@ in {
     hyprland.enable = lib.mkEnableOption "Hyprland launcher";
     hyprlock.enable = lib.mkEnableOption "Hyprlock launcher";
     waybar.enable = lib.mkEnableOption "Waybar launcher";
+    noctalia.enable = lib.mkEnableOption "Noctalia launcher";
   };
 
   config = lib.mkIf cfg.enable {
@@ -22,5 +23,6 @@ in {
     hyprland.enable = lib.mkDefault cfg.hyprland.enable;
     hyprlock.enable = lib.mkDefault cfg.hyprlock.enable;
     waybar.enable = lib.mkDefault cfg.waybar.enable;
+    noctalia.enable = lib.mkDefault cfg.noctalia.enable;
   };
 }
