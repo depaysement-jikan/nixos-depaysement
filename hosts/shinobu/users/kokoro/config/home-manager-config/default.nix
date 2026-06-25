@@ -82,6 +82,7 @@
         hyprland.enable = true;
         hyprlock.enable = true;
         waybar.enable = true;
+        noctalia.enable = false;
       };
       system = {
         enable = true;
