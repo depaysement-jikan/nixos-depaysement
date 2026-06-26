@@ -326,7 +326,7 @@ updateConfigurationNixHosts() {
   TEMP=$(head "$REPO_LOCATION"/nixos/configuration.nix -n -2)
   printf "%s\n" "$TEMP" >"$REPO_LOCATION/nixos/configuration.nix"
   cat <<EOF >>"$REPO_LOCATION/nixos/configuration.nix"
-    $USERNAME = {
+    $HOST = {
       system = "x86_64-linux";
       profile = "desktop";
       platform = "nixos";
