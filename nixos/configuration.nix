@@ -24,5 +24,16 @@ _: {
         };
       };
     };
+    yay = {
+      system = "x86_64-linux";
+      profile = "desktop";
+      platform = "nixos";
+      users = {
+        yay = {
+          root.enable = true;
+          shell = "zsh";
+        };
+      };
+    };
   };
 }
