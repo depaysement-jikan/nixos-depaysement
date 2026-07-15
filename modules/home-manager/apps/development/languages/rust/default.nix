@@ -14,6 +14,7 @@
       rust-analyzer
       openssl.dev
       cargo-watch
+      bacon
       cargo-edit
       pkg-config
       (pkgs.rustPlatform.buildRustPackage {
