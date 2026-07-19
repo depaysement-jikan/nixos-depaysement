@@ -59,6 +59,7 @@
             lua.enable = true;
             python.enable = true;
             rust.enable = true;
+            zig.enable = true;
             json.enable = true;
             elixir.enable = true;
           };

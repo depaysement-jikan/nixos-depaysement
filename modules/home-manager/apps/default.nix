@@ -63,6 +63,7 @@ in {
         lua.enable = lib.mkEnableOption "lua configuration";
         python.enable = lib.mkEnableOption "python configuration";
         rust.enable = lib.mkEnableOption "rust configuration";
+        zig.enable = lib.mkEnableOption "zig configuration";
         json.enable = lib.mkEnableOption "json configuration";
         elixir.enable = lib.mkEnableOption "elixir configuration";
       };
