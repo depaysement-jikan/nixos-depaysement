@@ -20,6 +20,8 @@ return {
         python = { "black" },
         nix = { "alejandra" },
         elixir = { "mix" },
+        rust = { "rustfmt" },
+        zig = { "zigfmt" },
       },
     }
   end,

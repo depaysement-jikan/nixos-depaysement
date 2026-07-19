@@ -181,6 +181,13 @@ return {
       },
     })
 
+    -- zig
+    lspconfig.zls.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "zig" },
+    })
+
     -- elixir
     lspconfig.elixirls.setup({
       capabilities = capabilities,
