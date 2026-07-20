@@ -66,6 +66,7 @@
           ai = {
             enable = true;
             crush.enable = true;
+            claude.enable = true;
           };
           db = {
             enable = true;
