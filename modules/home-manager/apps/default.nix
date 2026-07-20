@@ -70,6 +70,7 @@ in {
       ai = {
         enable = lib.mkEnableOption "ai configuration";
         crush.enable = lib.mkEnableOption "crush configuration";
+        claude.enable = lib.mkEnableOption "claude configuration";
       };
       db = {
         enable = lib.mkEnableOption "db configuration";
