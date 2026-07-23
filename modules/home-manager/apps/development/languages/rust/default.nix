@@ -15,6 +15,7 @@
       openssl.dev
       cargo-watch
       bacon
+      clippy
       cargo-edit
       pkg-config
       (pkgs.rustPlatform.buildRustPackage {
