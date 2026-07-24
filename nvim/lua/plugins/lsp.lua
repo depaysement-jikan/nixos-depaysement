@@ -107,6 +107,14 @@ return {
       on_attach = on_attach,
     })
 
+    -- Tailwind
+    lspconfig.tailwindcss.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "html", "css", "javascriptreact", "typescriptreact" },
+      root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js", "postcss.config.ts", "package.json", "tsconfig.json", ".git"),
+    })
+
     -- HTML
     lspconfig.html.setup({
       capabilities = capabilities,
