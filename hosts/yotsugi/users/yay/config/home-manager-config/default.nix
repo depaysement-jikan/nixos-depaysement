@@ -88,6 +88,7 @@
       system = {
         enable = true;
         fonts.enable = true;
+        openLinkHub.enable = true;
         themes = {
           enable = true;
           catppuccin.enable = false;
