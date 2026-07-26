@@ -6,6 +6,7 @@
         sddm.enable = true;
         hyprland.enable = true;
         homeManager.enable = true;
+        audio.enable = true;
       };
     };
   };
