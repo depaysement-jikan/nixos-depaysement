@@ -41,7 +41,6 @@ createUserDefaultConfig() {
   cat <<EOF >"$BASE_CONFIG_PATH/users/${USERNAME}/default.nix"
 {
   pkgs,
-  config,
   ...
 }: {
   imports = [
@@ -203,7 +202,7 @@ createUserSopsConfig() {
       # mkdir -p /var/lib/sops-nix/age
       # age-keygen -o /var/lib/sops-nix/age/keys.txt
       # Fill in your secrets in YAML format
-      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ${REPO_LOCATION}/hosts/${HOST}/users/${USERNAME}/secrets.yaml
+      # sudo sops --encrypt  --in-place --age \$(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/${HOST}/users/${USERNAME}/secrets.yaml
       # sudo nixos-rebuild switch --flake .#tsukinara
       keyFile = "/var/lib/sops-nix/age/key.txt";
     };
