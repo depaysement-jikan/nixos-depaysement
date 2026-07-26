@@ -29,6 +29,8 @@
       experimental-features = ["nix-command" "flakes" "pipe-operators"];
       flake-registry = "";
       nix-path = config.nix.nixPath;
+      extra-substituters = ["https://noctalia.cachix.org"];
+      extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
     };
     channel.enable = false;
 
@@ -39,6 +41,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  hardware.enableRedistributableFirmware = true;
   networking.hostName = "yotsugi";
   networking.networkmanager.enable = true;
   networking.firewall = {
