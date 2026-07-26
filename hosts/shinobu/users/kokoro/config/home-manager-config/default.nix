@@ -7,26 +7,26 @@
         enable = true;
         browsers = {
           enable = true;
-          zen.enable = false;
+          zen.enable = true;
           firefox.enable = true;
-          floorp.enable = false;
+          floorp.enable = true;
         };
         social = {
           enable = true;
           discord.enable = true;
           whatsapp.enable = true;
-          spotify.enable = false;
+          spotify.enable = true;
         };
         gaming = {
-          enable = false;
-          steam.enable = false;
-          gamescope.enable = false;
+          enable = true;
+          steam.enable = true;
+          gamescope.enable = true;
         };
         productivity = {
           enable = true;
-          obsidian.enable = false;
-          sioyek.enable = false;
-          qbittorrent.enable = false;
+          obsidian.enable = true;
+          sioyek.enable = true;
+          qbittorrent.enable = true;
         };
         development = {
           enable = true;
@@ -84,7 +84,7 @@
         hyprland.enable = true;
         hyprlock.enable = true;
         waybar.enable = true;
-        noctalia.enable = false;
+        noctalia.enable = true;
       };
       system = {
         enable = true;
