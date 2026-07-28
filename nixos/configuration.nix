@@ -35,5 +35,16 @@ _: {
         };
       };
     };
+    sodachi = {
+      system = "x86_64-linux";
+      profile = "desktop";
+      platform = "nixos";
+      users = {
+        riddle = {
+          root.enable = true;
+          shell = "zsh";
+        };
+      };
+    };
   };
 }
