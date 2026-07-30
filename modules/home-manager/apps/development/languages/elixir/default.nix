@@ -14,10 +14,10 @@
       beamPackages.rebar3
       inotify-tools
     ];
-    home.activation.installPhoenix = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      if ! ${pkgs.elixir}/bin/mix archive | grep -q phx_new; then
-        ${pkgs.elixir}/bin/mix archive.install hex phx_new --force
-      fi
-    '';
+    # home.activation.installPhoenix = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #   if ! ${pkgs.elixir}/bin/mix archive | grep -q phx_new; then
+    #     ${pkgs.elixir}/bin/mix archive.install hex phx_new --force
+    #   fi
+    # '';
   };
 }
