@@ -9,7 +9,7 @@ _: {
       users = {
         depaysement = {
           root.enable = true;
-          shell = "nu";
+          shell = "zsh";
         };
       };
     };
@@ -20,7 +20,7 @@ _: {
       users = {
         kokoro = {
           root.enable = true;
-          shell = "nu";
+          shell = "nushell";
         };
       };
     };
