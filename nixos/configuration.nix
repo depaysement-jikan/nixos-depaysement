@@ -9,7 +9,7 @@ _: {
       users = {
         depaysement = {
           root.enable = true;
-          shell = "zsh";
+          shell = "nushell";
         };
       };
     };
