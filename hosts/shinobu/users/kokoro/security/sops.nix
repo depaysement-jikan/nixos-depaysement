@@ -20,10 +20,6 @@
       keyFile = "/var/lib/sops-nix/age/key.txt";
     };
     secrets = {
-      userHashedPassword = {
-        neededForUsers = true;
-        sopsFile = ../secrets.yaml;
-      };
       userGitName = {
         sopsFile = ../secrets.yaml;
       };
