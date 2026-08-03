@@ -38,7 +38,12 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.limine.enable = false;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 10;
+    consoleMode = "max";
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   hardware.enableRedistributableFirmware = true;
@@ -60,7 +65,7 @@
 
   environment.shells = with pkgs; [nushell];
 
-  environment.systemPackages = with pkgs; [bind git];
+  environment.systemPackages = with pkgs; [bind git efibootmgr];
   programs.zsh.enable = true;
 
   services.openssh = {enable = true;};
