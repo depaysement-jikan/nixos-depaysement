@@ -29,7 +29,8 @@ Example host configuration (`hosts/<host>/config/nixos-config/default.nix`):
     nixos-generic = {
       desktop = {
         enable = true;
-        sddm.enable = true;
+        sddm.enable = false;
+        tuigreet.enable = true;
         hyprland.enable = true;
         homeManager.enable = true;
       };
