@@ -65,11 +65,36 @@
 
   environment.shells = with pkgs; [nushell];
 
-  environment.systemPackages = with pkgs; [bind git efibootmgr];
+  environment.systemPackages = with pkgs; [bind git efibootmgr openrgb];
   programs.zsh.enable = true;
 
   services.openssh = {enable = true;};
   services.blueman.enable = true;
+  services.hardware.openrgb.enable = true;
+  systemd.services.openlinkhub = {
+    description = "OpenLinkHub";
+    wantedBy = ["multi-user.target"];
+
+    serviceConfig = {
+      WorkingDirectory = "/home/kokoro/code/OpenLinkHub";
+      ExecStart = "/home/kokoro/.nix-profile/bin/OpenLinkHub";
+
+      User = "root";
+      Group = "root";
+
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+  };
+  services.nginx = {
+    enable = true;
+
+    virtualHosts."rgb.localhost" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:27003";
+      };
+    };
+  };
 
   hardware.graphics = {
     enable = true;
