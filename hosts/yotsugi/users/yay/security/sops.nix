@@ -1,0 +1,57 @@
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}: {
+  imports = [inputs.sops-nix.nixosModules.sops];
+
+  environment.systemPackages = builtins.attrValues {inherit (pkgs) age sops;};
+
+  sops = {
+    age = {
+      sshKeyPaths = ["/var/lib/sops-nix/.ssh/yay"];
+      # Instructions:
+      # mkdir -p /var/lib/sops-nix/age
+      # age-keygen -o /var/lib/sops-nix/age/keys.txt
+      # Fill in your secrets in YAML format
+      # sudo sops --encrypt  --in-place --age $(sudo age-keygen -y /var/lib/sops-nix/age/key.txt) ~/.nixos-dotfiles/hosts/yotsugi/users/yay/secrets.yaml
+      # sudo nixos-rebuild switch --flake .#tsukinara
+      keyFile = "/var/lib/sops-nix/age/key.txt";
+    };
+    secrets = {
+      userHashedPassword = {
+        neededForUsers = true;
+        sopsFile = ../secrets.yaml;
+      };
+      userGitName = {
+        sopsFile = ../secrets.yaml;
+      };
+      userGitEmail = {
+        sopsFile = ../secrets.yaml;
+      };
+      userPublicSshKey = {
+        sopsFile = ../secrets.yaml;
+      };
+    };
+    templates.git-user = {
+      path = "/home/yay/.config/git/user.gitconfig";
+      mode = "0644";
+      owner = "yay";
+      content = ''
+        [user]
+          name = ${config.sops.placeholder.userGitName}
+          email = ${config.sops.placeholder.userGitEmail}
+          signingkey = "/home/kokoro/.ssh/kokoro.pub"
+      '';
+    };
+    templates.allowed-signers = {
+      path = "/home/yay/.config/git/allowed-signers";
+      mode = "0644";
+      owner = "yay";
+      content = ''
+        ${config.sops.placeholder.userGitEmail} ${config.sops.placeholder.userPublicSshKey}
+      '';
+    };
+  };
+}

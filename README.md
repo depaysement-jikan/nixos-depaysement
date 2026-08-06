@@ -10,18 +10,19 @@ _Coming soon..._
 
 ## Installation
 
-If you want to use this configuration there are a couple of considerations to take into account, please review [instrictions.md](/INSTRUCTIONS.md)
+If you want to use this configuration there are a couple of considerations to take into account, please review [INSTRUCTIONS.md](/INSTRUCTIONS.md), for NVIM setup instructions please refer to [INSTRUCTIONS-NVIM.md](/INSTRUCTIONS-NVIM.md)
 
 ## 🚀 Features
 
 This NixOS configuration provides a comprehensive and reproducible environment with the following key features:
 
 - **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines.
+- **Non-mutable User Accounts:** Enhanced security and reproducibility through non-mutable user account configurations.
 - **Disko Integration:** Uses [Disko](https://github.com/nix-community/disko) for declarative disk partitioning and formatting, managing host storage configurations.
-- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus Stack` for unified monitoring and visualization (replacing standalone modules, now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), and `rclone` for syncing Kubernetes manifests to an S3 bucket.
+- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus Stack` for unified monitoring and visualization (replacing standalone modules, now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), `Forgejo` for a self-hosted Git service (now with HTTPS), and `rclone` for syncing Kubernetes manifests to an S3 bucket.
 - **CI/CD:** Automated flake health checks and reproducibility validation using GitHub Actions and [flake-checker](https://github.com/DeterminateSystems/flake-checker).
 - **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen, [Wofi](https://hg.sr.ht/~scoopta/wofi) as an application launcher, and [Waybar](https://github.com/Alexays/Waybar) for a customizable status bar. Initial application launches on workspace start have been removed for a cleaner startup.
-- **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, and [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager.
+- **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://github.com/Ghostty/Ghostty) as the terminal emulator, [Neovim](https://neovim.io/) for powerful text editing, [Yazi](https://github.com/sxycode/yazi) as an efficient terminal file manager, and [Certbot](https://certbot.eff.org/) for managing SSL certificates.
 - **Extensive Development Environment:**
   - **Language Support:** Pre-configured environments for a wide array of programming languages including Go, Node.js, Nix-lang, Shell scripting, C, TypeScript, Lua, Python, Rust and PostgreSQL.
   - **API Clients:** Includes [Yaak](https://yaak.app/) for streamlined API development and testing.
@@ -29,7 +30,7 @@ This NixOS configuration provides a comprehensive and reproducible environment w
   - **Hardware:** Support for [QMK](https://qmk.fm/) for custom keyboard configuration.
 
 - **Web Browsing:** Utilizes [Zen Browser](https://zenbrowser.org/) for a privacy-focused browsing experience.
-- **Productivity & Social:** Includes [Spotify](https://www.spotify.com/) with Hyprland autostart and [Sioyek](https://sioyek.info/) for specialized technical PDF viewing.
+- **Productivity & Social:** Includes [Spotify](https://www.spotify.com/) with Hyprland autostart, [Sioyek](https://sioyek.info/) for specialized technical PDF viewing, and qbittorrent for managing downloads.
 - **Self-signed HTTPS:** Integrated self-signed certificate management for internal homelab services (Pi-hole, Immich, Prometheus Stack, Uptime Kuma) to enhance local network security.
 - **Aesthetic Customization:** Enhanced with custom fonts and a comprehensive theming system managed by [Stylix](https://github.com/danth/stylix).
 - **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data at both the user (Home Manager) and host level.
@@ -51,28 +52,43 @@ Here is a visual representation of the project structure:
 ├── flake.lock
 ├── flake.nix
 ├── hosts
+│   ├── shinobu
+│   │   ├── config
+│   │   │   ├── homelab-config
+│   │   │   └── nixos-config
+│   │   ├── default.nix
+│   │   ├── disko
+│   │   │   └── default.nix
+│   │   ├── hardware-configuration.nix
+│   │   └── users
+│   │       ├── default.nix
+│   │       └── kokoro
+│   │           ├── config
+│   │           ├── default.nix
+│   │           ├── secrets.yaml
+│   │           └── security
 │   └── tsukinara
 │       ├── config
-│       │   ├── home-manager-config
-│       │   │   └── default.nix
 │       │   ├── homelab-config
-│       │   │   └── default.nix
 │       │   └── nixos-config
-│       │       └── default.nix
 │       ├── default.nix
 │       ├── disko
 │       │   └── default.nix
 │       ├── hardware-configuration.nix
-│       ├── secrets.yaml
-│       └── security
-│           └── sops.nix
+│       └── users
+│           ├── default.nix
+│           └── depaysement
+│               ├── config
+│               ├── default.nix
+│               ├── secrets.yaml
+│               └── security
 ├── modules
 │   ├── homelab
 │   │   ├── cert-manager
-│   │   ├── cert-secrets.yaml
 │   │   ├── databases
 │   │   ├── default.nix
 │   │   ├── flux
+│   │   ├── forgejo
 │   │   ├── garage
 │   │   ├── grafana
 │   │   ├── immich
@@ -81,7 +97,6 @@ Here is a visual representation of the project structure:
 │   │   ├── longhorn
 │   │   ├── metallb
 │   │   ├── pihole
-│   │   ├── pihole-secrets.yaml
 │   │   ├── prometheus
 │   │   ├── prometheus-stack
 │   │   ├── rclone
@@ -90,7 +105,6 @@ Here is a visual representation of the project structure:
 │   │   ├── security
 │   │   ├── services
 │   │   ├── tailscale
-│   │   ├── tailscale-secrets.yaml
 │   │   ├── uptime-kuma
 │   │   └── vaultwarden
 │   ├── home-manager
@@ -101,19 +115,14 @@ Here is a visual representation of the project structure:
 │   │   ├── pfp
 │   │   ├── README.md
 │   │   ├── scripts
-│   │   ├── secrets.yaml
-│   │   ├── security
 │   │   ├── system
 │   │   └── wallpapers
 │   ├── nixos
 │   │   ├── desktop
-│   │   │   ├── default.nix
-│   │   │   ├── home-manager
-│   │   │   ├── hyprland
-│   │   │   └── sddm
 │   │   ├── default.nix
 │   │   ├── nix
-│   │   └── README.md
+│   │   ├── README.md
+│   │   └── scripts
 │   └── utils
 │       └── default.nix
 ├── nixos
@@ -121,21 +130,61 @@ Here is a visual representation of the project structure:
 │   └── utils
 │       └── options.nix
 ├── nvim
-│   ├── init.lua
-│   ├── lazy-lock.json
-│   ├── lazyvim.json
-│   ├── LICENSE
-│   ├── lua
-│   │   ├── config
-│   │   └── plugins
-│   ├── README.md
-│   └── stylua.toml
+│   └── (Neovim config)
 ├── overlays
 │   └── default.nix
 ├── pkgs
 │   └── default.nix
 └── README.md
 </pre>
+
+## 🤖 Automation
+
+This repository includes scripts to streamline common tasks.
+
+### Host Creation
+
+The `mkHost.sh` script automates the setup of a new NixOS host.
+
+```bash
+mkHost
+```
+
+### User Creation
+
+The `mkUser.sh` script automates the setup of a new NixOS user to a host.
+
+```bash
+mkUser
+```
+
+### Secrets Reset
+
+The `resetSopsSecrets.sh` script allows for interactive resetting and re-encryption of SOPS secrets across various modules.
+
+```bash
+resetSopsSecrets
+```
+
+> [!CAUTION]
+> If you have not yet successfully run a NixOS rebuild, running these scripts alone will not be sufficient, and you will need to run the commands below
+
+Run the scripts from the root of the repository:
+
+```bash
+sh ./modules/nixos/scripts/mkHost.sh
+sh ./modules/nixos/scripts/mkUser.sh
+sh ./modules/nixos/scripts/resetSopsSecrets.sh
+```
+
+This script will:
+
+- Prompt for the hostname and username.
+- Iterate through secrets files in `hosts/`, `modules/home-manager/`, and `modules/homelab/`.
+- Prompt for confirmation before editing and re-encrypting.
+
+> [!NOTE]
+> If you want to create any new hosts please refer to [mkHost script](modules/nixos/README.md#scripts)
 
 ## managing your configuration
 
@@ -178,87 +227,28 @@ This configuration leverages [`sops-nix`](https://github.com/Mic92/sops-nix) to 
 
 #### How it Works
 
-1.  **Secret Definition (`modules/home-manager/security/sops.nix`):**
-    - The `sops` configuration block defines which secrets to manage and how they should be handled.
-    - Each secret, like `depaysementPassword`, is declared, and `sops-nix` expects to find its encrypted value in the `secrets.yaml` file.
+1.  **Secret Definition (`hosts/<host>/users/<user>/security/sops.nix`):**
+    - The `sops` configuration block defines which secrets to manage and how they should be handled at the user level.
+    - Each secret, like `userPassword`, is declared, and `sops-nix` expects to find its encrypted value in the `secrets.yaml` file within the same user directory.
 
 2.  **Key Configuration:**
     - `sops-nix` uses AGE keys (or SSH keys) for encryption and decryption. You need to configure at least one key source.
-    - `sops.age.keyFile`: Specifies the path to your AGE private key (e.g., `/home/depaysement/.config/sops/age/keys.txt`).
+    - `sops.age.keyFile`: Specifies the path to your AGE private key (e.g., `/home/<user>/.config/sops/age/keys.txt`).
     - `sops.age.sshKeyPaths`: (Optional) Specifies a list of paths to SSH private keys that can be used as AGE keys.
 
 3.  **`secrets.yaml` (Encrypted Secrets File):**
-    - The `sops.defaultSopsFile` option points to your encrypted secrets file (e.g., `../../secrets.yaml`, which resolves to the project root's `secrets.yaml`).
+    - The `sops.defaultSopsFile` option points to your encrypted secrets file (e.g., `hosts/<host>/users/<user>/secrets.yaml`).
     - This file contains your actual secrets in an encrypted format.
 
 4.  **`flake.nix` `extraSpecialArgs`:**
     - The `sops.nix` module relies on `settings` and `meta` arguments (which are custom to this configuration) to construct paths for keys and other user-specific configurations.
     - These arguments (`settings.user` for your username and `meta.hostname` for your machine's hostname) are passed via `extraSpecialArgs` in your `flake.nix` to ensure the `sops.nix` module receives the correct context for path generation.
 
-#### Setup Instructions
-
-To get `sops-nix` working and manage your secrets:
-
-1.  **Ensure `sops` and `age` are installed:**
-    Make sure `pkgs.sops` and `pkgs.age` are included in your `home.packages` list in `modules/home-manager/default.nix`. After a successful `nixos-rebuild switch`, these tools will be available in your shell.
-
-2.  **Generate an AGE private key (if you don't have one):**
-    This key is crucial for decrypting your secrets. Store it securely and _do not_ commit it to Git.
-
-    ```bash
-    mkdir -p ~/.config/sops/age
-    age-keygen -o ~/.config/sops/age/keys.txt
-    ```
-
-    **Important:** Back up this `keys.txt` file immediately! Losing it means permanent loss of access to your encrypted secrets.
-
-3.  **Get your AGE public key:**
-    You'll use this public key to encrypt your `secrets.yaml` file.
-
-    ```bash
-    age-keygen -y ~/.config/sops/age/keys.txt
-    ```
-
-    Copy the output (a string starting with `age1...`). This is your public key.
-
-4.  **Create or encrypt your `secrets.yaml` file:**
-    If you have an existing plain-text `secrets.yaml` (e.g., at `/home/depaysement/.nixos-dotfiles/secrets.yaml`), you can encrypt it in-place. If you're creating it from scratch, you can provide the content directly.
-    - **Encrypting an existing plain-text `secrets.yaml` in-place:**
-      Ensure your `secrets.yaml` file contains the plain-text secrets you wish to encrypt. For example:
-
-      ```yaml
-      depaysementPassword: your_actual_password
-      depaysementGitUserName: your_github_username
-      depaysementEmail: your_email@example.com
-      depaysementGitName: Your Name
-      ```
-
-      Then run the encryption command:
-
-      ```bash
-      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" --in-place /home/depaysement/.nixos-dotfiles/secrets.yaml
-      ```
-
-      (Replace `"YOUR_AGE_PUBLIC_KEY"` with the public key from step 3).
-
-    - **Creating a new, encrypted `secrets.yaml`:**
-      ```bash
-      sops --encrypt --age "YOUR_AGE_PUBLIC_KEY" /home/depaysement/.nixos-dotfiles/secrets.yaml <<EOF
-      depaysementPassword: your_actual_password
-      depaysementGitUserName: your_github_username
-      depaysementEmail: your_email@example.com
-      depaysementGitName: Your Name
-      EOF
-      ```
-      (Replace `"YOUR_AGE_PUBLIC_KEY"` and the example values with your actual data).
-
-5.  **Run NixOS Rebuild:**
-    After your `secrets.yaml` is correctly encrypted and your keys are in place, apply your NixOS configuration:
-    ```bash
-    sudo nixos-rebuild switch --flake .#tsukinara
-    ```
-    This will activate the `sops-nix` service, which will decrypt and manage your secrets.
-
 ## 🙏 Credits
 
 This configuration is inspired by the many amazing dotfiles repositories in the NixOS community.
+
+- [r0chd's nixconf](https://github.com/r0chd/nixconf)
+- [redyf's nixdots](https://github.com/redyf/nixdots)
+- [iaverage's dotfiles](https://github.com/iAverages/dotfiles)
+- [mysterio77's nix starter config](https://github.com/Misterio77/nix-starter-configs)

@@ -30,6 +30,7 @@ in {
       enable = lib.mkEnableOption "productivity apps";
       obsidian.enable = lib.mkEnableOption "obsidian configuration";
       sioyek.enable = lib.mkEnableOption "sioyek configuration";
+      qbittorrent.enable = lib.mkEnableOption "qbittorrent configuration";
     };
     development = {
       enable = lib.mkEnableOption "development configuration";
@@ -43,6 +44,8 @@ in {
         ghostty.enable = lib.mkEnableOption "ghostty configuration";
         neovim.enable = lib.mkEnableOption "ghostty configuration";
         starship.enable = lib.mkEnableOption "starship configuration";
+        certbot.enable = lib.mkEnableOption "certbot configuration";
+        doppler.enable = lib.mkEnableOption "doppler configuration";
       };
       api-clients = {
         enable = lib.mkEnableOption "api-clients configuration";
@@ -60,11 +63,14 @@ in {
         lua.enable = lib.mkEnableOption "lua configuration";
         python.enable = lib.mkEnableOption "python configuration";
         rust.enable = lib.mkEnableOption "rust configuration";
+        zig.enable = lib.mkEnableOption "zig configuration";
         json.enable = lib.mkEnableOption "json configuration";
+        elixir.enable = lib.mkEnableOption "elixir configuration";
       };
       ai = {
         enable = lib.mkEnableOption "ai configuration";
         crush.enable = lib.mkEnableOption "crush configuration";
+        claude.enable = lib.mkEnableOption "claude configuration";
       };
       db = {
         enable = lib.mkEnableOption "db configuration";

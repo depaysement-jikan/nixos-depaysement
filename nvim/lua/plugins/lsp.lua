@@ -5,9 +5,10 @@ return {
   },
   config = function()
     local lspconfig = require("lspconfig")
+    local lsp_util = require("lspconfig.util")
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    local on_attach = function(client, bufnr)
+    local on_attach = function(_, bufnr)
       -- Enable completion triggered by <c-x><c-o>
       vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -106,6 +107,14 @@ return {
       on_attach = on_attach,
     })
 
+    -- Tailwind
+    lspconfig.tailwindcss.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "html", "css", "javascriptreact", "typescriptreact" },
+      root_dir = lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.ts", "postcss.config.js", "postcss.config.ts", "package.json", "tsconfig.json", ".git"),
+    })
+
     -- HTML
     lspconfig.html.setup({
       capabilities = capabilities,
@@ -131,10 +140,18 @@ return {
     })
 
     -- graphql
+
     lspconfig.graphql.setup({
       capabilities = capabilities,
       on_attach = on_attach,
-      filetypes = { "graphql", "typescriptreact", "javascriptreact", "gql", "*.gql" },
+
+      filetypes = {
+        "graphql",
+        "typescriptreact",
+        "javascriptreact",
+      },
+
+      root_dir = lsp_util.root_pattern("graphql.config.js", ".graphqlrc", ".git", "go.mod"),
     })
 
     -- nix
@@ -142,6 +159,49 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
       filetypes = { "nix" },
+    })
+
+    -- cucumber
+    lspconfig.cucumber_language_server.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "cucumber" },
+      settings = {
+        cucumber = {
+          features = { "features/**/*.feature" },
+          glue = { "**/features/step-definitions/*.steps.ts" },
+        },
+      },
+    })
+
+    -- rust
+    lspconfig.rust_analyzer.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "rust" },
+      settings = {
+        ["rust-analyzer"] = {
+          cargo = { allFeatures = true },
+          check = {
+            command = "clippy",
+          },
+        },
+      },
+    })
+
+    -- zig
+    lspconfig.zls.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "zig" },
+    })
+
+    -- elixir
+    lspconfig.elixirls.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "elixir", "eelixir", "heex", "surface" },
+      cmd = { "elixir-ls" },
     })
   end,
 }

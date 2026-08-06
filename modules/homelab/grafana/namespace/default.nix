@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.grafana.enable {
+  config = lib.mkIf (config.homelab.grafana.enable && config.homelab.enable) {
     services.k3s.manifests."grafana-namespace".content = [
       {
         apiVersion = "v1";

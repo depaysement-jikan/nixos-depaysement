@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.prometheus.enable {
+  config = lib.mkIf (config.homelab.prometheus.enable && config.homelab.enable) {
     services.k3s.manifests."prometheus-namespace".content = [
       {
         apiVersion = "v1";

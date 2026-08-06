@@ -29,7 +29,7 @@
       description = "Kubernetes resource requests/limits for vaultwarden container.";
     };
   };
-  config.services.k3s = lib.mkIf config.homelab.vaultwarden.enable {
+  config.services.k3s = lib.mkIf (config.homelab.vaultwarden.enable && config.homelab.enable) {
     # If stuck because namespace deletion:
     #   kubectl delete job -n kube-system helm-install-vaultwarden
     #   kubectl delete pod -n kube-system helm-install-vaultwarden-bj2n6

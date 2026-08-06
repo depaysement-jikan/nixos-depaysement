@@ -34,7 +34,7 @@
     };
   };
 
-  config.services.k3s = lib.mkIf config.homelab.pihole.enable {
+  config.services.k3s = lib.mkIf (config.homelab.pihole.enable && config.homelab.enable) {
     autoDeployCharts = {
       pihole = {
         name = "pihole";

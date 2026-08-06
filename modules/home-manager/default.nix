@@ -2,6 +2,7 @@
   outputs,
   config,
   settings,
+  inputs,
   ...
 }: {
   home = {
@@ -9,7 +10,15 @@
     sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {EDITOR = "nvim";};
   };
-  imports = [./apps ./desktop ./system ./security ./scripts ./hardware ./misc];
+  imports = [
+    ./apps
+    ./desktop
+    ./system
+    ./scripts
+    ./hardware
+    ./misc
+    inputs.sops-nix.homeManagerModules.sops
+  ];
 
   nixpkgs = {
     overlays = [
@@ -31,6 +40,7 @@
 
   programs = {
     wlogout.enable = true;
+    kitty.enable = true;
     home-manager.enable = config.homeManager.enable;
     bash.enable = true;
     nh = {enable = true;};

@@ -44,7 +44,7 @@
     };
   };
 
-  config = lib.mkIf config.homelab.vaultwarden.enable {
+  config = lib.mkIf (config.homelab.vaultwarden.enable && config.homelab.enable) {
     services.k3s = {
       manifests.cnpg-databases.content =
         [

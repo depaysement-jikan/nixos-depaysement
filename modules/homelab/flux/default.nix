@@ -39,7 +39,7 @@
       default = {};
     };
   };
-  config = lib.mkIf config.homelab.flux.enable {
+  config = lib.mkIf (config.homelab.flux.enable && config.homelab.enable) {
     environment = {
       systemPackages = [pkgs.fluxcd];
       variables.KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";

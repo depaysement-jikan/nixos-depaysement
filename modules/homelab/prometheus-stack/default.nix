@@ -25,7 +25,7 @@
     };
   };
 
-  config.services.k3s = lib.mkIf config.homelab.prometheus-stack.enable {
+  config.services.k3s = lib.mkIf (config.homelab.prometheus-stack.enable && config.homelab.enable) {
     autoDeployCharts.prometheus-stack = {
       name = "kube-prometheus-stack";
       repo = "oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack";
@@ -33,6 +33,7 @@
       hash = "sha256-+lIQ47tzJY3dRUlDrc5mx2mV9HK9wZ+iHDGnP7Cxb6A=";
       targetNamespace = "monitoring";
       values = {
+        # k get secret -n monitoring prometheus-stack-grafana -o jsonpath="{.data.admin-password}" | base64 --decode; echo
         grafana = {
           enabled = true;
           ingress = {

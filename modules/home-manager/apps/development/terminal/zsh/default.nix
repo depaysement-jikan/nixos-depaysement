@@ -10,7 +10,7 @@
       shell = {enableZshIntegration = true;};
       sessionPath = ["$HOME/.local/share/pnpm"];
       sessionVariables = {PNPM_HOME = "$HOME/.local/share/pnpm";};
-      packages = with pkgs; [zoxide ripgrep fd fzf openssl];
+      packages = with pkgs; [zoxide ripgrep fd fzf openssl bat];
     };
     programs = {
       eza.enable = true;
@@ -82,6 +82,7 @@
           alias cd='z'
           alias git-co='sh ~/.config/scripts/fuzzy-co.sh'
           alias k='kubectl'
+          alias g='git'
 
           # Nuke starship if needed
           # sed -i '/starship/d' ~/.zshrc

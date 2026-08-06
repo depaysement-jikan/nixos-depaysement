@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.prometheus-stack.enable {
+  config = lib.mkIf (config.homelab.prometheus-stack.enable && config.homelab.enable) {
     services.k3s = {
       manifests."prometheus-cert".content = [
         # --- Self-signed ClusterIssuer

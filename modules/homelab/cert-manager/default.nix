@@ -27,7 +27,7 @@ in {
     };
   };
 
-  config.services.k3s = lib.mkIf config.homelab.cert-manager.enable {
+  config.services.k3s = lib.mkIf (config.homelab.cert-manager.enable && config.homelab.enable) {
     autoDeployCharts.cert-manager = {
       name = "cert-manager";
       repo = "https://charts.jetstack.io";

@@ -1,5 +1,3 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
   outputs,
@@ -10,9 +8,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/homelab
-    ./disko
-    ./security/sops.nix
+    ./users
   ];
 
   nixpkgs = {
@@ -33,6 +29,8 @@
       experimental-features = ["nix-command" "flakes" "pipe-operators"];
       flake-registry = "";
       nix-path = config.nix.nixPath;
+      extra-substituters = ["https://noctalia.cachix.org"];
+      extra-trusted-public-keys = ["noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
     };
     channel.enable = false;
 
@@ -43,6 +41,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  hardware.enableRedistributableFirmware = true;
   networking.hostName = "tsukinara";
   networking.networkmanager.enable = true;
   networking.firewall = {
@@ -60,15 +59,6 @@
   time.timeZone = "America/Chicago";
 
   environment.shells = with pkgs; [zsh git];
-
-  users.users.depaysement = {
-    isNormalUser = true;
-    extraGroups = ["wheel" "k3s" "sddm"];
-    packages = with pkgs; [tree kitty];
-    shell = pkgs.zsh;
-    hashedPasswordFile = config.sops.secrets.depaysementUserPassword.path;
-    homeMode = "711";
-  };
 
   environment.systemPackages = with pkgs; [bind];
   programs.zsh.enable = true;

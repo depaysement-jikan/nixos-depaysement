@@ -17,7 +17,7 @@
     };
   };
 
-  config.services.k3s = lib.mkIf config.homelab.uptime-kuma.enable {
+  config.services.k3s = lib.mkIf (config.homelab.uptime-kuma.enable && config.homelab.enable) {
     autoDeployCharts.uptime-kuma = {
       name = "uptime-kuma";
       repo = "https://dirsigler.github.io/uptime-kuma-helm";

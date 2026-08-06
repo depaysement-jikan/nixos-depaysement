@@ -28,6 +28,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko.url = "github:nix-community/disko";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia/legacy-v4";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -63,14 +67,19 @@
           inherit (config.hosts.${hostName}) system profile platform;
           meta = {hostname = hostName;};
         };
-        modules = [
-          ./modules/nixos
-          ./hosts/${hostName}
-          ./hosts/${hostName}/config/homelab-config
-          ./hosts/${hostName}/config/nixos-config
-          disko.nixosModules.disko
-          {networking = {inherit hostName;};}
-        ];
+        modules =
+          [
+            ./modules/nixos
+            ./modules/homelab
+            ./hosts/${hostName}
+            ./hosts/${hostName}/config/homelab-config
+            ./hosts/${hostName}/config/nixos-config
+            {networking = {inherit hostName;};}
+          ]
+          ++ nixpkgs.lib.optionals (builtins.pathExists ./hosts/${hostName}/disko) [
+            disko.nixosModules.disko
+            ./hosts/${hostName}/disko
+          ];
       };
 
     mkHome = hostName: username: let
@@ -86,7 +95,7 @@
         };
         modules = [
           ./modules/home-manager
-          ./hosts/${hostName}/config/home-manager-config
+          ./hosts/${hostName}/users/${username}/config/home-manager-config
         ];
       };
 

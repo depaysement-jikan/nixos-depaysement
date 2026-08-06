@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  config = lib.mkIf config.homelab.flux.enable {
+  config = lib.mkIf (config.homelab.flux.enable && config.homelab.enable) {
     services.k3s.manifests.flux-system-namespace.content = [
       {
         apiVersion = "v1";
