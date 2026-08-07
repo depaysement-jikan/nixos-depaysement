@@ -107,7 +107,6 @@ createHostDefaultConfig() {
   networking.networkmanager.dns = "none";
 
   networking.nameservers = [
-    "192.168.1.204"
     "1.1.1.1"
   ];
 
