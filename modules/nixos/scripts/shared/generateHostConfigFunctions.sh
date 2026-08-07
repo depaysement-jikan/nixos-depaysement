@@ -291,6 +291,7 @@ createHostNixosConfig() {
         hyprland.enable = true;
         homeManager.enable = true;
         audio.enable = true;
+        openLinkHub.enable = false;
       };
     };
   };
