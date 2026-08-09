@@ -42,6 +42,7 @@ in {
         tmux.enable = lib.mkEnableOption "tmux configuration";
         git.enable = lib.mkEnableOption "git configuration";
         ghostty.enable = lib.mkEnableOption "ghostty configuration";
+        foot.enable = lib.mkEnableOption "ghostty configuration";
         neovim.enable = lib.mkEnableOption "ghostty configuration";
         starship.enable = lib.mkEnableOption "starship configuration";
         certbot.enable = lib.mkEnableOption "certbot configuration";
