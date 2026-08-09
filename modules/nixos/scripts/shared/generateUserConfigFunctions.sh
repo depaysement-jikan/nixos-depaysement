@@ -105,6 +105,7 @@ createUserHomeManagerConfig() {
             tmux.enable = true;
             git.enable = true;
             ghostty.enable = true;
+            foot.enable = true;
             neovim.enable = true;
             starship.enable = true;
             certbot.enable = true;
