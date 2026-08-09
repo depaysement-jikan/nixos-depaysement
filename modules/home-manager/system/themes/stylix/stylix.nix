@@ -53,6 +53,7 @@ in {
       targets = {
         nixos-icons.enable = true;
         waybar.enable = false;
+        foot.enable = true;
       };
     };
   };
