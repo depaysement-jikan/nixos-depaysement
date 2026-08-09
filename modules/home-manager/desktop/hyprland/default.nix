@@ -137,7 +137,7 @@
         debug = {damage_tracking = 2;};
 
         exec-once = [
-          "[workspace 1 silent] ghostty"
+          "[workspace 1 silent] foot"
           "[workspace 2 silent] firefox"
           "[workspace 3 silent] discord"
           "[workspace 4 silent] whatsapp-electron"
@@ -219,7 +219,7 @@
           "SUPER $mainMod SHIFT, 8, movetoworkspacesilent, 8"
 
           # Program shortcurts
-          "SUPER,RETURN,exec,ghostty"
+          "SUPER,RETURN,exec,foot"
           "SUPER,b,exec,firefox"
           "SUPER,d,exec,discord"
           ",Print,exec,screenshot-edit"
