@@ -1,6 +1,4 @@
 _: {
-  imports = [./utils/options.nix];
-
   hosts = {
     tsukinara = {
       system = "x86_64-linux";
