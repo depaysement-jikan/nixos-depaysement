@@ -47,6 +47,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   hardware.enableRedistributableFirmware = true;
+  hardware.enableAllFirmware = true;
   networking.hostName = "shinobu";
   networking.networkmanager.enable = true;
   networking.firewall = {
@@ -64,12 +65,11 @@
 
   environment.shells = with pkgs; [nushell];
 
-  environment.systemPackages = with pkgs; [bind git efibootmgr openrgb];
+  environment.systemPackages = with pkgs; [bind git efibootmgr];
   programs.zsh.enable = true;
 
   services.openssh = {enable = true;};
   services.blueman.enable = true;
-  services.hardware.openrgb.enable = true;
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
