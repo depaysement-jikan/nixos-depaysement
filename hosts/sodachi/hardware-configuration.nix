@@ -1,3 +1,3 @@
-  { ... }: {
-    # Paste in your hardware configuration config fot host: sodachi
-  }
+{...}: {
+  # Paste in your hardware configuration config fot host: sodachi
+}
