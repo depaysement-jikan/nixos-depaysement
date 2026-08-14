@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}: let
-in {
+}: {
   options.nixos-generic.desktop.tuigreet = {
     enable = lib.mkEnableOption "TUIGreet Display Manager";
   };
@@ -12,16 +11,15 @@ in {
   config = lib.mkIf config.nixos-generic.desktop.tuigreet.enable {
     services.greetd = {
       enable = true;
-
       settings = {
         default_session = {
-          command = ''
-            ${pkgs.tuigreet}/bin/tuigreet \
-              --time \
-              --remember \
-              --remember-user-session \
-              --cmd Hyprland
-          '';
+          command = lib.concatStringsSep " " [
+            "${pkgs.tuigreet}/bin/tuigreet"
+            "--time"
+            "--remember"
+            "--remember-user-session"
+            "--cmd ${lib.getExe' config.programs.hyprland.package "start-hyprland"}"
+          ];
           user = "greeter";
         };
       };
