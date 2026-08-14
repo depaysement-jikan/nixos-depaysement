@@ -77,6 +77,7 @@ createUserHomeManagerConfig() {
           zen.enable = true;
           firefox.enable = true;
           floorp.enable = true;
+          helium.enable = true;
         };
         social = {
           enable = true;

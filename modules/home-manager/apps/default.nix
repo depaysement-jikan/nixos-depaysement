@@ -14,6 +14,7 @@ in {
       zen.enable = lib.mkEnableOption "zen configuration";
       firefox.enable = lib.mkEnableOption "firefox configuration";
       floorp.enable = lib.mkEnableOption "floorp configuration";
+      helium.enable = lib.mkEnableOption "helium configuration";
     };
     social = {
       enable = lib.mkEnableOption "social apps";
