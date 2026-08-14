@@ -132,7 +132,7 @@
 
         exec-once = [
           "[workspace 1 silent] foot"
-          "[workspace 2 silent] floorp"
+          "[workspace 2 silent] helium"
           "[workspace 3 silent] discord"
           "[workspace 4 silent] whatsapp-electron"
           "[workspace 5 silent] spotify"
@@ -219,7 +219,7 @@
 
           # Program shortcuts
           "$mainMod,RETURN,exec,foot"
-          "$mainMod,b,exec,floorp"
+          "$mainMod,b,exec,helium"
           "$mainMod,d,exec,discord"
           ",Print,exec,screenshot-edit"
           "$mainMod,Print,exec,screenshot"

@@ -49,8 +49,17 @@
     ProcessSizeMax = "2G";
     ExternalSizeMax = "2G";
   };
+  boot.kernel.sysctl."kernel.sysrq" = 1;
   boot.kernel.sysctl."kernel.hung_task_timeout_secs" = 30;
   boot.loader.systemd-boot.memtest86.enable = true;
+
+  # Temporary: swap entries were corrupting and taking the kernel down.
+  # Partition stays in disko; remove these two lines to restore.
+  swapDevices = lib.mkForce [];
+  boot.resumeDevice = lib.mkForce "";
+  systemd.suppressedSystemUnits = ["dev-nvme0n1p3.swap"];
+  # Temporary: swap entries were corrupting and taking the kernel down.
+  # Partition stays in disko; remove these two lines to restore.
 
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;

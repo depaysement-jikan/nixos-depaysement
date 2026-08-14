@@ -10,6 +10,7 @@
           zen.enable = true;
           firefox.enable = true;
           floorp.enable = true;
+          helium.enable = false;
         };
         social = {
           enable = true;
