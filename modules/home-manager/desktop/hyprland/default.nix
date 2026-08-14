@@ -17,7 +17,6 @@
       wl-clipboard
       slurp
       swappy
-      wl-clipboard
       satty
       (writeShellScriptBin "screenshot" ''
         grim -g "$(slurp)" - \
@@ -66,7 +65,6 @@
           rounding = 12;
           shadow = {
             enabled = false;
-            ignore_window = true;
             range = 20;
             render_power = 1;
           };
@@ -82,6 +80,7 @@
             xray = false;
           };
         };
+
         animations = {
           enabled = true;
           animation = [
@@ -111,14 +110,13 @@
             "quick,0.15,0,0.1,1"
           ];
         };
+
         misc = {
-          vfr = true;
           vrr = 0;
           disable_hyprland_logo = true;
         };
 
         dwindle = {
-          pseudotile = true;
           force_split = 0;
           preserve_split = true;
           default_split_ratio = 1.0;
@@ -127,14 +125,10 @@
           use_active_for_splits = true;
         };
 
-        master = {
-          mfact = 0.5;
-          orientation = "right";
-          special_scale_factor = 0.8;
-          new_status = "slave";
+        debug = {
+          damage_tracking = 2;
+          vfr = true;
         };
-
-        debug = {damage_tracking = 2;};
 
         exec-once = [
           "[workspace 1 silent] foot"
@@ -145,93 +139,98 @@
           "clipse -listen"
         ];
 
-        windowrulev2 = [
-          "opacity 0.95 0.95,class:^(com.mitchellh.ghostty)$"
-          "float,class:^(file_progress)$"
-          "float,class:^(confirm)$"
-          "float,class:^(dialog)$"
-          "float,class:^(download)$"
-          "float,class:^(notification)$"
-          "float,class:^(error)$"
-          "float,class:^(confirmreset)$"
-          "float,title:^(Open File)$"
-          "float,title:^(branchdialog)$"
-          "float,title:^(Confirm to replace files)$"
-          "float,title:^(File Operation Progress)$"
-          "float,title:^(mpv)$"
-          "workspace 3, class:^(discord)$"
+        windowrule = [
+          "match:class ^(com.mitchellh.ghostty)$, opacity 0.95 0.95"
+
+          "match:class ^(file_progress)$, float on"
+          "match:class ^(confirm)$, float on"
+          "match:class ^(dialog)$, float on"
+          "match:class ^(download)$, float on"
+          "match:class ^(notification)$, float on"
+          "match:class ^(error)$, float on"
+          "match:class ^(confirmreset)$, float on"
+
+          "match:title ^(Open File)$, float on"
+          "match:title ^(branchdialog)$, float on"
+          "match:title ^(Confirm to replace files)$, float on"
+          "match:title ^(File Operation Progress)$, float on"
+          "match:title ^(mpv)$, float on"
+
+          "match:class ^(discord)$, workspace 3"
+
           # Clipse
-          "float,title:^(clipse)$"
-          "size 622 652,title:^(clipse)$"
-          "center,title:^(clipse)$"
+          "match:title ^(clipse)$, float on"
+          "match:title ^(clipse)$, size 622 652"
+          "match:title ^(clipse)$, center on"
+
           # Pavucontrol
-          "float,class:^(org.pulseaudio.pavucontrol)$"
-          "center,class:^(org.pulseaudio.pavucontrol)$"
-          "size 622 652,class:^(org.pulseaudio.pavucontrol)$"
+          "match:class ^(org.pulseaudio.pavucontrol)$, float on"
+          "match:class ^(org.pulseaudio.pavucontrol)$, center on"
+          "match:class ^(org.pulseaudio.pavucontrol)$, size 622 652"
         ];
 
         bind = [
           # Kill, Exit, float, group
-          "SUPER,Q,killactive,"
-          "SUPER,M,exit,"
-          "SUPER,S,togglefloating,"
-          "SUPER,g,togglegroup"
+          "$mainMod,Q,killactive,"
+          "$mainMod,M,exit,"
+          "$mainMod,S,togglefloating,"
+          "$mainMod,g,togglegroup"
 
           # Vim bindings
-          "SUPER,h,movefocus,l"
-          "SUPER,l,movefocus,r"
-          "SUPER,k,movefocus,u"
-          "SUPER,j,movefocus,d"
-          "SUPER,left,movefocus,l"
-          "SUPER,down,movefocus,d"
-          "SUPER,up,movefocus,u"
-          "SUPER,right,movefocus,r"
+          "$mainMod,h,movefocus,l"
+          "$mainMod,l,movefocus,r"
+          "$mainMod,k,movefocus,u"
+          "$mainMod,j,movefocus,d"
+          "$mainMod,left,movefocus,l"
+          "$mainMod,down,movefocus,d"
+          "$mainMod,up,movefocus,u"
+          "$mainMod,right,movefocus,r"
 
           # Workspace switching
-          "SUPER,1,workspace,1"
-          "SUPER,2,workspace,2"
-          "SUPER,3,workspace,3"
-          "SUPER,4,workspace,4"
-          "SUPER,5,workspace,5"
-          "SUPER,6,workspace,6"
-          "SUPER,7,workspace,7"
-          "SUPER,8,workspace,8"
+          "$mainMod,1,workspace,1"
+          "$mainMod,2,workspace,2"
+          "$mainMod,3,workspace,3"
+          "$mainMod,4,workspace,4"
+          "$mainMod,5,workspace,5"
+          "$mainMod,6,workspace,6"
+          "$mainMod,7,workspace,7"
+          "$mainMod,8,workspace,8"
 
           # Window movement
-          "SUPER SHIFT, H, movewindow, l"
-          "SUPER SHIFT, L, movewindow, r"
-          "SUPER SHIFT, K, movewindow, u"
-          "SUPER SHIFT, J, movewindow, d"
-          "SUPER SHIFT, left, movewindow, l"
-          "SUPER SHIFT, right, movewindow, r"
-          "SUPER SHIFT, up, movewindow, u"
-          "SUPER SHIFT, down, movewindow, d"
-          "SUPER, T, togglesplit"
+          "$mainMod SHIFT, H, movewindow, l"
+          "$mainMod SHIFT, L, movewindow, r"
+          "$mainMod SHIFT, K, movewindow, u"
+          "$mainMod SHIFT, J, movewindow, d"
+          "$mainMod SHIFT, left, movewindow, l"
+          "$mainMod SHIFT, right, movewindow, r"
+          "$mainMod SHIFT, up, movewindow, u"
+          "$mainMod SHIFT, down, movewindow, d"
+          "$mainMod, T, layoutmsg, togglesplit"
 
           # Workspace movement
-          "SUPER $mainMod SHIFT, 1, movetoworkspacesilent, 1"
-          "SUPER $mainMod SHIFT, 2, movetoworkspacesilent, 2"
-          "SUPER $mainMod SHIFT, 3, movetoworkspacesilent, 3"
-          "SUPER $mainMod SHIFT, 4, movetoworkspacesilent, 4"
-          "SUPER $mainMod SHIFT, 5, movetoworkspacesilent, 5"
-          "SUPER $mainMod SHIFT, 6, movetoworkspacesilent, 6"
-          "SUPER $mainMod SHIFT, 7, movetoworkspacesilent, 7"
-          "SUPER $mainMod SHIFT, 8, movetoworkspacesilent, 8"
+          "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
+          "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
+          "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
+          "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
+          "$mainMod SHIFT, 5, movetoworkspacesilent, 5"
+          "$mainMod SHIFT, 6, movetoworkspacesilent, 6"
+          "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
+          "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
 
-          # Program shortcurts
-          "SUPER,RETURN,exec,foot"
-          "SUPER,b,exec,firefox"
-          "SUPER,d,exec,discord"
+          # Program shortcuts
+          "$mainMod,RETURN,exec,foot"
+          "$mainMod,b,exec,firefox"
+          "$mainMod,d,exec,discord"
           ",Print,exec,screenshot-edit"
-          "SUPER,Print,exec,screenshot"
+          "$mainMod,Print,exec,screenshot"
           "CTRL,Print,exec,grim -o DP-1 ~/Pictures/screenshot.png"
-          "SUPER,o,exec,obsidian"
-          "SUPER,i,exec,idea-ultimate"
-          "SUPER,z,exec,waybar"
-          "SUPER,space,exec,pkill wofi || wofi drun"
+          "$mainMod,o,exec,obsidian"
+          "$mainMod,i,exec,idea-ultimate"
+          "$mainMod,z,exec,waybar"
+          "$mainMod,space,exec,pkill wofi || wofi drun"
           "CTRL&ALT,DELETE,exec,hyprlock"
-          "SUPER, V, exec, ghostty --title=clipse -e clipse"
-          "SUPER, escape, exec, wlogout -b 5"
+          "$mainMod, V, exec, ghostty --title=clipse -e clipse"
+          "$mainMod, escape, exec, wlogout -b 5"
 
           # Audio
           ",XF86AudioRaiseVolume,exec,wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
@@ -240,7 +239,7 @@
           ",XF86AudioMicMute,exec,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
         ];
 
-        bindm = ["SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow"];
+        bindm = ["$mainMod,mouse:272,movewindow" "$mainMod,mouse:273,resizewindow"];
 
         ecosystem = {no_update_news = true;};
       };
