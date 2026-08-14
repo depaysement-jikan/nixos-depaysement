@@ -45,6 +45,12 @@
     consoleMode = "max";
   };
   boot.loader.efi.canTouchEfiVariables = true;
+  systemd.coredump.settings.Coredump = {
+    ProcessSizeMax = "2G";
+    ExternalSizeMax = "2G";
+  };
+  boot.kernel.sysctl."kernel.hung_task_timeout_secs" = 30;
+  boot.loader.systemd-boot.memtest86.enable = true;
 
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
