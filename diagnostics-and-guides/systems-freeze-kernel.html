@@ -1,0 +1,974 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Why shinobu keeps hard-freezing — kernel forensics &amp; config review
+    </title>
+    <style>
+      :root {
+        --ink: #16191d;
+        --mute: #5b6570;
+        --faint: #8b949e;
+        --rule: #e1e5ea;
+        --bg: #fbfcfd;
+        --panel: #f2f4f7;
+        --alert: #a4121c;
+        --warn: #8a5300;
+        --ok: #0f6157;
+        --mono:
+          ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas,
+          monospace;
+        --sans:
+          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.62;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 56rem;
+        margin: 0 auto;
+        padding: 3.5rem 1.5rem 6rem;
+      }
+      code,
+      pre,
+      .mono {
+        font-family: var(--mono);
+      }
+      code {
+        font-size: 0.88em;
+        background: var(--panel);
+        padding: 0.1em 0.35em;
+        border-radius: 3px;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+      }
+      a {
+        color: var(--ok);
+      }
+
+      /* header */
+      header {
+        border-bottom: 2px solid var(--ink);
+        padding-bottom: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--mute);
+        margin: 0 0 0.9rem;
+      }
+      h1 {
+        font-size: clamp(1.9rem, 5vw, 2.9rem);
+        line-height: 1.1;
+        margin: 0 0 1.1rem;
+        letter-spacing: -0.02em;
+        font-weight: 640;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+      }
+      .meta span {
+        border: 1px solid var(--rule);
+        background: #fff;
+        padding: 0.2rem 0.55rem;
+        border-radius: 2px;
+        color: var(--mute);
+      }
+
+      /* bottom line */
+      .lede {
+        border-left: 3px solid var(--alert);
+        background: #fff;
+        padding: 1.1rem 1.3rem;
+        margin: 0 0 3rem;
+        font-size: 1.02rem;
+      }
+      .lede strong {
+        font-weight: 660;
+      }
+
+      /* sections */
+      section {
+        margin: 0 0 3.25rem;
+        scroll-margin-top: 1rem;
+      }
+      .sec-num {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        color: var(--alert);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.35rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+        letter-spacing: -0.015em;
+        margin: 0 0 1rem;
+        font-weight: 640;
+        line-height: 1.25;
+      }
+      h3 {
+        font-size: 1.08rem;
+        margin: 2.25rem 0 0.4rem;
+        font-weight: 640;
+        letter-spacing: -0.01em;
+      }
+      h4 {
+        font-size: 0.95rem;
+        margin: 1.5rem 0 0.5rem;
+        font-weight: 640;
+      }
+      .where {
+        font-family: var(--mono);
+        font-size: 0.76rem;
+        color: var(--mute);
+        margin: 0 0 0.85rem;
+        word-break: break-word;
+      }
+      p {
+        margin: 0 0 1rem;
+      }
+
+      /* tags */
+      .tag {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.12rem 0.45rem;
+        border-radius: 2px;
+        vertical-align: 0.12em;
+        margin-left: 0.5rem;
+        font-weight: 500;
+      }
+      .t-alert {
+        background: #fbeaec;
+        color: var(--alert);
+      }
+      .t-warn {
+        background: #fdf3e0;
+        color: var(--warn);
+      }
+      .t-ok {
+        background: #e6f2f0;
+        color: var(--ok);
+      }
+      .t-neutral {
+        background: var(--panel);
+        color: var(--mute);
+      }
+
+      /* metrics */
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+        gap: 1px;
+        background: var(--rule);
+        border: 1px solid var(--rule);
+        margin: 1.75rem 0;
+      }
+      .metrics div {
+        background: #fff;
+        padding: 0.9rem 1rem;
+      }
+      .metrics dt {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mute);
+        margin-bottom: 0.3rem;
+      }
+      .metrics dd {
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 1.15rem;
+        font-weight: 600;
+      }
+      .metrics dd.bad {
+        color: var(--alert);
+      }
+
+      /* tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.92rem;
+      }
+      th {
+        text-align: left;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--mute);
+        font-weight: 500;
+        border-bottom: 1px solid var(--ink);
+        padding: 0.5rem 0.7rem 0.45rem;
+      }
+      td {
+        border-bottom: 1px solid var(--rule);
+        padding: 0.7rem;
+        vertical-align: top;
+      }
+      td:first-child {
+        white-space: nowrap;
+      }
+      .rank td:first-child {
+        font-family: var(--mono);
+        color: var(--mute);
+        width: 2rem;
+      }
+      .verdict {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        white-space: nowrap;
+        color: var(--mute);
+      }
+      .v-bad {
+        color: var(--alert);
+      }
+      .v-good {
+        color: var(--ok);
+      }
+
+      /* confidence note */
+      .conf {
+        border-left: 2px solid var(--rule);
+        padding: 0.15rem 0 0.15rem 1rem;
+        color: var(--mute);
+        font-size: 0.93rem;
+        margin: 1.1rem 0 0;
+      }
+      .conf b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* diffs */
+      pre {
+        background: #fff;
+        border: 1px solid var(--rule);
+        border-radius: 3px;
+        padding: 0.9rem 1rem;
+        overflow-x: auto;
+        font-size: 0.8rem;
+        line-height: 1.55;
+        margin: 0.6rem 0 1rem;
+      }
+      pre .add {
+        color: var(--ok);
+        display: block;
+        background: #f0f8f6;
+      }
+      pre .del {
+        color: var(--alert);
+        display: block;
+        background: #fdf1f2;
+      }
+      pre .hunk {
+        color: var(--faint);
+        display: block;
+      }
+      .note {
+        font-size: 0.88rem;
+        color: var(--mute);
+        margin: -0.5rem 0 1.5rem;
+      }
+
+      /* steps */
+      ol.steps {
+        counter-reset: s;
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+      }
+      ol.steps li {
+        counter-increment: s;
+        position: relative;
+        padding-left: 2.6rem;
+        margin-bottom: 1.4rem;
+      }
+      ol.steps li::before {
+        content: counter(s);
+        position: absolute;
+        left: 0;
+        top: 0.05rem;
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--alert);
+        border: 1px solid var(--rule);
+        background: #fff;
+        width: 1.7rem;
+        height: 1.7rem;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+      }
+      ol.steps b {
+        font-weight: 640;
+      }
+
+      /* open items */
+      .qa {
+        margin: 1.5rem 0;
+      }
+      .qa dt {
+        font-weight: 640;
+        margin-top: 1.1rem;
+      }
+      .qa dd {
+        margin: 0.2rem 0 0;
+        color: var(--mute);
+      }
+
+      ul.plain {
+        margin: 1rem 0;
+        padding-left: 1.15rem;
+      }
+      ul.plain li {
+        margin-bottom: 0.8rem;
+      }
+
+      footer {
+        margin-top: 4rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--rule);
+        font-size: 0.88rem;
+        color: var(--mute);
+        font-style: italic;
+      }
+      @media print {
+        body {
+          background: #fff;
+        }
+        .wrap {
+          padding: 0;
+        }
+        pre {
+          page-break-inside: avoid;
+        }
+        section {
+          page-break-inside: auto;
+        }
+        h2,
+        h3 {
+          page-break-after: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="eyebrow">
+          Host: shinobu &middot; Kernel forensics &middot; Config review
+        </p>
+        <h1>Why shinobu keeps hard-freezing</h1>
+        <div class="meta">
+          <span>Friday, 14 Aug 2026</span>
+          <span>Booted kernel 6.18.44</span>
+          <span>Repo develop @ 695889c</span>
+          <span>Reviewed live, on-host</span>
+        </div>
+      </header>
+
+      <p class="lede">
+        <strong>Bottom line:</strong> the configuration has one clearly broken
+        habit — the kernel is completely unpinned and floats to whatever
+        nixpkgs-unstable ships on the day of each rebuild, which is how this box
+        ended up running a days-old 6.18.44. Beyond that, most of the specific
+        config bugs from the earlier session are already fixed. The amdgpu-only
+        theory got weaker while this review was running: a second oops happened
+        today, in a completely unrelated subsystem, with the same
+        corrupted-pointer signature. That points at something broader than one
+        driver.
+      </p>
+
+      <section>
+        <h2>Active right now — this boot is already degraded</h2>
+        <p>
+          While reviewing the repo I checked this session's own
+          <code>journalctl -k -b 0</code>, since this happens to be running
+          directly on shinobu. The current boot (started 13:12) took a kernel
+          oops at 13:18:14, about 37 minutes before this report — general
+          protection fault, probably for non-canonical address
+          <code>0x6cb3447e1cffc</code>, in
+          <code>lookup_swap_cgroup_id</code> via <code>unmap_vmas</code>,
+          immediately followed by a second fault in
+          <code>rcu_note_context_switch</code>. The kernel logged
+          <code>Fixing recursive fault but reboot is needed!</code> and tainted
+          itself (D).
+        </p>
+
+        <p>
+          Unlike the Aug 12 incident, Hyprland itself is still alive and the
+          desktop is usable — this is what let the review continue. But the
+          machine is in the same kind of degraded state that preceded the Aug 12
+          hard freeze: dozens of kworkers, <code>systemd-coredump</code>, and
+          even a stray <code>sudo</code> invocation are stuck in uninterruptible
+          sleep.
+        </p>
+
+        <dl class="metrics">
+          <div>
+            <dt>Load average</dt>
+            <dd class="bad">45.4 / 44.7 / 37.1</dd>
+          </div>
+          <div>
+            <dt>D-state procs</dt>
+            <dd class="bad">25</dd>
+          </div>
+          <div>
+            <dt>Zombies</dt>
+            <dd class="bad">44</dd>
+          </div>
+          <div>
+            <dt>kernel.tainted</dt>
+            <dd class="bad">640 (D)</dd>
+          </div>
+          <div>
+            <dt>Uptime</dt>
+            <dd>42 min</dd>
+          </div>
+          <div>
+            <dt>RAM used</dt>
+            <dd>8.3G / 30G</dd>
+          </div>
+        </dl>
+
+        <p>
+          It got worse while this report was being written: a plain
+          <code>nix eval</code> run to double-check a package name went into D
+          state and has now been stuck, unkillable, for over 5 minutes — not
+          something a nix evaluation should ever do on its own. That's a live,
+          first-hand reproduction of the same uninterruptible-sleep pileup the
+          Aug 12 incident described, happening on this exact boot, right now.
+        </p>
+
+        <p class="conf">
+          <b>Recommendation:</b> save your work and reboot soon — the kernel
+          itself is telling you to. This is a good moment to boot into the
+          known-good 7.1.2 generation instead of back into 6.18.44 (see §5, Test
+          plan). No changes have been made to the running system or the boot
+          default; that choice is yours at the boot menu.
+        </p>
+      </section>
+
+      <section>
+        <span class="sec-num">§1</span>
+        <h2>What's different from the handoff</h2>
+        <p>
+          The prior session's notes were mostly accurate, but a few things have
+          moved since — some for the better, one materially for the worse.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Handoff claim</th>
+              <th>Current reality</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GPU model "not yet identified"</td>
+              <td>
+                Confirmed via <code>lspci</code>: XFX Radeon RX 9060 XT (Navi
+                44, RDNA4) as the dGPU, plus the 9700X's integrated Granite
+                Ridge iGPU — both bound to amdgpu, so this is a dual-GPU amdgpu
+                topology.
+              </td>
+              <td class="verdict v-bad">raises risk</td>
+            </tr>
+            <tr>
+              <td>BIOS flash to newer AGESA — status unknown</td>
+              <td>
+                Not done. <code>bios_version</code> is still 1078, dated
+                07/14/2025, identical to the handoff.
+              </td>
+              <td class="verdict">unchanged</td>
+            </tr>
+            <tr>
+              <td>greetd/tuigreet TOML newline bug</td>
+              <td>
+                Fixed. The command is now built with
+                <code>lib.concatStringsSep</code> and launches via the
+                <code>start-hyprland</code> wrapper.
+              </td>
+              <td class="verdict v-good">resolved</td>
+            </tr>
+            <tr>
+              <td>
+                <code>openLinkHub.enable = false</code> "recently applied"
+              </td>
+              <td>
+                Not applied. It is <code>true</code> at both the NixOS and
+                home-manager layers right now.
+              </td>
+              <td class="verdict v-bad">regressed</td>
+            </tr>
+            <tr>
+              <td>Leading theory: amdgpu TTM teardown bug</td>
+              <td>
+                Today's fresh oops (13:18) is in mm/swap-cgroup + RCU, not
+                amdgpu — same corrupted-pointer signature, unrelated subsystem.
+              </td>
+              <td class="verdict v-bad">weakens theory</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <span class="sec-num">§2</span>
+        <h2>Findings, ranked</h2>
+        <p>
+          Ordered by how much confidence I have that fixing it changes the
+          crash, not by how untidy the code is. Each finding says where it lives
+          and how sure I am.
+        </p>
+
+        <table class="rank">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Finding</th>
+              <th>Severity</th>
+              <th>Confidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Kernel is completely unpinned</td>
+              <td>High value</td>
+              <td>High</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                OpenLinkHub re-enabled, root service on user-writable paths
+              </td>
+              <td>High value</td>
+              <td>Med (as hardening); Low (as root cause)</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Dead hyprland flake input, own unfollowed nixpkgs</td>
+              <td>Cleanup</td>
+              <td>Confirmed inert today</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Standalone home-manager can drift from system Mesa</td>
+              <td>Process risk</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>
+                Broken <code>inputs.nixpkgs-unstable</code> reference in overlay
+              </td>
+              <td>Landmine</td>
+              <td>Confirmed, currently inert</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><code>hardware-configuration.nix</code> is an empty stub</td>
+              <td>Hygiene</td>
+              <td>Low relevance to freezes</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>No watchdog / hard-reboot on hang</td>
+              <td>Instrumentation</td>
+              <td>N/A — improves recovery, not cause</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>tuigreet, coredump caps, hung_task_timeout, memtest86</td>
+              <td>Already fixed</td>
+              <td>Verified in repo + on disk</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>
+          1 — Kernel floats with zero pin
+          <span class="tag t-alert">highest priority</span>
+        </h3>
+        <p class="where">
+          No host defines <code>boot.kernelPackages</code> — checked all four
+          hosts, whole repo grep is empty.
+        </p>
+        <p>
+          Nothing in this repo ever sets <code>boot.kernelPackages</code>, so
+          every host — including shinobu — gets nixpkgs-unstable's default
+          kernel line, whatever it happens to be on the day of
+          <code>nh os switch</code>. That default moves fast: the systemd-boot
+          entries on this machine show four different kernel builds across three
+          days (7.1.2 &rarr; 7.1.8 &rarr; 6.18.44, generations 41–50, all built
+          Aug 11–12). The box that's been freezing for months has never once run
+          a kernel version chosen on purpose.
+        </p>
+        <p>
+          This is also the reason the crash journal is hard to act on: kernel
+          6.18.44 is only days old upstream when this box hit it. Fresh mainline
+          kernels on brand-new RDNA4 hardware are exactly where an unfixed
+          amdgpu or mm regression is most likely, and there's no way to tell
+          "real bug" from "this specific build" without holding the kernel
+          still.
+        </p>
+        <p class="conf">
+          <b>Confidence:</b> not that this alone causes the freeze, but that
+          it's why the freeze can't be diagnosed further without pinning first.
+          This is the single highest-value change on this list.
+        </p>
+
+        <h3>
+          2 — OpenLinkHub is on, contrary to what the handoff assumed
+          <span class="tag t-alert">confirmed regression</span>
+        </h3>
+        <p class="where">
+          hosts/shinobu/config/nixos-config/default.nix:11 and
+          hosts/shinobu/users/kokoro/config/home-manager-config/default.nix:93
+        </p>
+        <p>
+          The handoff listed
+          <code>nixos-generic.desktop.openLinkHub.enable = false;</code> under
+          "recently applied, verify present and correct." It is not present —
+          both the NixOS toggle and the home-manager toggle are
+          <code>true</code> right now. The systemd unit still runs as root, with
+          <code>WorkingDirectory = /home/kokoro/code/OpenLinkHub</code> (a plain
+          git checkout) and
+          <code>ExecStart = /home/kokoro/.nix-profile/bin/OpenLinkHub</code> — a
+          root service executing a binary out of a path <code>kokoro</code> can
+          write to, with no sandboxing (<code>ProtectSystem</code>,
+          <code>DeviceAllow</code>, etc. are all absent) and no udev rules,
+          because running as root just sidesteps needing any.
+        </p>
+        <p>
+          Per the handoff, OpenLinkHub logged nothing during the Aug 12 crash
+          boot, so it's not implicated in that specific incident. But it's a
+          root daemon doing raw HID ioctls from a user-writable path — that's a
+          real hardening gap independent of the GPU question, and it's one more
+          variable in the mix while you're trying to isolate a kernel bug. Worth
+          turning off for the duration of the kernel test regardless of whether
+          it turns out to matter.
+        </p>
+        <p class="conf">
+          <b>Confidence:</b> high that this configuration is wrong and should be
+          fixed; low that it's the cause of the amdgpu/TTM or mm oopses
+          specifically.
+        </p>
+
+        <h3>
+          3 — The hyprland flake input is dead code, not a live mismatch
+          <span class="tag t-ok">ruled out as described, real risk nearby</span>
+        </h3>
+        <p class="where">
+          flake.nix:14 declares it; nothing in modules/ or hosts/ references
+          <code>inputs.hyprland</code>
+        </p>
+        <p>
+          The handoff's top concern was a <code>nixpkgs.follows</code> mismatch
+          on the Hyprland input causing Mesa/libdrm skew. I traced every
+          consumer: <code>programs.hyprland.enable = true</code> (NixOS) and
+          <code>wayland.windowManager.hyprland.package = pkgs.hyprland</code>
+          (home-manager) both pull from the plain <code>nixpkgs</code> input —
+          never from <code>inputs.hyprland</code>. The flake input exists, has
+          its own unfollowed nixpkgs pin (flake.lock node
+          <code>nixpkgs_3</code>), and is entirely unused. It's a red herring
+          today, but it's exactly the kind of thing that causes this failure
+          mode the moment someone wires it in later without adding
+          <code>follows</code>. Recommend deleting it outright.
+        </p>
+        <p>
+          The real version-skew risk is architectural, not a bug: home-manager
+          here is standalone (<code
+            >modules/nixos/desktop/home-manager/default.nix</code
+          >
+          only installs the <code>home-manager</code> CLI — it never imports
+          <code>home-manager.nixosModules.home-manager</code>). System
+          Mesa/amdgpu userspace and the user's Hyprland/wlroots are two
+          independently built closures that only agree today because both read
+          the same <code>nixpkgs</code> flake input. If
+          <code>nh os switch</code> and the home-manager activation are ever run
+          against different checkouts of <code>flake.lock</code>, they will
+          drift — same symptom the handoff worried about, different cause.
+        </p>
+        <p class="conf">
+          <b>Confidence:</b> high that the specific
+          <code>follows</code>-mismatch theory doesn't apply to the current
+          repo; medium that the standalone-HM architecture is worth tightening
+          as a preventative measure.
+        </p>
+
+        <h3>
+          4 — Broken <code>inputs.nixpkgs-unstable</code> reference
+          <span class="tag t-warn">landmine, currently inert</span>
+        </h3>
+        <p class="where">overlays/default.nix:18</p>
+        <p>
+          Today's <code>b103628</code> "flake upgrades" commit deleted the
+          <code>nixpkgs-unstable</code> flake input, but
+          <code>overlays/default.nix</code>'s
+          <code>unstable-packages</code> overlay still does
+          <code>import inputs.nixpkgs-unstable {...}</code>. Nothing in the repo
+          currently reads <code>pkgs.unstable</code>, and Nix's laziness means
+          the broken thunk is never forced — so evaluation still succeeds today.
+          The moment anyone references <code>pkgs.unstable.anything</code>, the
+          build hard-fails with a missing-attribute error. Zero risk to clean up
+          now.
+        </p>
+        <p class="conf">
+          <b>Confidence:</b> certain — verified both the missing input and the
+          absence of any consumer.
+        </p>
+
+        <h3>
+          5 — <code>hosts/shinobu/hardware-configuration.nix</code> is a
+          placeholder stub <span class="tag t-neutral">hygiene</span>
+        </h3>
+        <p class="where">
+          hosts/shinobu/hardware-configuration.nix — entire file is a comment:
+          "Paste in your hardware configuration for host: shinobu"
+        </p>
+        <p>
+          This was never populated by <code>nixos-generate-config</code>.
+          Filesystems are covered by disko, so the machine boots fine, but
+          there's no explicit
+          <code>boot.initrd.availableKernelModules</code>/<code
+            >kernelModules</code
+          >
+          for this host — it's relying entirely on systemd-stage1's automatic
+          module loading. That's a normal, supported mode in current NixOS, so
+          I'm not treating this as a freeze cause. AMD microcode updates are
+          also not explicitly enabled anywhere, but recent nixpkgs defaults
+          <code>hardware.cpu.amd.updateMicrocode</code> to
+          <code>hardware.enableRedistributableFirmware</code> (which shinobu
+          sets to <code>true</code>), so this is very likely already on — worth
+          a one-line confirmation, not a fix.
+        </p>
+        <p class="conf">
+          <b>Confidence:</b> low relevance to the crash; flagging for
+          completeness since the handoff asked for a full orientation pass.
+        </p>
+
+        <h3>
+          Already fixed — verified, don't re-touch
+          <span class="tag t-ok">confirmed</span>
+        </h3>
+        <ul class="plain">
+          <li>
+            <b>tuigreet TOML bug (handoff §1):</b>
+            <code>modules/nixos/desktop/tuigreet/default.nix</code> now builds
+            the greetd command with
+            <code>lib.concatStringsSep " " [...]</code> and launches via
+            <code
+              >lib.getExe' config.programs.hyprland.package
+              "start-hyprland"</code
+            >
+            — both the newline corruption and the "started without
+            start-hyprland" warning are addressed.
+          </li>
+          <li>
+            <b>Coredump caps, hung_task_timeout, memtest86 (handoff §5):</b> all
+            three are present verbatim in
+            <code>hosts/shinobu/default.nix</code>, using the current
+            <code>systemd.coredump.settings.Coredump</code> API.
+            <code>memtest86.conf</code> is confirmed present as a real boot
+            entry.
+          </li>
+          <li>
+            <b>Hyprland config syntax (handoff §2):</b> the home-manager
+            Hyprland config no longer contains any of the specifically-named
+            rejected options — no <code>windowrulev2</code>, no
+            <code>dwindle.pseudotile</code>, no <code>misc.vfr</code>, no
+            <code>decoration.shadow.ignore_window</code>. It's on the newer
+            <code>windowrule</code> + <code>match:</code> selector syntax
+            already. I can't fully confirm all ~19 against 0.56.2 without the
+            machine's own Hyprland log, but nothing matching the named offenders
+            remains.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <span class="sec-num">§3</span>
+        <h2>Proposed diffs</h2>
+        <p>
+          Nothing below has been applied. Highest value first — say which ones
+          to make and I'll edit the files.
+        </p>
+
+        <h4><code>hosts/shinobu/default.nix</code> — pin the kernel</h4>
+        <pre><code><span class="hunk">@@ boot.loader config @@</span>
+   boot.loader.efi.canTouchEfiVariables = true;
+<span class="add">+  # Pinned while diagnosing the amdgpu/mm oopses on floating unstable.</span><span class="add">+  # linuxPackages_6_12 is nixpkgs' current LTS line — independent of</span><span class="add">+  # whatever "latest" resolves to on any given day.</span><span class="add">+  boot.kernelPackages = pkgs.linuxPackages_6_12;</span><span class="add">+</span><span class="add">+  # Force a hard reboot if a hang recurs, instead of sitting frozen</span><span class="add">+  # until someone reaches the power button.</span><span class="add">+  systemd.watchdog.runtimeTime = "20s";</span><span class="add">+  systemd.watchdog.rebootTime = "30s";</span><span class="add">+</span>
+   systemd.coredump.settings.Coredump = {</code></pre>
+
+        <h4>
+          <code>hosts/shinobu/config/nixos-config/default.nix</code> — disable
+          OpenLinkHub
+        </h4>
+        <pre><code>       audio.enable = true;
+<span class="del">-        openLinkHub.enable = true;</span><span class="add">+        openLinkHub.enable = false;</span>
+       };</code></pre>
+
+        <h4>
+          <code>hosts/.../kokoro/config/home-manager-config/default.nix</code> —
+          same, HM side
+        </h4>
+        <pre><code>       system = {
+         enable = true;
+         fonts.enable = true;
+<span class="del">-        openLinkHub.enable = true;</span><span class="add">+        openLinkHub.enable = false;</span>
+         themes = {</code></pre>
+
+        <h4><code>flake.nix</code> — drop the unused Hyprland input</h4>
+        <pre><code>     zen-browser = {
+       url = "github:0xc000022070/zen-browser-flake";
+       inputs.nixpkgs.follows = "nixpkgs";
+     };
+<span class="del">-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";</span>
+     catppuccin.url = "github:catppuccin/nix/release-25.05";</code></pre>
+        <p class="note">
+          Nothing references <code>inputs.hyprland</code> — confirmed by
+          full-repo search. Safe to remove; run
+          <code>nix flake lock</code> after.
+        </p>
+
+        <h4>
+          <code>overlays/default.nix</code> — remove the dangling unstable
+          overlay
+        </h4>
+        <pre><code>   modifications = final: prev: {
+     # example = prev.example.overrideAttrs (oldAttrs: rec { ... });
+   };
+<span class="del">-</span><span class="del">-  # When applied, the unstable nixpkgs set (declared in the flake inputs) will</span><span class="del">-  # be accessible through 'pkgs.unstable'</span><span class="del">-  unstable-packages = final: _prev: {</span><span class="del">-    unstable = import inputs.nixpkgs-unstable {</span><span class="del">-      system = final.system;</span><span class="del">-      config.allowUnfree = true;</span><span class="del">-    };</span><span class="del">-  };</span>
+ }</code></pre>
+        <p class="note">
+          Also drop the <code>outputs.overlays.unstable-packages</code> line
+          from every host's <code>nixpkgs.overlays</code> list (4 hosts).
+          Alternative: re-add <code>nixpkgs-unstable</code> as an input instead,
+          if <code>pkgs.unstable</code> is something you actually want
+          available.
+        </p>
+      </section>
+
+      <section>
+        <span class="sec-num">§4</span>
+        <h2>What this doesn't touch</h2>
+        <p>
+          <code>hardware.graphics</code> is minimal and clean on every host
+          (just <code>enable</code> + <code>enable32Bit</code>, no ROCm/VA-API
+          extras). No <code>boot.kernelParams</code> or
+          <code>extraModprobeConfig</code> touch amdgpu anywhere.
+          <code>pkgs/default.nix</code> is empty — no custom packages, no
+          patched kernel, no out-of-tree modules. RAM, EXPO, and the NVMe were
+          already ruled out before this review started and nothing found here
+          reopens them. If the kernel pin doesn't stop the freezes, the honest
+          next suspect is the hardware itself — the 9700X's memory controller
+          under real load, or the un-flashed BIOS — not this configuration.
+        </p>
+      </section>
+
+      <section>
+        <span class="sec-num">§5</span>
+        <h2>Test plan</h2>
+        <p>The single most informative thing you can do next, in order.</p>
+        <ol class="steps">
+          <li>
+            <b>Reboot now, into generation 41 (kernel 7.1.2).</b> It's still a
+            live systemd-boot entry (<code>nixos-3eddc8eb8e0684...conf</code>)
+            and its store path hasn't been garbage-collected — confirmed both
+            just now. This was the last generation that didn't hang and predates
+            the run of oopses. You don't need to change the flake to try it;
+            just pick it from the boot menu.
+          </li>
+          <li>
+            <b>Run several days on 7.1.2</b> before touching anything else. If
+            it holds, the kernel is confirmed as the variable and you pin to a
+            build in that family (or the closest current LTS) going forward. If
+            it still freezes, the amdgpu/mm hypothesis is wrong and the
+            RAM/IMC/BIOS angle moves back to the top.
+          </li>
+          <li>
+            <b
+              >Apply the OpenLinkHub and overlay diffs regardless of outcome.</b
+            >
+            They're correct independent of what the kernel test shows, and they
+            remove two variables from future crash journals.
+          </li>
+          <li>
+            <b
+              >Once you're back on a rebuild you trust, commit the kernel pin
+              from §3</b
+            >
+            instead of continuing to float. Bump it deliberately later, rather
+            than getting a new kernel as a side effect of an unrelated
+            <code>nh os switch</code>.
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <span class="sec-num">§6</span>
+        <h2>Open items from the handoff</h2>
+        <dl class="qa">
+          <dt>Exact Radeon model?</dt>
+          <dd>
+            Answered. XFX Radeon RX 9060 XT (Navi 44 / RDNA4), plus the 9700X's
+            Granite Ridge iGPU — both on amdgpu.
+          </dd>
+          <dt>Has the BIOS been flashed to current AGESA?</dt>
+          <dd>No. Still version 1078, dated 07/14/2025.</dd>
+          <dt>Is the 7.1.2 generation still present, or GC'd?</dt>
+          <dd>
+            Still present. Generation 41, systemd-boot entry and store path both
+            confirmed intact.
+          </dd>
+          <dt>DIMM locators (A2/B2 vs A1/B1)?</dt>
+          <dd>
+            Couldn't confirm — <code>dmidecode</code> needs root and hung
+            waiting on privilege in this session (consistent with the D-state
+            pileup above). Worth checking once the machine is rebooted.
+          </dd>
+        </dl>
+      </section>
+
+      <footer>
+        Nothing was rebuilt or switched during this review — the diffs in §3 are
+        proposals only. One pre-existing uncommitted change (Firefox &rarr;
+        Floorp in the Hyprland exec list) was left untouched; it isn't related
+        to this investigation. Say which diffs to apply and I'll make the edits.
+      </footer>
+    </div>
+  </body>
+</html>
