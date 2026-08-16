@@ -52,6 +52,7 @@
   boot.kernel.sysctl."kernel.sysrq" = 1;
   boot.kernel.sysctl."kernel.hung_task_timeout_secs" = 30;
   boot.loader.systemd-boot.memtest86.enable = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Temporary: swap entries were corrupting and taking the kernel down.
   # Partition stays in disko; remove these two lines to restore.
