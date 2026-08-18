@@ -59,6 +59,8 @@
   swapDevices = lib.mkForce [];
   boot.resumeDevice = lib.mkForce "";
   systemd.suppressedSystemUnits = ["dev-nvme0n1p3.swap"];
+  boot.kernelParams = ["page_poison=1" "slub_debug=FZP" "page_owner=on"];
+  boot.kernel.sysctl."kernel.io_uring_disabled" = 2;
   # Temporary: swap entries were corrupting and taking the kernel down.
   # Partition stays in disko; remove these two lines to restore.
 
