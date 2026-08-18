@@ -7,7 +7,6 @@
   options = {hyprland.enable = lib.mkEnableOption "Enable hyprland";};
   config = lib.mkIf config.homeManager.desktop.hyprland.enable {
     home.packages = with pkgs; [
-      swaynotificationcenter
       kitty
       grim
       ffmpeg_6
@@ -24,10 +23,6 @@
       '')
       (writeShellScriptBin "screenshot-edit" ''
         grim -g "$(slurp)" - | wl-copy
-      '')
-      (writeShellScriptBin "autostart-waybar" ''
-        pkill waybar
-        waybar -c $HOME/.config/waybar/config -s $HOME/.config/waybar/style.css &
       '')
     ];
     wayland.windowManager.hyprland = {
@@ -134,7 +129,7 @@
           "[workspace 1 silent] foot"
           "[workspace 2 silent] helium"
           "[workspace 3 silent] discord"
-          "[workspace 4 silent] whatsapp-electron"
+          # "[workspace 4 silent] whatsapp-electron"
           "[workspace 5 silent] spotify"
           "clipse -listen"
         ];
@@ -226,7 +221,7 @@
           "CTRL,Print,exec,grim -o DP-1 ~/Pictures/screenshot.png"
           "$mainMod,o,exec,obsidian"
           "$mainMod,i,exec,idea-ultimate"
-          "$mainMod,z,exec,waybar"
+          "$mainMod,z,exec,noctalia-shell"
           "$mainMod,space,exec,pkill wofi || wofi drun"
           "CTRL&ALT,DELETE,exec,hyprlock"
           "$mainMod, V, exec, ghostty --title=clipse -e clipse"

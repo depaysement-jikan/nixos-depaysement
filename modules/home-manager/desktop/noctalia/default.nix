@@ -12,10 +12,11 @@
   config = lib.mkIf config.homeManager.desktop.noctalia.enable {
     programs.noctalia-shell = {
       enable = true;
+      systemd.enable = true;
       settings = {
         bar = {
           density = "compact";
-          position = "bottom";
+          position = "top";
           showCapsule = false;
           widgets = {
             left = [
@@ -60,7 +61,7 @@
         };
         location = {
           monthBeforeDay = true;
-          name = "Marseille, France";
+          name = "Texas, America";
         };
       };
     };

@@ -15,7 +15,7 @@
         social = {
           enable = true;
           discord.enable = true;
-          whatsapp.enable = true;
+          whatsapp.enable = false;
           spotify.enable = true;
         };
         gaming = {
@@ -85,7 +85,7 @@
         wofi.enable = true;
         hyprland.enable = true;
         hyprlock.enable = true;
-        waybar.enable = true;
+        waybar.enable = false;
         noctalia.enable = true;
       };
       system = {
