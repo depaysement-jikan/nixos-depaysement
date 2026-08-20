@@ -129,8 +129,8 @@
           "[workspace 1 silent] foot"
           "[workspace 2 silent] helium"
           "[workspace 3 silent] discord"
-          # "[workspace 4 silent] whatsapp-electron"
-          "[workspace 5 silent] spotify"
+          "[workspace 4 silent] spotify"
+          # "[workspace 5 silent] whatsapp-electron"
           "clipse -listen"
         ];
 

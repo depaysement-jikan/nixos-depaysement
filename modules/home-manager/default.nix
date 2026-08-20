@@ -36,7 +36,7 @@
     homeDirectory = "/home/${settings.user}";
   };
 
-  services.swaync.enable = true;
+  services.swaync.enable = false;
 
   programs = {
     wlogout.enable = true;
