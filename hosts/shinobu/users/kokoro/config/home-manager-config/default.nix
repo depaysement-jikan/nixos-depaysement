@@ -15,7 +15,7 @@
         social = {
           enable = true;
           discord.enable = true;
-          whatsapp.enable = false;
+          whatsapp.enable = true;
           spotify.enable = true;
         };
         gaming = {

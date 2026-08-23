@@ -71,6 +71,8 @@
     "slub_debug=FZP"
     "page_owner=on"
   ];
+  boot.kernel.sysctl."kernel.panic_on_oops" = 1;
+  boot.kernel.sysctl."kernel.panic" = 10;
   # Temporary: swap entries were corrupting and taking the kernel down.
   # Partition stays in disko; remove these two lines to restore.
 
@@ -103,5 +105,5 @@
     enable32Bit = true;
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 }
