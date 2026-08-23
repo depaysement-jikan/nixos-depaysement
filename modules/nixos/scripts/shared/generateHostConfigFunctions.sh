@@ -125,7 +125,7 @@ createHostDefaultConfig() {
     enable32Bit = true;
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 }
 EOF
 
