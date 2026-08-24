@@ -252,5 +252,4 @@ This configuration is inspired by the many amazing dotfiles repositories in the 
 
 - [r0chd's nixconf](https://github.com/r0chd/nixconf)
 - [redyf's nixdots](https://github.com/redyf/nixdots)
-- [iaverage's dotfiles](https://github.com/iAverages/dotfiles)
 - [mysterio77's nix starter config](https://github.com/Misterio77/nix-starter-configs)
