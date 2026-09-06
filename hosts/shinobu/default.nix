@@ -55,32 +55,13 @@
   boot.loader.systemd-boot.memtest86.enable = true;
   boot.initrd.kernelModules = ["amdgpu"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  security.polkit.enable = true;
-
-  # Temporary: swap entries were corrupting and taking the kernel down.
-  # Partition stays in disko; remove these two lines to restore.
-  systemd.suppressedSystemUnits = ["dev-nvme0n1p3.swap"];
-  swapDevices = lib.mkForce [];
-  boot.resumeDevice = lib.mkForce "";
-  # boot.kernelParams = ["page_poison=1" "slub_debug=FZP" "page_owner=on"];
-  boot.kernel.sysctl."kernel.io_uring_disabled" = 2;
   boot.kernelParams = [
-    "amd_iommu=on"
-    "iommu=force"
-    "iommu.strict=1"
-    "iommu.passthrough=0"
     "page_poison=1"
-    "slub_debug=FZP"
-    "page_owner=on"
   ];
   boot.kernel.sysctl."kernel.panic_on_oops" = 1;
   boot.kernel.sysctl."kernel.panic" = 10;
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  hardware.amdgpu.initrd.enable = lib.mkDefault true;
-  services.xserver.videoDrivers = lib.mkDefault ["modesetting"];
-  # Temporary: swap entries were corrupting and taking the kernel down.
-  # Partition stays in disko; remove these two lines to restore.
+
+  security.polkit.enable = true;
 
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
@@ -88,6 +69,8 @@
     enable = true;
     enable32Bit = true;
   };
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.amdgpu.initrd.enable = lib.mkDefault true;
 
   networking.hostName = "shinobu";
   networking.networkmanager.enable = true;
