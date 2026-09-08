@@ -25,7 +25,9 @@
 *   **Terminal:** Added [Doppler](https://www.doppler.com/) for secrets injection, plus `gum`, `bat`, `htop`
     and `pciutils`.
 *   **Documentation:** Added `diagnostics-and-guides/` with an ext4 root corruption runbook, an unstable
-    migration post-mortem, and an ongoing investigation into random freezes on `shinobu`.
+    migration post-mortem, an ongoing investigation into random freezes on `shinobu`, and a guide to
+    deploying [Anubis](https://github.com/TecharoHQ/anubis) in the k3s homelab (architecture,
+    sidecar vs forward-auth topologies, and a staged plan of action).
 *   **Boot:** Added kernel and coredump debugging options on `shinobu` (`page_poison`, sysrq,
     `hung_task_timeout_secs`, `panic_on_oops`, memtest86, larger coredump limits) and pinned it to
     `linuxPackages_latest`.
