@@ -17,6 +17,13 @@
     };
   };
 
+  config.homelab.metallb.claims = lib.mkIf (config.homelab.uptime-kuma.enable && config.homelab.enable) [
+    {
+      owner = "uptime-kuma";
+      ip = config.homelab.uptime-kuma.loadBalancerIP;
+    }
+  ];
+
   config.services.k3s = lib.mkIf (config.homelab.uptime-kuma.enable && config.homelab.enable) {
     autoDeployCharts.uptime-kuma = {
       name = "uptime-kuma";

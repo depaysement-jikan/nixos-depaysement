@@ -20,6 +20,17 @@
     };
   };
 
+  config.homelab.metallb.claims = lib.mkIf (config.homelab.forgejo.enable && config.homelab.enable) [
+    {
+      owner = "forgejo (http)";
+      ip = config.homelab.forgejo.httpLoadBalancerIP;
+    }
+    {
+      owner = "forgejo (ssh)";
+      ip = config.homelab.forgejo.sshLoadBalancerIP;
+    }
+  ];
+
   config.services.k3s = lib.mkIf (config.homelab.forgejo.enable && config.homelab.enable) {
     autoDeployCharts.forgejo = {
       name = "forgejo";

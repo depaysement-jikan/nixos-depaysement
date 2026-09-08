@@ -6,7 +6,7 @@
   options.homelab.enable = lib.mkEnableOption "Enable homelab module";
   config = {
     homelab = {
-      enable = false;
+      enable = true;
       flux = {
         enable = true;
         bucketName = "panaino";
@@ -64,6 +64,7 @@
         enable = false;
         replicas = 1;
         ingressHost = "longhorn.home";
+        loadBalancerIP = "192.168.1.206";
       };
       immich = {
         enable = true;
@@ -79,8 +80,8 @@
         enable = true;
         password = config.sops.placeholder.piholePassword;
         gated = false;
-        webLoadBalancerIP = "192.168.1.204";
-        dnsLoadBalancerIP = "192.168.1.204";
+        webLoadBalancerIP = "192.168.1.202";
+        dnsLoadBalancerIP = "192.168.1.202";
         dns = "192.168.1.1";
       };
       cert-manager = {
@@ -88,7 +89,7 @@
         email = config.sops.placeholder.certEmail;
       };
       tailscale = {
-        enable = true;
+        enable = false;
         authKeyFile = config.sops.secrets.tailscaleAuthKey.path;
       };
       prometheus = {
@@ -109,7 +110,6 @@
         grafana = {
           enable = false;
           ingressHost = "grafana.home";
-          loadBalancerIP = "192.168.1.210";
         };
       };
       uptime-kuma = {

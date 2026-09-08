@@ -10,6 +10,14 @@
   imageDir = "/var/lib/rancher/k3s/agent/images";
   containerdConfigTemplateFile = "/var/lib/rancher/k3s/agent/etc/containerd/config.toml.tmpl";
   yamlFormat = pkgs.formats.yaml {};
+  # `pkgs.formats.yaml` runs `remarshal --to yaml-1.1`, which always prefixes its
+  # output with a `%YAML 1.1` directive. k3s splits manifests on `---` lines before
+  # parsing, so that directive ends up as a document of its own and every generated
+  # manifest fails with "did not find expected <document start>". Strip it.
+  generateYaml = name: value:
+    pkgs.runCommand name {preferLocalBuild = true;} ''
+      sed '1{/^%YAML /d}' ${yamlFormat.generate name value} > $out
+    '';
   yamlDocSeparator = builtins.toFile "yaml-doc-separator" "\n---\n";
   # Manifests need a valid YAML suffix to be respected by k3s
   mkManifestTarget = name:
@@ -90,7 +98,7 @@
     then x.outPath
     # x is an attribute set that needs to be converted to a YAML file
     else if builtins.isAttrs x
-    then (yamlFormat.generate "extra-deploy-chart-manifest" x)
+    then (generateYaml "extra-deploy-chart-manifest" x)
     # assume x is a path to a YAML file
     else x;
 
@@ -130,7 +138,7 @@
     # source is a store path containing the complete manifest file
     source = pkgs.concatText "auto-deploy-chart-${name}.yaml" (
       [
-        (yamlFormat.generate "helm-chart-manifest-${name}.yaml" (mkHelmChartCR name value))
+        (generateYaml "helm-chart-manifest-${name}.yaml" (mkHelmChartCR name value))
       ]
       # alternate the YAML doc separator (---) and extraDeploy manifests to create
       # multi document YAMLs
@@ -360,11 +368,11 @@
                 pkgs.concatText name' (
                   lib.concatMap (x: [
                     yamlDocSeparator
-                    (yamlFormat.generate docName x)
+                    (generateYaml docName x)
                   ])
                   value
                 )
-              else yamlFormat.generate name' value;
+              else generateYaml name' value;
           in
             lib.mkDerivedConfig options.content mkSource
         );

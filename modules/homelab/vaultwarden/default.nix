@@ -29,6 +29,13 @@
       description = "Kubernetes resource requests/limits for vaultwarden container.";
     };
   };
+  config.homelab.metallb.claims = lib.mkIf (config.homelab.vaultwarden.enable && config.homelab.enable) [
+    {
+      owner = "vaultwarden";
+      ip = config.homelab.vaultwarden.loadBalancerIP;
+    }
+  ];
+
   config.services.k3s = lib.mkIf (config.homelab.vaultwarden.enable && config.homelab.enable) {
     # If stuck because namespace deletion:
     #   kubectl delete job -n kube-system helm-install-vaultwarden

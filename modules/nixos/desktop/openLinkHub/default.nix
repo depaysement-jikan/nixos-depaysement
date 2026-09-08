@@ -21,7 +21,7 @@
       };
     };
     services.nginx = {
-      enable = true;
+      enable = false;
 
       virtualHosts."rgb.localhost" = {
         locations."/" = {

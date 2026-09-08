@@ -34,6 +34,21 @@
     };
   };
 
+  # Web and DNS deliberately land on one address; the allow-shared-ip
+  # annotation below lets MetalLB place both there.
+  config.homelab.metallb.claims = lib.mkIf (config.homelab.pihole.enable && config.homelab.enable) [
+    {
+      owner = "pihole (web)";
+      ip = config.homelab.pihole.webLoadBalancerIP;
+      shareKey = "pihole-svc";
+    }
+    {
+      owner = "pihole (dns)";
+      ip = config.homelab.pihole.dnsLoadBalancerIP;
+      shareKey = "pihole-svc";
+    }
+  ];
+
   config.services.k3s = lib.mkIf (config.homelab.pihole.enable && config.homelab.enable) {
     autoDeployCharts = {
       pihole = {

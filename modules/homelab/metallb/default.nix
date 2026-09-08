@@ -5,7 +5,7 @@
   config,
   ...
 }: {
-  imports = [./namespace ./L2Advertisement ./ipAddressPool];
+  imports = [./namespace ./L2Advertisement ./ipAddressPool ./claims];
   options.homelab.metallb = {
     enable = lib.mkEnableOption "metallb";
     replicas = lib.mkOption {
