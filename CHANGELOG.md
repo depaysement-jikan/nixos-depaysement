@@ -1,24 +1,78 @@
 # Changelog
 
-+## v1.0.26 - 2026-05-06
-+
-+### Added
-+*   Added Certbot module to Home Manager terminal apps.
-+*   Added `gofumpt` and `air` to Go development environment.
-+
-+### Changed
-+*   Enabled Certbot by default for users in `shinobu` and `tsukinara` hosts.
-+*   Updated user configuration generation script to include Certbot enablement.
-+
- ## v1.0.25 - 2026-04-29
+## Unreleased
+
 ### Added
+
+*   **Hosts:** Added the `yotsugi` (user `yay`) and `sodachi` (user `riddle`) hosts, each with their own
+    disko layout, user secrets and configuration. `sodachi` uses a SATA (`/dev/sda`) layout rather than NVMe.
+*   **Desktop:** Added [Noctalia](https://github.com/noctalia-dev/noctalia) as a desktop shell/bar, with
+    plugins for screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status.
+    It is now the default shell on `shinobu`, replacing Waybar.
+*   **Desktop:** Added a `tuigreet` module (`nixos-generic.desktop.tuigreet`) as a `greetd`-based alternative
+    to SDDM, enabled on `shinobu` and `yotsugi`.
+*   **Desktop:** Added an `audio` module (`nixos-generic.desktop.audio`) providing PipeWire with ALSA,
+    PulseAudio and JACK compatibility, WirePlumber and `pavucontrol`.
+*   **Desktop:** Added a system-level `openLinkHub` module — a systemd unit for OpenLinkHub plus an nginx
+    reverse proxy on `rgb.localhost` — and a matching Home Manager package module.
+*   **Desktop:** Added a Rofi module alongside the existing Wofi launcher.
+*   **Terminal:** Added [foot](https://codeberg.org/dnkl/foot) as a terminal emulator option, including its
+    Stylix theming, and refactored the Ghostty configuration alongside it.
+*   **Browsers:** Added [Helium](https://github.com/oxcl/nix-flake-helium-browser) as a browser option.
+*   **Languages:** Added Zig and Elixir modules (with Phoenix support, currently commented out), plus
+    Tailwind and GraphQL language servers, `delve`, `bacon`, `clippy` and additional Rust packages.
+*   **AI:** Added a Claude Code module under `homeManager.apps.development.ai`.
+*   **Terminal:** Added [Doppler](https://www.doppler.com/) for secrets injection, plus `gum`, `bat`, `htop`
+    and `pciutils`.
+*   **Documentation:** Added `diagnostics-and-guides/` with an ext4 root corruption runbook, an unstable
+    migration post-mortem, and an ongoing investigation into random freezes on `shinobu`.
+*   **Boot:** Added kernel and coredump debugging options on `shinobu` (`page_poison`, sysrq,
+    `hung_task_timeout_secs`, `panic_on_oops`, memtest86, larger coredump limits) and pinned it to
+    `linuxPackages_latest`.
+
+### Changed
+
+*   **Nixpkgs:** Migrated the flake from stable to `nixos-unstable`. See the migration post-mortem in
+    `diagnostics-and-guides/` for the three failures this surfaced and their fixes.
+*   **Security:** Switched user passwords from a hashed-password *file* to an inline hashed password, and
+    improved the password reset flow in `resetSopsSecrets.sh`.
+*   **Networking:** Removed the Pi-hole nameserver from the host configurations and the generation script.
+*   **Shell:** Switched `tsukinara` to Nushell, wired the shell choice through from the host declaration, and
+    improved the Zsh configuration. Starship now indicates when a Nix shell is active.
+*   **Automation:** Extended `mkHost.sh` / `mkUser.sh` to scaffold the new Certbot, Claude, foot, tuigreet and
+    OpenLinkHub options, and fixed several generation-script bugs.
+*   **Documentation:** Refreshed the root `README.md`, `INSTRUCTIONS.md` and the `modules/*` READMEs to match
+    the current four-host layout, module tree and option names.
+*   **Hyprland:** The session-menu keybind now toggles the Noctalia session panel instead of launching
+    `wlogout`, and screenshot hotkeys were reshuffled.
+
+### Fixed
+
+*   Fixed a duplicated module import and a typo in the Zsh rc.
+*   Fixed the GraphQL language server configuration.
+
+## v1.0.26 - 2026-05-06
+
+### Added
+
+*   Added Certbot module to Home Manager terminal apps.
+*   Added `gofumpt` and `air` to Go development environment.
+
+### Changed
+
+*   Enabled Certbot by default for users in `shinobu` and `tsukinara` hosts.
+*   Updated user configuration generation script to include Certbot enablement.
+
+## v1.0.25 - 2026-04-29
+
+### Added
+
 *   Added qbittorrent configuration option to home-manager apps.
 *   Added several development packages for Rust (rustfmt, rustc, lld, rust-analyzer, dioxus-cli).
 
 ### Changed
+
 *   Updated `modules/home-manager/README.md` to reflect Hyprland configuration tweaks.
-
-
 
 ## v1.0.24 - 2026-04-13
 

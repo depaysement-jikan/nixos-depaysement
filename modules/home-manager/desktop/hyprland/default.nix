@@ -226,7 +226,7 @@
           "$mainMod,space,exec,pkill wofi || wofi drun"
           "CTRL&ALT,DELETE,exec,hyprlock"
           "$mainMod, V, exec, ghostty --title=clipse -e clipse"
-          "$mainMod, escape, exec, wlogout -b 5"
+          "$mainMod, escape, exec, noctalia msg panel-toggle session"
 
           # Audio
           ",XF86AudioRaiseVolume,exec,wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
