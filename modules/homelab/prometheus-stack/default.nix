@@ -19,9 +19,8 @@
         type = lib.types.str;
         default = "grafana.home";
       };
-      loadBalancerIP = lib.mkOption {
-        type = lib.types.str;
-      };
+      # No loadBalancerIP here: the bundled grafana subchart is reached through
+      # the nginx ingress below, not a Service of its own.
     };
   };
 
