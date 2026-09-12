@@ -24,6 +24,7 @@
     ./grafana
     ./uptime-kuma
     ./forgejo
+    ./anubis
   ];
 
   nixpkgs = {
