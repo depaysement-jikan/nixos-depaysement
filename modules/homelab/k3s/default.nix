@@ -12,10 +12,11 @@
     };
     services.k3s = {
       enable = config.homelab.enable;
-      # manifestDir = "/var/lib/manifests";
+      disable = [
+        "servicelb"
+        "traefik"
+      ];
       extraFlags = [
-        "--disable servicelb"
-        "--disable traefik"
         "--write-kubeconfig-group k3s"
         "--write-kubeconfig-mode 0660"
       ];
