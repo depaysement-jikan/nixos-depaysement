@@ -6,7 +6,7 @@
   options.homelab.enable = lib.mkEnableOption "Enable homelab module";
   config = {
     homelab = {
-      enable = true;
+      enable = false;
       flux = {
         enable = true;
         bucketName = "panaino";
@@ -122,6 +122,21 @@
         ingressHost = "forgejo.home";
         httpLoadBalancerIP = "192.168.1.212";
         sshLoadBalancerIP = "192.168.1.213";
+      };
+      anubis = {
+        enable = true;
+        instances = {
+          forgejo = {
+            target = "http://forgejo-http.forgejo-system.svc.cluster.local:3000";
+            ingressHost = "forgejo.home";
+            tlsSecretName = "anubis-forgejo-tls";
+          };
+          vaultwarden = {
+            target = "http://vaultwarden.vaultwarden.svc.cluster.local:80";
+            ingressHost = "vault.home";
+            tlsSecretName = "anubis-vaultwarden-tls";
+          };
+        };
       };
 
       # TODO: Future configs
