@@ -21,10 +21,10 @@
   };
 
   config.homelab.metallb.claims = lib.mkIf (config.homelab.forgejo.enable && config.homelab.enable) [
-    {
-      owner = "forgejo (http)";
-      ip = config.homelab.forgejo.httpLoadBalancerIP;
-    }
+    # {
+    #   owner = "forgejo (http)";
+    #   ip = config.homelab.forgejo.httpLoadBalancerIP;
+    # }
     {
       owner = "forgejo (ssh)";
       ip = config.homelab.forgejo.sshLoadBalancerIP;
@@ -48,8 +48,9 @@
         };
         service = {
           http = {
-            type = "LoadBalancer";
-            loadBalancerIP = config.homelab.forgejo.httpLoadBalancerIP;
+            type = "ClusterIP";
+            # type = "LoadBalancer";
+            # loadBalancerIP = config.homelab.forgejo.httpLoadBalancerIP;
           };
           ssh = {
             type = "LoadBalancer";
@@ -57,7 +58,8 @@
           };
         };
         ingress = {
-          enabled = true;
+          # enabled = true;
+          enabled = false;
           className = "nginx";
 
           hosts = [

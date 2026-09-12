@@ -56,8 +56,9 @@
         };
 
         service = {
-          type = "LoadBalancer";
-          loadBalancerIP = config.homelab.vaultwarden.loadBalancerIP;
+          type = "ClusterIP";
+          # type = "LoadBalancer";
+          # loadBalancerIP = config.homelab.vaultwarden.loadBalancerIP;
         };
 
         webVaultEnabled = true;
@@ -79,7 +80,8 @@
           # kubectl port-forward svc/vaultwarden 8080:80 -n vaultwarden
           if config.homelab.vaultwarden.ingressHost != null
           then {
-            enabled = true;
+            # enabled = true;
+            enabled = false;
             class = "nginx";
             nginxIngressAnnotations = true;
             additionalAnnotations =
