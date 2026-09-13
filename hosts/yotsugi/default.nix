@@ -52,7 +52,6 @@
   networking.networkmanager.dns = "none";
 
   networking.nameservers = [
-    "192.168.1.202"
     "1.1.1.1"
   ];
 
