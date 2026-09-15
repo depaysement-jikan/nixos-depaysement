@@ -1,103 +1,180 @@
 # Changelog
 
+## v1.0.27 - 2026-09-12
+
+### Added
+
+- **Hosts:** Added `yotsugi` (user `yay`) and `sodachi` (user `riddle`), each with their own disko
+  layout, user secrets and configuration. `sodachi` uses a SATA (`/dev/sda`) layout rather than NVMe.
+- **Desktop:** Added [Noctalia](https://github.com/noctalia-dev/noctalia) as a desktop shell/bar
+  (screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status
+  plugins). It's now the default shell on `shinobu`, replacing Waybar.
+- **Desktop:** Added a `tuigreet` module (`nixos-generic.desktop.tuigreet`), a `greetd`-based
+  alternative to SDDM, enabled on `shinobu`.
+- **Desktop:** Added an `audio` module (PipeWire + ALSA/PulseAudio/JACK compat, WirePlumber,
+  `pavucontrol`).
+- **Desktop:** Added a system-level `openLinkHub` module (systemd unit + nginx reverse proxy on
+  `rgb.localhost`) plus a matching Home Manager package module.
+- **Desktop:** Added Rofi alongside Wofi.
+- **Terminal:** Added [foot](https://codeberg.org/dnkl/foot) as a terminal option (with Stylix
+  theming) and refactored the Ghostty config to use `programs.ghostty`.
+- **Browsers:** Added [Helium](https://github.com/oxcl/nix-flake-helium-browser).
+- **Languages:** Added Zig and Elixir (Phoenix scaffold commented out), plus Tailwind/GraphQL
+  language servers, `delve`, `bacon`, `clippy`, `cargo-edit`.
+- **AI:** Added a Claude Code module under `homeManager.apps.development.ai`.
+- **Terminal:** Added [Doppler](https://www.doppler.com/) for secrets injection, plus `gum`, `bat`,
+  `htop`, `pciutils`, `ncdu`.
+- **Homelab:** Added an `anubis` module for deploying [Anubis](https://github.com/TecharoHQ/anubis)
+  proof-of-work instances per service (sidecar-style, cert-manager-issued TLS), wired up for
+  Forgejo and Vaultwarden on `shinobu`.
+- **Homelab:** Added a `homelab.metallb.claims` registry that fails the build on duplicate/
+  conflicting LoadBalancer IP assignments instead of silently leaving a Service `<pending>`.
+- **Documentation:** Added `diagnostics-and-guides/` — an ext4 root corruption runbook, an unstable
+  migration post-mortem, an ongoing `shinobu` freeze investigation, and an Anubis architecture/
+  deployment-plan writeup.
+- **Boot:** Added kernel/coredump debugging options on `shinobu` (`page_poison`, sysrq,
+  `hung_task_timeout_secs`, `panic_on_oops`, memtest86, larger coredump limits), pinned to
+  `linuxPackages_latest`.
+- Added `.gitignore` for `nixos-rebuild`/`nix build` result symlinks, and a PR template.
+
+### Changed
+
+- **Nixpkgs:** Migrated the flake from stable to `nixos-unstable` (dropped the separate
+  `nixpkgs-unstable` input); `home-manager` and `stylix` now track their default/unstable branches
+  instead of release branches.
+- **Security:** Switched user passwords from a sops-managed hashed-password file to an inline
+  hashed password for `kokoro`, `depaysement` and `yay`; reworked `resetSopsSecrets.sh`'s password
+  flow to prompt/confirm interactively via `gum`.
+- **Networking:** Removed the Pi-hole nameserver from host configs and the generation scripts;
+  reassigned several homelab LoadBalancer IPs and registered them against the new
+  `metallb.claims` system.
+- **Homelab:** Forgejo and Vaultwarden services switched from `LoadBalancer` to `ClusterIP`
+  (fronted by ingress instead); Tailscale disabled on `shinobu`'s homelab config.
+- **k3s:** Drastically trimmed the custom `services.k3s` fork in favor of upstream nixpkgs options
+  — only `manifestDir` and a stale-manifest-symlink cleanup service remain custom.
+- **Shell:** Switched `tsukinara` to Nushell, sourced from the host declaration; Starship now shows
+  when a Nix shell is active; cleaned up Zsh completion styling and dropped the `ssh-agent` eval.
+- **Automation:** Extended `mkHost.sh`/`mkUser.sh` to scaffold the new foot/tuigreet/openLinkHub/
+  doppler/claude/helium/zig/elixir options; fixed several generation-script bugs.
+- **Hyprland:** Migrated `windowrulev2` → `windowrule`, `togglesplit` → `layoutmsg`; removed
+  options dropped in 0.54/0.55 (`dwindle.pseudotile`, `decoration.shadow.ignore_window`,
+  `misc.vfr` → `debug.vfr`, the inert `master` block); session-menu keybind now toggles the
+  Noctalia panel instead of `wlogout`; screenshot hotkeys reshuffled.
+- **Languages/tools:** `nixfmt-classic` → `nixfmt`; Node bumped to `nodejs_24` (dropped
+  `@angular/cli`); added GraphQL/Tailwind/vscode language servers and `eslint_d` to TypeScript;
+  swapped `vscode-json-languageserver` for `json_c`.
+- **Documentation:** Refreshed root `README.md`/`INSTRUCTIONS.md` and `modules/*` READMEs for the
+  current four-host layout and option tree.
+- `shinobu`'s disko target changed from `/dev/sda` to `/dev/nvme0n1`; `shinobu`/`tsukinara`
+  `stateVersion` bumped `25.11` → `26.05`.
+
+### Fixed
+
+- Fixed a duplicated module import and a typo in the Zsh rc.
+- Fixed the GraphQL language server configuration.
+- Fixed k3s leaving stale manifest symlinks behind after a manifest is removed from the Nix config.
+
 ## Unreleased
 
 ### Added
 
-*   **Hosts:** Added the `yotsugi` (user `yay`) and `sodachi` (user `riddle`) hosts, each with their own
-    disko layout, user secrets and configuration. `sodachi` uses a SATA (`/dev/sda`) layout rather than NVMe.
-*   **Desktop:** Added [Noctalia](https://github.com/noctalia-dev/noctalia) as a desktop shell/bar, with
-    plugins for screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status.
-    It is now the default shell on `shinobu`, replacing Waybar.
-*   **Desktop:** Added a `tuigreet` module (`nixos-generic.desktop.tuigreet`) as a `greetd`-based alternative
-    to SDDM, enabled on `shinobu` and `yotsugi`.
-*   **Desktop:** Added an `audio` module (`nixos-generic.desktop.audio`) providing PipeWire with ALSA,
-    PulseAudio and JACK compatibility, WirePlumber and `pavucontrol`.
-*   **Desktop:** Added a system-level `openLinkHub` module — a systemd unit for OpenLinkHub plus an nginx
-    reverse proxy on `rgb.localhost` — and a matching Home Manager package module.
-*   **Desktop:** Added a Rofi module alongside the existing Wofi launcher.
-*   **Terminal:** Added [foot](https://codeberg.org/dnkl/foot) as a terminal emulator option, including its
-    Stylix theming, and refactored the Ghostty configuration alongside it.
-*   **Browsers:** Added [Helium](https://github.com/oxcl/nix-flake-helium-browser) as a browser option.
-*   **Languages:** Added Zig and Elixir modules (with Phoenix support, currently commented out), plus
-    Tailwind and GraphQL language servers, `delve`, `bacon`, `clippy` and additional Rust packages.
-*   **AI:** Added a Claude Code module under `homeManager.apps.development.ai`.
-*   **Terminal:** Added [Doppler](https://www.doppler.com/) for secrets injection, plus `gum`, `bat`, `htop`
-    and `pciutils`.
-*   **Documentation:** Added `diagnostics-and-guides/` with an ext4 root corruption runbook, an unstable
-    migration post-mortem, an ongoing investigation into random freezes on `shinobu`, and a guide to
-    deploying [Anubis](https://github.com/TecharoHQ/anubis) in the k3s homelab (architecture,
-    sidecar vs forward-auth topologies, and a staged plan of action).
-*   **Boot:** Added kernel and coredump debugging options on `shinobu` (`page_poison`, sysrq,
-    `hung_task_timeout_secs`, `panic_on_oops`, memtest86, larger coredump limits) and pinned it to
-    `linuxPackages_latest`.
+- **Hosts:** Added the `yotsugi` (user `yay`) and `sodachi` (user `riddle`) hosts, each with their own
+  disko layout, user secrets and configuration. `sodachi` uses a SATA (`/dev/sda`) layout rather than NVMe.
+- **Desktop:** Added [Noctalia](https://github.com/noctalia-dev/noctalia) as a desktop shell/bar, with
+  plugins for screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status.
+  It is now the default shell on `shinobu`, replacing Waybar.
+- **Desktop:** Added a `tuigreet` module (`nixos-generic.desktop.tuigreet`) as a `greetd`-based alternative
+  to SDDM, enabled on `shinobu` and `yotsugi`.
+- **Desktop:** Added an `audio` module (`nixos-generic.desktop.audio`) providing PipeWire with ALSA,
+  PulseAudio and JACK compatibility, WirePlumber and `pavucontrol`.
+- **Desktop:** Added a system-level `openLinkHub` module — a systemd unit for OpenLinkHub plus an nginx
+  reverse proxy on `rgb.localhost` — and a matching Home Manager package module.
+- **Desktop:** Added a Rofi module alongside the existing Wofi launcher.
+- **Terminal:** Added [foot](https://codeberg.org/dnkl/foot) as a terminal emulator option, including its
+  Stylix theming, and refactored the Ghostty configuration alongside it.
+- **Browsers:** Added [Helium](https://github.com/oxcl/nix-flake-helium-browser) as a browser option.
+- **Languages:** Added Zig and Elixir modules (with Phoenix support, currently commented out), plus
+  Tailwind and GraphQL language servers, `delve`, `bacon`, `clippy` and additional Rust packages.
+- **AI:** Added a Claude Code module under `homeManager.apps.development.ai`.
+- **Terminal:** Added [Doppler](https://www.doppler.com/) for secrets injection, plus `gum`, `bat`, `htop`
+  and `pciutils`.
+- **Documentation:** Added `diagnostics-and-guides/` with an ext4 root corruption runbook, an unstable
+  migration post-mortem, an ongoing investigation into random freezes on `shinobu`, and a guide to
+  deploying [Anubis](https://github.com/TecharoHQ/anubis) in the k3s homelab (architecture,
+  sidecar vs forward-auth topologies, and a staged plan of action).
+- **Boot:** Added kernel and coredump debugging options on `shinobu` (`page_poison`, sysrq,
+  `hung_task_timeout_secs`, `panic_on_oops`, memtest86, larger coredump limits) and pinned it to
+  `linuxPackages_latest`.
 
 ### Changed
 
-*   **Nixpkgs:** Migrated the flake from stable to `nixos-unstable`. See the migration post-mortem in
-    `diagnostics-and-guides/` for the three failures this surfaced and their fixes.
-*   **Security:** Switched user passwords from a hashed-password *file* to an inline hashed password, and
-    improved the password reset flow in `resetSopsSecrets.sh`.
-*   **Networking:** Removed the Pi-hole nameserver from the host configurations and the generation script.
-*   **Shell:** Switched `tsukinara` to Nushell, wired the shell choice through from the host declaration, and
-    improved the Zsh configuration. Starship now indicates when a Nix shell is active.
-*   **Automation:** Extended `mkHost.sh` / `mkUser.sh` to scaffold the new Certbot, Claude, foot, tuigreet and
-    OpenLinkHub options, and fixed several generation-script bugs.
-*   **Documentation:** Refreshed the root `README.md`, `INSTRUCTIONS.md` and the `modules/*` READMEs to match
-    the current four-host layout, module tree and option names.
-*   **Hyprland:** The session-menu keybind now toggles the Noctalia session panel instead of launching
-    `wlogout`, and screenshot hotkeys were reshuffled.
+- **Nixpkgs:** Migrated the flake from stable to `nixos-unstable`. See the migration post-mortem in
+  `diagnostics-and-guides/` for the three failures this surfaced and their fixes.
+- **Security:** Switched user passwords from a hashed-password _file_ to an inline hashed password, and
+  improved the password reset flow in `resetSopsSecrets.sh`.
+- **Networking:** Removed the Pi-hole nameserver from the host configurations and the generation script.
+- **Shell:** Switched `tsukinara` to Nushell, wired the shell choice through from the host declaration, and
+  improved the Zsh configuration. Starship now indicates when a Nix shell is active.
+- **Automation:** Extended `mkHost.sh` / `mkUser.sh` to scaffold the new Certbot, Claude, foot, tuigreet and
+  OpenLinkHub options, and fixed several generation-script bugs.
+- **Documentation:** Refreshed the root `README.md`, `INSTRUCTIONS.md` and the `modules/*` READMEs to match
+  the current four-host layout, module tree and option names.
+- **Hyprland:** The session-menu keybind now toggles the Noctalia session panel instead of launching
+  `wlogout`, and screenshot hotkeys were reshuffled.
 
 ### Fixed
 
-*   Fixed a duplicated module import and a typo in the Zsh rc.
-*   Fixed the GraphQL language server configuration.
+- Fixed a duplicated module import and a typo in the Zsh rc.
+- Fixed the GraphQL language server configuration.
 
 ## v1.0.26 - 2026-05-06
 
 ### Added
 
-*   Added Certbot module to Home Manager terminal apps.
-*   Added `gofumpt` and `air` to Go development environment.
+- Added Certbot module to Home Manager terminal apps.
+- Added `gofumpt` and `air` to Go development environment.
 
 ### Changed
 
-*   Enabled Certbot by default for users in `shinobu` and `tsukinara` hosts.
-*   Updated user configuration generation script to include Certbot enablement.
+- Enabled Certbot by default for users in `shinobu` and `tsukinara` hosts.
+- Updated user configuration generation script to include Certbot enablement.
 
 ## v1.0.25 - 2026-04-29
 
 ### Added
 
-*   Added qbittorrent configuration option to home-manager apps.
-*   Added several development packages for Rust (rustfmt, rustc, lld, rust-analyzer, dioxus-cli).
+- Added qbittorrent configuration option to home-manager apps.
+- Added several development packages for Rust (rustfmt, rustc, lld, rust-analyzer, dioxus-cli).
 
 ### Changed
 
-*   Updated `modules/home-manager/README.md` to reflect Hyprland configuration tweaks.
+- Updated `modules/home-manager/README.md` to reflect Hyprland configuration tweaks.
 
 ## v1.0.24 - 2026-04-13
 
 ### Added
-* adding angular cli
-* add gemini cli to home manager
-* adding audio config for waybar compatibility
-* adding cucumber support
-* adding license
-* add missing key generation
+
+- adding angular cli
+- add gemini cli to home manager
+- adding audio config for waybar compatibility
+- adding cucumber support
+- adding license
+- add missing key generation
 
 ### Changed
-* minor configs t default shell shinobu
-* update credit section
-* add host generation fixes
-* doc update
+
+- minor configs t default shell shinobu
+- update credit section
+- add host generation fixes
+- doc update
 
 ### Fixed
-* fix multimonitor setup, add script to switch between laptop and ext monitor
-* fix username not being printed
-* fix new host creation script
-* fix resetsopssecrets sh script
-* fix generate user script
+
+- fix multimonitor setup, add script to switch between laptop and ext monitor
+- fix username not being printed
+- fix new host creation script
+- fix resetsopssecrets sh script
+- fix generate user script
 
 ## v1.0.23 - 2026-04-06
 
