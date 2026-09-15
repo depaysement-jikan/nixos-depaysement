@@ -19,12 +19,12 @@ If you want to use this configuration there are a couple of considerations to ta
 Hosts are declared centrally in [`nixos/configuration.nix`](nixos/configuration.nix); `flake.nix` reads that
 declaration and generates one `nixosConfigurations.<host>` and one `homeConfigurations.<user>@<host>` per entry.
 
-| Host        | User          | Shell   | Profile | Disk (disko)   | Display manager | Notes                                              |
-| ----------- | ------------- | ------- | ------- | -------------- | --------------- | -------------------------------------------------- |
+| Host        | User          | Shell   | Profile | Disk (disko)   | Display manager | Notes                                                |
+| ----------- | ------------- | ------- | ------- | -------------- | --------------- | ---------------------------------------------------- |
 | `shinobu`   | `kokoro`      | nushell | desktop | `/dev/nvme0n1` | tuigreet        | Ryzen 9700X + RX 9060 XT, latest kernel, OpenLinkHub |
-| `tsukinara` | `depaysement` | nushell | desktop | `/dev/nvme0n1` | SDDM            | Original host                                       |
-| `yotsugi`   | `yay`         | zsh     | desktop | `/dev/nvme0n1` | tuigreet        | `stateVersion` 25.11                                |
-| `sodachi`   | `riddle`      | zsh     | desktop | `/dev/sda`     | SDDM            | SATA disk layout                                    |
+| `tsukinara` | `depaysement` | nushell | desktop | `/dev/nvme0n1` | SDDM            | Original host                                        |
+| `yotsugi`   | `yay`         | zsh     | desktop | `/dev/nvme0n1` | tuigreet        | `stateVersion` 25.11                                 |
+| `sodachi`   | `riddle`      | zsh     | desktop | `/dev/sda`     | SDDM            | SATA disk layout                                     |
 
 The homelab stack is defined for every host but currently `homelab.enable = false` everywhere; flip it in
 `hosts/<host>/config/homelab-config/default.nix` to bring up the k3s cluster.
@@ -36,7 +36,7 @@ This NixOS configuration provides a comprehensive and reproducible environment w
 - **Declarative Configuration:** Leverages Nix Flakes for managing both system-wide (NixOS) and user-specific (Home Manager) configurations, ensuring reproducibility across different machines. Hosts and users are declared once in `nixos/configuration.nix` and the flake outputs are generated from that declaration.
 - **Non-mutable User Accounts:** Enhanced security and reproducibility through non-mutable user account configurations.
 - **Disko Integration:** Uses [Disko](https://github.com/nix-community/disko) for declarative disk partitioning and formatting. Disko is imported conditionally — a host only gets it when `hosts/<host>/disko/` exists.
-- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s`, `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing, `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus Stack` for unified monitoring and visualization (replacing standalone modules, now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), `Forgejo` for a self-hosted Git service (now with HTTPS), `Garage` for object storage, and `rclone` for syncing Kubernetes manifests to an S3 bucket.
+- **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s` (a slim wrapper on top of upstream nixpkgs' `services.k3s` module — see `modules/homelab/services/k3s`), `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing (with a central `homelab.metallb.claims` registry that fails the build on a double-booked LoadBalancer IP), `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus Stack` for unified monitoring and visualization (replacing standalone modules, now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), `Forgejo` for a self-hosted Git service (now with HTTPS), `Anubis` for per-service proof-of-work bot mitigation in front of Forgejo and Vaultwarden, `Garage` for object storage, and `rclone` for syncing Kubernetes manifests to an S3 bucket.
 - **CI/CD:** GitHub Actions run `nix flake check` on every pull request and on pushes to `develop`, and mirror `develop` to a downstream repository with rewritten commit authorship.
 - **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen and a choice of shells and launchers: [Noctalia](https://github.com/noctalia-dev/noctalia) (the current default bar/shell, with plugins for screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status), [Waybar](https://github.com/Alexays/Waybar), [Wofi](https://hg.sr.ht/~scoopta/wofi) and [Rofi](https://github.com/davatorium/rofi). Login is handled by either [tuigreet](https://github.com/apognu/tuigreet) (via `greetd`) or [SDDM](https://github.com/sddm/sddm) with the [SilentSDDM](https://github.com/uiriansan/SilentSDDM) theme, selectable per host.
 - **Audio:** PipeWire (ALSA, PulseAudio and JACK compatibility, plus WirePlumber) with `pavucontrol`, enabled through the `nixos-generic.desktop.audio` module.
@@ -49,7 +49,7 @@ This NixOS configuration provides a comprehensive and reproducible environment w
 - **Web Browsing:** [Zen](https://zen-browser.app/), [Helium](https://github.com/oxcl/nix-flake-helium-browser), Firefox and [Floorp](https://floorp.app/) are all available and toggleable per user.
 - **Productivity & Social:** Includes [Spotify](https://www.spotify.com/), [Obsidian](https://obsidian.md/), [Sioyek](https://sioyek.info/) for specialized technical PDF viewing, qbittorrent for managing downloads, plus Discord and WhatsApp.
 - **Gaming:** Steam and Gamescope, gated behind the `homeManager.apps.gaming` options.
-- **Self-signed HTTPS:** Integrated self-signed certificate management for internal homelab services (Pi-hole, Immich, Prometheus Stack, Uptime Kuma, Forgejo, Grafana, Vaultwarden) to enhance local network security.
+- **Self-signed HTTPS:** Integrated self-signed certificate management for internal homelab services (Pi-hole, Immich, Prometheus Stack, Uptime Kuma, Forgejo, Grafana, Vaultwarden, Anubis) to enhance local network security.
 - **Aesthetic Customization:** Custom fonts (JetBrains Mono Nerd Font, Maple Mono NF) and a theming system with both [Stylix](https://github.com/danth/stylix) and [Catppuccin](https://github.com/catppuccin/nix) available, selectable per user.
 - **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data at both the user (Home Manager) and host level.
 - **Custom Software & Overlays:** Provides a framework for custom packages (`pkgs/`) and Nixpkgs overlays (`overlays/`), plus a `downloadHelmChart` lib helper in `modules/utils/` used by the homelab modules.
@@ -74,6 +74,7 @@ Here is a visual representation of the project structure:
 ├── LICENSE
 ├── README.md
 ├── diagnostics-and-guides
+│   ├── anubis.md
 │   ├── ext4-root-corruption-runbook.md
 │   ├── nixos-freezing-investigation.md
 │   ├── nixos-unstable-migration-postmortem.md
@@ -82,9 +83,9 @@ Here is a visual representation of the project structure:
 ├── flake.nix
 ├── hosts
 │   ├── shinobu            # kokoro
-│   ├── sodachi            # riddle
+│   ├── sodachi             # riddle
 │   ├── tsukinara          # depaysement
-│   └── yotsugi            # yay
+│   └── yotsugi             # yay
 │       ├── config
 │       │   ├── homelab-config
 │       │   └── nixos-config
@@ -101,6 +102,7 @@ Here is a visual representation of the project structure:
 │               └── security
 ├── modules
 │   ├── homelab
+│   │   ├── anubis
 │   │   ├── cert-manager
 │   │   ├── databases
 │   │   ├── flux
@@ -111,7 +113,7 @@ Here is a visual representation of the project structure:
 │   │   ├── ingress-nginx
 │   │   ├── k3s
 │   │   ├── longhorn
-│   │   ├── metallb
+│   │   ├── metallb            # namespace, L2Advertisement, ipAddressPool, claims
 │   │   ├── pihole
 │   │   ├── prometheus
 │   │   ├── prometheus-stack
@@ -218,8 +220,8 @@ These scripts will:
 
 ## 🩺 Diagnostics & Guides
 
-[`diagnostics-and-guides/`](diagnostics-and-guides) collects write-ups from real incidents on these machines.
-They are kept in the repo because the fixes are usually configuration changes:
+[`diagnostics-and-guides/`](diagnostics-and-guides) collects write-ups from real incidents on these machines,
+plus deeper design research, because the useful output of both is usually a configuration change:
 
 - [`ext4-root-corruption-runbook.md`](diagnostics-and-guides/ext4-root-corruption-runbook.md) — recovering a
   root filesystem that fails the stage-1 `fsck`, using `e2fsck` from the initrd shell.
@@ -227,6 +229,9 @@ They are kept in the repo because the fixes are usually configuration changes:
   investigation into random freezes on `shinobu`, including hypotheses that were tried and ruled out.
 - [`nixos-unstable-migration-postmortem.md`](diagnostics-and-guides/nixos-unstable-migration-postmortem.md) —
   the three failures hit when moving the flake from stable to `nixpkgs-unstable`, and their fixes.
+- [`anubis.md`](diagnostics-and-guides/anubis.md) — architecture, deployment topologies (sidecar vs.
+  forward-auth) and a staged plan of action for running [Anubis](https://github.com/TecharoHQ/anubis) in
+  front of homelab services; the source for the `modules/homelab/anubis` module.
 
 ## managing your configuration
 
