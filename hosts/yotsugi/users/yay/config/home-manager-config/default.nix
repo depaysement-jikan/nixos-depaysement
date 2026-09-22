@@ -8,9 +8,9 @@
         browsers = {
           enable = true;
           zen.enable = false;
-          firefox.enable = true;
+          firefox.enable = false;
           floorp.enable = false;
-          helium.enable = false;
+          helium.enable = true;
         };
         social = {
           enable = true;
@@ -26,8 +26,8 @@
         productivity = {
           enable = true;
           obsidian.enable = false;
-          sioyek.enable = false;
-          qbittorrent.enable = false;
+          sioyek.enable = true;
+          qbittorrent.enable = true;
         };
         development = {
           enable = true;
@@ -85,8 +85,8 @@
         wofi.enable = true;
         hyprland.enable = true;
         hyprlock.enable = true;
-        waybar.enable = true;
-        noctalia.enable = false;
+        waybar.enable = false;
+        noctalia.enable = true;
       };
       system = {
         enable = true;
