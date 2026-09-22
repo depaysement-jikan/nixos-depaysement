@@ -42,7 +42,7 @@
         [user]
           name = ${config.sops.placeholder.userGitName}
           email = ${config.sops.placeholder.userGitEmail}
-          signingkey = "/home/kokoro/.ssh/kokoro.pub"
+          signingkey = "/home/yay/.ssh/yay.pub"
       '';
     };
     templates.allowed-signers = {
