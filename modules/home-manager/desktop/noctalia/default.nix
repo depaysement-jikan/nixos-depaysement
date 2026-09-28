@@ -40,7 +40,7 @@
               "session"
               "volume"
               "network"
-              "weather"
+              "battery"
               "control-center"
               "nightwatch75/file-search:file-search"
             ];
