@@ -40,12 +40,17 @@
               "session"
               "volume"
               "network"
-              "battery"
               "control-center"
               "nightwatch75/file-search:file-search"
             ];
             center = ["workspaces"];
-            end = ["davemhammer/tailscale:status" "media" "tray" "notifications"];
+            end = [
+              "battery"
+              "davemhammer/tailscale:status"
+              "media"
+              "tray"
+              "notifications"
+            ];
           };
         };
         notification = {
@@ -80,9 +85,8 @@
             capsule = false;
           };
           battery = {
-            show_label = true;
-            warning_color = "error";
-            capsule_fill = "surface_variant";
+            type = "battery";
+            device = "auto";
           };
           network = {
             show_label = true;
