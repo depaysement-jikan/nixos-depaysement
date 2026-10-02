@@ -11,6 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    services.upower.enable = true;
     nixos-generic.desktop = {
       sddm.enable = lib.mkDefault true;
       tuigreet.enable = lib.mkDefault true;
