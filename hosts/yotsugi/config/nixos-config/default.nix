@@ -9,6 +9,7 @@
         homeManager.enable = true;
         audio.enable = true;
         openLinkHub.enable = false;
+        upower.enable = true;
       };
     };
   };
