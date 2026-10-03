@@ -29,7 +29,7 @@ _: {
       users = {
         yay = {
           root.enable = true;
-          shell = "zsh";
+          shell = "nushell";
         };
       };
     };
