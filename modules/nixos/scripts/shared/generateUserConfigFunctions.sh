@@ -111,6 +111,7 @@ createUserHomeManagerConfig() {
             starship.enable = true;
             certbot.enable = true;
             doppler.enable = true;
+            tuxedo.enable = true;
           };
           api-clients = {
             enable = true;
