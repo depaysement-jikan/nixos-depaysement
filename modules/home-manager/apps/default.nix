@@ -48,6 +48,7 @@ in {
         starship.enable = lib.mkEnableOption "starship configuration";
         certbot.enable = lib.mkEnableOption "certbot configuration";
         doppler.enable = lib.mkEnableOption "doppler configuration";
+        tuxedo.enable = lib.mkEnableOption "tuxedo configuration";
       };
       api-clients = {
         enable = lib.mkEnableOption "api-clients configuration";

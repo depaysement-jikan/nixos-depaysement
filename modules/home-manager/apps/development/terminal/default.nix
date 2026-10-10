@@ -3,7 +3,7 @@
   config,
   ...
 }: {
-  imports = [./yazi ./zsh ./nushell ./tmux ./git ./ghostty ./nvim ./starship ./certbot ./doppler ./foot];
+  imports = [./yazi ./zsh ./nushell ./tmux ./git ./ghostty ./nvim ./starship ./certbot ./doppler ./foot ./tuxedo];
 
   options = {terminal.enable = lib.mkEnableOption "Enable terminal module";};
   config = lib.mkIf config.homeManager.apps.development.terminal.enable {
@@ -17,5 +17,6 @@
     starship.enable = lib.mkDefault true;
     certbot.enable = lib.mkDefault true;
     doppler.enable = lib.mkDefault true;
+    tuxedo.enable = lib.mkDefault true;
   };
 }
