@@ -62,6 +62,21 @@
 
   environment.systemPackages = with pkgs; [bind];
   programs.zsh.enable = true;
+  # NOTE: need to make this generic
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+    package = pkgs.appimage-run.override {
+      extraPkgs = pkgs: [pkgs.icu];
+    };
+  };
+
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true; # KMS capture, works on any Wayland compositor
+    openFirewall = true;
+  };
 
   services.openssh = {enable = true;};
   services.blueman.enable = true;
