@@ -1,10 +1,5 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
-  config = lib.mkIf config.nixos-generic.desktop.sddm.enable {
+{pkgs, ...}: {
+  config = {
     environment.systemPackages = [
       (pkgs.writeShellScriptBin "mkHost" (builtins.readFile ./mkHost.sh))
       (pkgs.writeShellScriptBin "mkUser" (builtins.readFile ./mkUser.sh))
