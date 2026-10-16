@@ -1,5 +1,10 @@
-{pkgs, ...}: {
-  config = {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
+  config = lib.mkIf config.nixos-generic.desktop.hyprland.enable {
     environment.systemPackages = [
       (pkgs.writeShellScriptBin "mkHost" (builtins.readFile ./mkHost.sh))
       (pkgs.writeShellScriptBin "mkUser" (builtins.readFile ./mkUser.sh))
