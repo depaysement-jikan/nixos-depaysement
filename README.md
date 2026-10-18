@@ -19,12 +19,12 @@ If you want to use this configuration there are a couple of considerations to ta
 Hosts are declared centrally in [`nixos/configuration.nix`](nixos/configuration.nix); `flake.nix` reads that
 declaration and generates one `nixosConfigurations.<host>` and one `homeConfigurations.<user>@<host>` per entry.
 
-| Host        | User          | Shell   | Profile | Disk (disko)   | Display manager | Notes                                                |
-| ----------- | ------------- | ------- | ------- | -------------- | --------------- | ---------------------------------------------------- |
-| `shinobu`   | `kokoro`      | nushell | desktop | `/dev/nvme0n1` | tuigreet        | Ryzen 9700X + RX 9060 XT, latest kernel, OpenLinkHub |
-| `tsukinara` | `depaysement` | nushell | desktop | `/dev/nvme0n1` | SDDM            | Original host                                        |
-| `yotsugi`   | `yay`         | zsh     | desktop | `/dev/nvme0n1` | tuigreet        | `stateVersion` 25.11                                 |
-| `sodachi`   | `riddle`      | zsh     | desktop | `/dev/sda`     | SDDM            | SATA disk layout                                     |
+| Host        | User          | Shell   | Profile | Disk (disko)   | Display manager | Notes                                                    |
+| ----------- | ------------- | ------- | ------- | -------------- | --------------- | -------------------------------------------------------- |
+| `shinobu`   | `kokoro`      | nushell | desktop | `/dev/nvme0n1` | tuigreet        | Ryzen 9700X + RX 9060 XT, latest kernel, OpenLinkHub     |
+| `tsukinara` | `depaysement` | nushell | desktop | `/dev/nvme0n1` | SDDM            | Original host                                            |
+| `yotsugi`   | `yay`         | nushell | desktop | `/dev/nvme0n1` | tuigreet        | Latest kernel, AppImage + Sunshine, `stateVersion` 25.11 |
+| `sodachi`   | `riddle`      | zsh     | desktop | `/dev/sda`     | SDDM            | SATA disk layout                                         |
 
 The homelab stack is defined for every host but currently `homelab.enable = false` everywhere; flip it in
 `hosts/<host>/config/homelab-config/default.nix` to bring up the k3s cluster.
@@ -38,9 +38,10 @@ This NixOS configuration provides a comprehensive and reproducible environment w
 - **Disko Integration:** Uses [Disko](https://github.com/nix-community/disko) for declarative disk partitioning and formatting. Disko is imported conditionally — a host only gets it when `hosts/<host>/disko/` exists.
 - **Homelab:** Includes a dedicated module for managing a homelab environment, with support for `k3s` (a slim wrapper on top of upstream nixpkgs' `services.k3s` module — see `modules/homelab/services/k3s`), `FluxCD` for GitOps-driven container orchestration, `ingress-nginx` for advanced traffic management, `Pi-hole` for network-wide ad-blocking (now with HTTPS), `Vaultwarden` for secure password management, `Cert-manager` for automated SSL certificates, `MetalLB` for load balancing (with a central `homelab.metallb.claims` registry that fails the build on a double-booked LoadBalancer IP), `Longhorn` for distributed block storage, `Immich` for self-hosted photo/video management (now with HTTPS), `Tailscale` for zero-config VPN, `Prometheus Stack` for unified monitoring and visualization (replacing standalone modules, now with HTTPS), `Uptime Kuma` for service status monitoring (now with HTTPS), `Forgejo` for a self-hosted Git service (now with HTTPS), `Anubis` for per-service proof-of-work bot mitigation in front of Forgejo and Vaultwarden, `Garage` for object storage, and `rclone` for syncing Kubernetes manifests to an S3 bucket.
 - **CI/CD:** GitHub Actions run `nix flake check` on every pull request and on pushes to `develop`, and mirror `develop` to a downstream repository with rewritten commit authorship.
-- **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen and a choice of shells and launchers: [Noctalia](https://github.com/noctalia-dev/noctalia) (the current default bar/shell, with plugins for screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status), [Waybar](https://github.com/Alexays/Waybar), [Wofi](https://hg.sr.ht/~scoopta/wofi) and [Rofi](https://github.com/davatorium/rofi). Login is handled by either [tuigreet](https://github.com/apognu/tuigreet) (via `greetd`) or [SDDM](https://github.com/sddm/sddm) with the [SilentSDDM](https://github.com/uiriansan/SilentSDDM) theme, selectable per host.
+- **Desktop Environment:** A modern and efficient desktop experience powered by [Hyprland](https://hyprland.org/), complemented by [Hyprlock](https://github.com/hyprwm/hyprlock) for a secure lock screen and a choice of shells and launchers: [Noctalia](https://github.com/noctalia-dev/noctalia) (the current default bar/shell, with a battery indicator and plugins for screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status), [Waybar](https://github.com/Alexays/Waybar), [Wofi](https://hg.sr.ht/~scoopta/wofi) and [Rofi](https://github.com/davatorium/rofi). Login is handled by either [tuigreet](https://github.com/apognu/tuigreet) (via `greetd`) or [SDDM](https://github.com/sddm/sddm) with the [SilentSDDM](https://github.com/uiriansan/SilentSDDM) theme, selectable per host.
 - **Audio:** PipeWire (ALSA, PulseAudio and JACK compatibility, plus WirePlumber) with `pavucontrol`, enabled through the `nixos-generic.desktop.audio` module.
-- **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://ghostty.org/) and [foot](https://codeberg.org/dnkl/foot) as terminal emulators, [Neovim](https://neovim.io/) for powerful text editing, [Yazi](https://github.com/sxyazi/yazi) as an efficient terminal file manager, [Certbot](https://certbot.eff.org/) for managing SSL certificates, and [Doppler](https://www.doppler.com/) for secrets injection.
+- **Power Management:** `upower` for battery and power-source reporting (feeding the Noctalia battery indicator), enabled through the `nixos-generic.desktop.upower` module — on for `shinobu` and `yotsugi`, off for `tsukinara` and `sodachi`.
+- **Robust Terminal Setup:** Features [Nushell](https://www.nushell.sh/) and [Zsh](https://www.zsh.org/) as shell options, [Starship](https://starship.rs/) for cross-shell prompt customization, [Tmux](https://github.com/tmux/tmux) for terminal multiplexing, deep Git integration, [Ghostty](https://ghostty.org/) and [foot](https://codeberg.org/dnkl/foot) as terminal emulators, [Neovim](https://neovim.io/) for powerful text editing, [Yazi](https://github.com/sxyazi/yazi) as an efficient terminal file manager, [Certbot](https://certbot.eff.org/) for managing SSL certificates, [Doppler](https://www.doppler.com/) for secrets injection, and [tuxedo](https://github.com/webstonehq/tuxedo) as a keyboard-driven todo.txt TUI.
 - **Extensive Development Environment:**
   - **Language Support:** Pre-configured environments for a wide array of programming languages including Go, Node.js, TypeScript, Nix-lang, Shell scripting, C, Lua, Python, Rust, Zig, Elixir, JSON, Markdown and PostgreSQL.
   - **API Clients:** Includes [Yaak](https://yaak.app/) for streamlined API development and testing.
@@ -48,7 +49,8 @@ This NixOS configuration provides a comprehensive and reproducible environment w
   - **Hardware:** Support for [QMK](https://qmk.fm/) for custom keyboard configuration and [OpenLinkHub](https://github.com/jurkovic-nikola/OpenLinkHub) for Corsair iCUE devices (with an nginx reverse proxy on `rgb.localhost`).
 - **Web Browsing:** [Zen](https://zen-browser.app/), [Helium](https://github.com/oxcl/nix-flake-helium-browser), Firefox and [Floorp](https://floorp.app/) are all available and toggleable per user.
 - **Productivity & Social:** Includes [Spotify](https://www.spotify.com/), [Obsidian](https://obsidian.md/), [Sioyek](https://sioyek.info/) for specialized technical PDF viewing, qbittorrent for managing downloads, plus Discord and WhatsApp.
-- **Gaming:** Steam and Gamescope, gated behind the `homeManager.apps.gaming` options.
+- **Gaming:** Steam and Gamescope, gated behind the `homeManager.apps.gaming` options, plus [Sunshine](https://github.com/LizardByte/Sunshine) on `yotsugi` for streaming the session to a Moonlight client (KMS capture, so it works on any Wayland compositor).
+- **AppImage Support:** `programs.appimage` with `binfmt` registration on `yotsugi`, so AppImages run directly without being unpacked.
 - **Self-signed HTTPS:** Integrated self-signed certificate management for internal homelab services (Pi-hole, Immich, Prometheus Stack, Uptime Kuma, Forgejo, Grafana, Vaultwarden, Anubis) to enhance local network security.
 - **Aesthetic Customization:** Custom fonts (JetBrains Mono Nerd Font, Maple Mono NF) and a theming system with both [Stylix](https://github.com/danth/stylix) and [Catppuccin](https://github.com/catppuccin/nix) available, selectable per user.
 - **Secure Secrets Management:** Integrates `sops-nix` for encrypting and securely managing sensitive data at both the user (Home Manager) and host level.
@@ -83,9 +85,9 @@ Here is a visual representation of the project structure:
 ├── flake.nix
 ├── hosts
 │   ├── shinobu            # kokoro
-│   ├── sodachi             # riddle
+│   ├── sodachi            # riddle
 │   ├── tsukinara          # depaysement
-│   └── yotsugi             # yay
+│   └── yotsugi            # yay
 │       ├── config
 │       │   ├── homelab-config
 │       │   └── nixos-config
@@ -142,7 +144,7 @@ Here is a visual representation of the project structure:
 │   │   ├── default.nix
 │   │   └── README.md
 │   ├── nixos
-│   │   ├── desktop             # sddm, tuigreet, hyprland, home-manager, audio, openLinkHub
+│   │   ├── desktop             # sddm, tuigreet, hyprland, home-manager, audio, openLinkHub, upower
 │   │   ├── nix
 │   │   ├── scripts             # mkHost, mkUser, resetSopsSecrets, switch-monitor
 │   │   ├── default.nix
