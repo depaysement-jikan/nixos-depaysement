@@ -20,14 +20,16 @@ overlays, and pulls in the `sops-nix` Home Manager module.
   - `gaming/` — Steam, Gamescope.
   - `productivity/` — Obsidian, Sioyek, qBittorrent.
   - `development/`:
-    - `terminal/` — Yazi, Zsh, Nushell, Tmux, Git, Ghostty, foot, Neovim, Starship, Certbot, Doppler.
+    - `terminal/` — Yazi, Zsh, Nushell, Tmux, Git, Ghostty, foot, Neovim, Starship, Certbot, Doppler,
+      tuxedo (todo.txt TUI).
     - `languages/` — Go, Node, TypeScript, Nix-lang, sh, C, Lua, Python, Rust, Zig, Elixir, JSON, Markdown.
     - `ai/` — Crush, Claude Code.
     - `db/` — PostgreSQL.
     - `api-clients/` — Yaak.
     - `package-managers/` — general package tooling (e.g. `wget`).
 - **`desktop/`** — desktop environment components: Hyprland, Hyprlock, Noctalia, Waybar, Wofi and Rofi.
-  Noctalia is the current default shell/bar; Waybar and Wofi remain available as alternatives.
+  Noctalia is the current default shell/bar — its battery indicator needs
+  `nixos-generic.desktop.upower` on the host; Waybar and Wofi remain available as alternatives.
 - **`system/`** — user-level system configuration: `fonts` (JetBrains Mono Nerd Font, Maple Mono NF),
   `themes` (Stylix and Catppuccin), `clipboard` (`clipse`) and `openLinkHub`.
 - **`hardware/`** — user-specific hardware configuration (QMK).
@@ -50,7 +52,7 @@ homeManager = {
     productivity = { enable; obsidian; sioyek; qbittorrent; };
     development = {
       enable;
-      terminal = { enable; yazi; zsh; nushell; tmux; git; ghostty; foot; neovim; starship; certbot; doppler; };
+      terminal = { enable; yazi; zsh; nushell; tmux; git; ghostty; foot; neovim; starship; certbot; doppler; tuxedo; };
       api-clients = { enable; yaak; };
       languages = { enable; go; node; markdown; nix-lang; sh; c; typescript; lua; python; rust; zig; json; elixir; };
       ai = { enable; crush; claude; };
