@@ -1,5 +1,41 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- **Desktop:** Added an `upower` module (`nixos-generic.desktop.upower`) enabling `services.upower`
+  for battery and power-source reporting. It defaults to on under `desktop.enable`, is enabled on
+  `shinobu` and `yotsugi`, and is explicitly off on `tsukinara` and `sodachi`; `mkHost.sh` now
+  scaffolds `upower.enable = true`.
+- **Desktop:** Added a battery indicator to the Noctalia bar (`battery` widget on the right-hand
+  group, `device = "auto"`), backed by the new `upower` module.
+- **Terminal:** Added a `tuxedo` module ([tuxedo](https://github.com/webstonehq/tuxedo), a
+  keyboard-driven todo.txt TUI) under `homeManager.apps.development.terminal`. It is default-on with
+  the terminal group, enabled for every existing user, and scaffolded by `mkUser.sh`.
+- **yotsugi:** Added AppImage support (`programs.appimage` with `binfmt`, and `appimage-run`
+  overridden with `icu`) and [Sunshine](https://github.com/LizardByte/Sunshine) as a game-streaming
+  host (autostart, `capSysAdmin` for KMS capture on Wayland, firewall opened).
+
+### Changed
+
+- **yotsugi:** Switched the `yay` login shell from Zsh to Nushell, enabled `tuigreet` explicitly
+  (SDDM off), pinned `linuxPackages_latest`, and disabled OpenLinkHub.
+- **yotsugi:** Reworked the `yay` user flags — Helium replaces Firefox, Noctalia replaces Waybar,
+  and Sioyek and qBittorrent are now enabled.
+- **Scripts:** The `modules/nixos/scripts` module is now gated on
+  `nixos-generic.desktop.hyprland.enable` instead of `sddm.enable`, so `mkHost`, `mkUser`,
+  `resetSopsSecrets` and `switch-monitor` are installed on tuigreet hosts too.
+- **Desktop:** Removed the weather widget from the Noctalia bar and simplified the battery widget
+  settings to `type`/`device`.
+- **Security:** Re-encrypted `hosts/yotsugi/users/yay/secrets.yaml` (sops 3.12.1).
+- Added `facter.json` and `*.guide.md` to `.gitignore`.
+
+### Fixed
+
+- Fixed `yotsugi`'s Git signing key, which pointed at `kokoro`'s path
+  (`/home/kokoro/.ssh/kokoro.pub`) instead of `/home/yay/.ssh/yay.pub`.
+
 ## v1.0.27 - 2026-09-12
 
 ### Added
@@ -73,59 +109,6 @@
 - Fixed a duplicated module import and a typo in the Zsh rc.
 - Fixed the GraphQL language server configuration.
 - Fixed k3s leaving stale manifest symlinks behind after a manifest is removed from the Nix config.
-
-## Unreleased
-
-### Added
-
-- **Hosts:** Added the `yotsugi` (user `yay`) and `sodachi` (user `riddle`) hosts, each with their own
-  disko layout, user secrets and configuration. `sodachi` uses a SATA (`/dev/sda`) layout rather than NVMe.
-- **Desktop:** Added [Noctalia](https://github.com/noctalia-dev/noctalia) as a desktop shell/bar, with
-  plugins for screen recording, Bitwarden, SSH launching, color picking, file search and Tailscale status.
-  It is now the default shell on `shinobu`, replacing Waybar.
-- **Desktop:** Added a `tuigreet` module (`nixos-generic.desktop.tuigreet`) as a `greetd`-based alternative
-  to SDDM, enabled on `shinobu` and `yotsugi`.
-- **Desktop:** Added an `audio` module (`nixos-generic.desktop.audio`) providing PipeWire with ALSA,
-  PulseAudio and JACK compatibility, WirePlumber and `pavucontrol`.
-- **Desktop:** Added a system-level `openLinkHub` module — a systemd unit for OpenLinkHub plus an nginx
-  reverse proxy on `rgb.localhost` — and a matching Home Manager package module.
-- **Desktop:** Added a Rofi module alongside the existing Wofi launcher.
-- **Terminal:** Added [foot](https://codeberg.org/dnkl/foot) as a terminal emulator option, including its
-  Stylix theming, and refactored the Ghostty configuration alongside it.
-- **Browsers:** Added [Helium](https://github.com/oxcl/nix-flake-helium-browser) as a browser option.
-- **Languages:** Added Zig and Elixir modules (with Phoenix support, currently commented out), plus
-  Tailwind and GraphQL language servers, `delve`, `bacon`, `clippy` and additional Rust packages.
-- **AI:** Added a Claude Code module under `homeManager.apps.development.ai`.
-- **Terminal:** Added [Doppler](https://www.doppler.com/) for secrets injection, plus `gum`, `bat`, `htop`
-  and `pciutils`.
-- **Documentation:** Added `diagnostics-and-guides/` with an ext4 root corruption runbook, an unstable
-  migration post-mortem, an ongoing investigation into random freezes on `shinobu`, and a guide to
-  deploying [Anubis](https://github.com/TecharoHQ/anubis) in the k3s homelab (architecture,
-  sidecar vs forward-auth topologies, and a staged plan of action).
-- **Boot:** Added kernel and coredump debugging options on `shinobu` (`page_poison`, sysrq,
-  `hung_task_timeout_secs`, `panic_on_oops`, memtest86, larger coredump limits) and pinned it to
-  `linuxPackages_latest`.
-
-### Changed
-
-- **Nixpkgs:** Migrated the flake from stable to `nixos-unstable`. See the migration post-mortem in
-  `diagnostics-and-guides/` for the three failures this surfaced and their fixes.
-- **Security:** Switched user passwords from a hashed-password _file_ to an inline hashed password, and
-  improved the password reset flow in `resetSopsSecrets.sh`.
-- **Networking:** Removed the Pi-hole nameserver from the host configurations and the generation script.
-- **Shell:** Switched `tsukinara` to Nushell, wired the shell choice through from the host declaration, and
-  improved the Zsh configuration. Starship now indicates when a Nix shell is active.
-- **Automation:** Extended `mkHost.sh` / `mkUser.sh` to scaffold the new Certbot, Claude, foot, tuigreet and
-  OpenLinkHub options, and fixed several generation-script bugs.
-- **Documentation:** Refreshed the root `README.md`, `INSTRUCTIONS.md` and the `modules/*` READMEs to match
-  the current four-host layout, module tree and option names.
-- **Hyprland:** The session-menu keybind now toggles the Noctalia session panel instead of launching
-  `wlogout`, and screenshot hotkeys were reshuffled.
-
-### Fixed
-
-- Fixed a duplicated module import and a typo in the Zsh rc.
-- Fixed the GraphQL language server configuration.
 
 ## v1.0.26 - 2026-05-06
 
