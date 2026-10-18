@@ -13,6 +13,7 @@ Every option lives under the `nixos-generic` namespace, and the configuration fo
   - **`home-manager/`**: Integration of Home Manager as a NixOS module.
   - **`audio/`**: PipeWire with ALSA (incl. 32-bit), PulseAudio and JACK compatibility, WirePlumber, and `pavucontrol`. PulseAudio itself is disabled.
   - **`openLinkHub/`**: A systemd unit for [OpenLinkHub](https://github.com/jurkovic-nikola/OpenLinkHub) (Corsair iCUE device control) plus an nginx reverse proxy exposing its web UI on `rgb.localhost`.
+  - **`upower/`**: `services.upower`, the D-Bus service that exposes battery and power-source state (used by the Noctalia battery indicator).
 - **`nix/`**: Global Nix daemon settings — flake support, the `pipe-operators` experimental feature, registry pinning to the flake inputs, and an emptied flake registry.
 - **`scripts/`**: Automation scripts, packaged with `writeShellScriptBin` so they land on `PATH` after a rebuild.
   - **`mkHost.sh`**: A script to automate the creation of new NixOS host configurations.
@@ -22,9 +23,9 @@ Every option lives under the `nixos-generic` namespace, and the configuration fo
   - **`shared/`**: Shared shell functions used by the automation scripts.
 
 > [!NOTE]
-> The `scripts/` module is currently gated on `nixos-generic.desktop.sddm.enable`. On hosts that use
-> tuigreet instead (`shinobu`, `yotsugi`) these commands are not installed, so run them from the
-> repository with `sh ./modules/nixos/scripts/<script>.sh`.
+> The `scripts/` module is gated on `nixos-generic.desktop.hyprland.enable`, so these commands are
+> installed on every desktop host regardless of which display manager it uses. On a host without
+> Hyprland, run them from the repository with `sh ./modules/nixos/scripts/<script>.sh`.
 
 ## Usage
 
@@ -44,6 +45,7 @@ Example host configuration (`hosts/<host>/config/nixos-config/default.nix`):
         homeManager.enable = true;
         audio.enable = true;
         openLinkHub.enable = true;
+        upower.enable = true;
       };
     };
   };
@@ -52,12 +54,12 @@ Example host configuration (`hosts/<host>/config/nixos-config/default.nix`):
 
 Current per-host choices:
 
-| Host        | sddm  | tuigreet | audio | openLinkHub |
-| ----------- | ----- | -------- | ----- | ----------- |
-| `shinobu`   | false | true     | true  | true        |
-| `tsukinara` | true  | false    | true  | false       |
-| `yotsugi`   | false | default  | true  | false       |
-| `sodachi`   | true  | false    | true  | false       |
+| Host        | sddm  | tuigreet | audio | openLinkHub | upower |
+| ----------- | ----- | -------- | ----- | ----------- | ------ |
+| `shinobu`   | false | true     | true  | true        | true   |
+| `tsukinara` | true  | false    | true  | false       | false  |
+| `yotsugi`   | false | true     | true  | false       | true   |
+| `sodachi`   | true  | false    | true  | false       | false  |
 
 ## Scripts
 
