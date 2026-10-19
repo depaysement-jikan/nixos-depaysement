@@ -17,7 +17,9 @@ return {
       local bufopts = { noremap = true, silent = true, buffer = bufnr }
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+      vim.keymap.set("n", "K", function()
+        vim.lsp.buf.hover()
+      end, bufopts)
       vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
       vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, bufopts)
       vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
