@@ -64,6 +64,7 @@ in {
         c.enable = lib.mkEnableOption "c configuration";
         typescript.enable = lib.mkEnableOption "typescript configuration";
         lua.enable = lib.mkEnableOption "lua configuration";
+        typst.enable = lib.mkEnableOption "typst configuration";
         python.enable = lib.mkEnableOption "python configuration";
         rust.enable = lib.mkEnableOption "rust configuration";
         zig.enable = lib.mkEnableOption "zig configuration";
