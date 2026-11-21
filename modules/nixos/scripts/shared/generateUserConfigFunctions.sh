@@ -127,6 +127,7 @@ createUserHomeManagerConfig() {
             c.enable = true;
             typescript.enable = true;
             lua.enable = true;
+            typst.enable = true;
             python.enable = true;
             rust.enable = true;
             zig.enable = true;

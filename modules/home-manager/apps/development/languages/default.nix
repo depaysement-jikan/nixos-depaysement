@@ -17,6 +17,7 @@
     ./zig
     ./json
     ./elixir
+    ./typst
   ];
 
   options = {
@@ -35,5 +36,6 @@
     rust.enable = lib.mkDefault true;
     zig.enable = lib.mkDefault true;
     elixir.enable = lib.mkDefault true;
+    typst.enable = lib.mkDefault true;
   };
 }
