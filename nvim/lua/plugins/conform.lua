@@ -22,6 +22,7 @@ return {
         elixir = { "mix" },
         rust = { "rustfmt" },
         zig = { "zigfmt" },
+        typst = { "typstyle" },
       },
     }
   end,

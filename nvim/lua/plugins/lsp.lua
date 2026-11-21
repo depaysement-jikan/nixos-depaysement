@@ -198,6 +198,16 @@ return {
       filetypes = { "zig" },
     })
 
+    -- typst
+    lspconfig.tinymist.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = {
+        formatterMode = "typstyle",
+        exportPdf = "onSave",
+      },
+    })
+
     -- elixir
     lspconfig.elixirls.setup({
       capabilities = capabilities,
